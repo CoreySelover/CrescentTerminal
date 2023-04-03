@@ -16,6 +16,16 @@ void EntityManager::addEntity(std::unique_ptr<Entity> entity)
 	m_entities[entity->getName()] = std::move(entity);
 }
 
+std::unique_ptr<Entity> EntityManager::getEntity(std::string entityName)
+{
+	return std::move(m_entities[entityName]);
+}
+
+void EntityManager::removeEntity(std::string entityName)
+{
+	m_entities.erase(entityName);
+}
+
 void EntityManager::printEntities()
 {
 	for (auto& entity : m_entities)
@@ -23,4 +33,3 @@ void EntityManager::printEntities()
 		std::cout << entity.second->getName() << std::endl;
 	}
 }
-

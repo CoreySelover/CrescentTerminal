@@ -10,7 +10,7 @@
 int main()
 {
     sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
-    sf::RenderWindow window(desktop, "Crescent Terminal");
+    sf::RenderWindow window(desktop, "Crescent Terminal", sf::Style::Fullscreen);
     EntityManager entityManager;
 
     while (window.isOpen())
