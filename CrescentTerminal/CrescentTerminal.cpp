@@ -1,10 +1,17 @@
+// STD
+#include <iostream>;
+
+// SFML
 #include <SFML/Graphics.hpp>
+
+// Crescent Terminal
+#include "EntityManager.h"
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
-    sf::CircleShape shape(100.f);
-    shape.setFillColor(sf::Color::Green);
+    sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
+    sf::RenderWindow window(desktop, "Crescent Terminal");
+    EntityManager entityManager;
 
     while (window.isOpen())
     {
@@ -16,7 +23,6 @@ int main()
         }
 
         window.clear();
-        window.draw(shape);
         window.display();
     }
 
