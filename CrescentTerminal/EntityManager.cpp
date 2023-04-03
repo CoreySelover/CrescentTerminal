@@ -11,12 +11,12 @@ EntityManager::~EntityManager()
 {
 }
 
-void EntityManager::addEntity(std::unique_ptr<Entity> entity) 
+void EntityManager::addEntity(std::shared_ptr<Entity> entity) 
 {
 	m_entities[entity->getName()] = std::move(entity);
 }
 
-std::unique_ptr<Entity> EntityManager::getEntity(std::string entityName)
+std::shared_ptr<Entity> EntityManager::getEntity(std::string entityName)
 {
 	return std::move(m_entities[entityName]);
 }

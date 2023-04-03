@@ -6,12 +6,18 @@
 
 // Crescent Terminal
 #include "EntityManager.h"
+#include "Character.h"
 
 int main()
 {
-    sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
-    sf::RenderWindow window(desktop, "Crescent Terminal", sf::Style::Fullscreen);
+    sf::RenderWindow window(sf::VideoMode::getDesktopMode(), "Crescent Terminal", sf::Style::Fullscreen);
+
     EntityManager entityManager;
+    entityManager.addEntity(std::make_shared<Character>("Player", sf::Vector2f(), true));
+    auto player = std::dynamic_pointer_cast<Character>(entityManager.getEntity("Player"));
+
+    // TODO - move these variables into a GameVariables class or something
+    bool userHasControl = true;
 
     while (window.isOpen())
     {
@@ -20,6 +26,28 @@ int main()
         {
             if (event.type == sf::Event::Closed)
                 window.close();
+            if (event.type == sf::Event::KeyPressed)
+            {
+                if (userHasControl) {
+                    switch (event.key.code) {
+                    case sf::Keyboard::W:
+                        player->movePosition(sf::Vector2f(0, -5));
+                        break;
+                    case sf::Keyboard::S:
+                        player->movePosition(sf::Vector2f(0, 5));
+                        break;
+                    case sf::Keyboard::A:
+                        player->movePosition(sf::Vector2f(-5, 0));
+                        break;
+                    case sf::Keyboard::D:
+                        player->movePosition(sf::Vector2f(5, 0));
+                        break;
+                    }
+                }
+                else { // In case e.g. we want user to be able to quit during a cutscene
+                    
+                }
+			}
         }
 
         window.clear();

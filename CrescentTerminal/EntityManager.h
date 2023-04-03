@@ -15,12 +15,12 @@ public:
 	EntityManager();
 	~EntityManager();
 
-	void addEntity(std::unique_ptr<Entity> entity);
-	std::unique_ptr<Entity> getEntity(std::string entityName);
+	void addEntity(std::shared_ptr<Entity> entity);
+	std::shared_ptr<Entity> getEntity(std::string entityName);
 	void removeEntity(std::string entityName);
 	void printEntities();
 
 private:
-	std::map<std::string, std::unique_ptr<Entity>> m_entities;
+	std::map<std::string, std::shared_ptr<Entity>> m_entities;
 };
 
