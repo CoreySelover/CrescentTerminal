@@ -21,3 +21,8 @@ void Character::setControllableByUser(bool controllable)
 {
 	m_controllableByUser = controllable;
 }
+
+sf::Vector2f Character::getPosition()
+{
+	return m_position;
+}

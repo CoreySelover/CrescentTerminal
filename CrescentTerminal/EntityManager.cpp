@@ -33,3 +33,14 @@ void EntityManager::printEntities()
 		std::cout << entity.second->getName() << std::endl;
 	}
 }
+
+void EntityManager::drawEntities(sf::RenderWindow& window)
+{
+	/*for (auto& entity : m_entities)
+	{
+		window.draw(entity.second->m_sprite);
+		//entity.second->draw(window);
+	}*/
+	//m_entities["Player"]->draw(window);
+	//window.draw(m_entities["Player"]->m_sprite);
+}

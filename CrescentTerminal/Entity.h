@@ -13,13 +13,11 @@ public:
 	~Entity();
 
 	void update() {}
-	void draw(sf::RenderWindow& window);
 
 	// Getters and Setters
 	std::string getName();
 
 private:
 	std::string m_name;
-	sf::Sprite m_sprite;
 };
 

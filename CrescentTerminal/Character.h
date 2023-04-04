@@ -15,6 +15,7 @@ public:
 
 	// Getters and Setters
 	void setControllableByUser(bool controllable);
+	sf::Vector2f getPosition();
 
 private:
 	bool m_controllableByUser;
