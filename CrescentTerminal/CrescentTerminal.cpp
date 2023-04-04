@@ -33,16 +33,16 @@ int main()
                 if (userHasControl) {
                     switch (event.key.code) {
                     case sf::Keyboard::W:
-                        player->movePosition(sf::Vector2f(0, -5));
+                        player->walk(Direction::UP);
                         break;
                     case sf::Keyboard::S:
-                        player->movePosition(sf::Vector2f(0, 5));
+                        player->walk(Direction::DOWN);
                         break;
                     case sf::Keyboard::A:
-                        player->movePosition(sf::Vector2f(-5, 0));
+                        player->walk(Direction::LEFT);
                         break;
                     case sf::Keyboard::D:
-                        player->movePosition(sf::Vector2f(5, 0));
+                        player->walk(Direction::RIGHT);
                         break;
                     }
                 }
