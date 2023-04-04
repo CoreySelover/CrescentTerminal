@@ -5,6 +5,7 @@
 #include <SFML/Graphics.hpp>
 
 // Crescent Terminal
+#include "Global.h"
 #include "EntityManager.h"
 #include "Character.h"
 
@@ -13,7 +14,7 @@ int main()
     sf::RenderWindow window(sf::VideoMode::getDesktopMode(), "Crescent Terminal");
 
     EntityManager entityManager;
-    entityManager.addEntity(std::make_shared<Character>("Player", true));
+    entityManager.addEntity(std::make_shared<Character>("Player"));
     auto player = std::static_pointer_cast<Character>(entityManager.getEntity("Player"));
     player->loadTexture("Assets/Player.png");
 
@@ -45,9 +46,8 @@ int main()
                         break;
                     }
                 }
-                else { // In case e.g. we want user to be able to quit during a cutscene
-                    
-                }
+                // Put other key presses here that should be allowed
+                // even if the user doesn't have control
 			}
         }
 

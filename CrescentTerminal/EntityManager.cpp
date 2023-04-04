@@ -9,6 +9,7 @@ EntityManager::EntityManager()
 
 EntityManager::~EntityManager()
 {
+	m_entities.clear();
 }
 
 void EntityManager::addEntity(std::shared_ptr<Entity> entity) 
@@ -26,14 +27,6 @@ void EntityManager::removeEntity(std::string entityName)
 	m_entities.erase(entityName);
 }
 
-void EntityManager::printEntities()
-{
-	for (auto& entity : m_entities)
-	{
-		std::cout << entity.second->getName() << std::endl;
-	}
-}
-
 void EntityManager::update()
 {
 	for (auto& entity : m_entities)
@@ -47,5 +40,13 @@ void EntityManager::drawEntities(sf::RenderWindow& window)
 	for (auto& entity : m_entities)
 	{
 		entity.second->draw(window);
+	}
+}
+
+void EntityManager::printEntities()
+{
+	for (auto& entity : m_entities)
+	{
+		std::cout << entity.second->getName() << std::endl;
 	}
 }
