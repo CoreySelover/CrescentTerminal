@@ -34,6 +34,14 @@ void EntityManager::printEntities()
 	}
 }
 
+void EntityManager::update()
+{
+	for (auto& entity : m_entities)
+	{
+		entity.second->update();
+	}
+}
+
 void EntityManager::drawEntities(sf::RenderWindow& window)
 {
 	for (auto& entity : m_entities)

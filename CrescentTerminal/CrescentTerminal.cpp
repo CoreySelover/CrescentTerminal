@@ -13,10 +13,9 @@ int main()
     sf::RenderWindow window(sf::VideoMode::getDesktopMode(), "Crescent Terminal");
 
     EntityManager entityManager;
-    entityManager.addEntity(std::make_shared<Character>("Player", sf::Vector2f(), true));
-    entityManager.getEntity("Player")->loadTexture("Assets/Player.png");
-
+    entityManager.addEntity(std::make_shared<Character>("Player", true));
     auto player = std::static_pointer_cast<Character>(entityManager.getEntity("Player"));
+    player->loadTexture("Assets/Player.png");
 
     // TODO - move these variables into a GameVariables class or something
     bool userHasControl = true;

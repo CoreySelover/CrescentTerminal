@@ -6,7 +6,6 @@ class Character :
 {
 public:
 	Character(std::string name,
-		sf::Vector2f initialPosition = sf::Vector2f(),
 		bool controllable = false);
 	~Character();
 
@@ -15,10 +14,9 @@ public:
 
 	// Getters and Setters
 	void setControllableByUser(bool controllable);
-	sf::Vector2f getPosition();
+	bool isControllableByUser();	
 
 private:
 	bool m_controllableByUser;
-	sf::Vector2f m_position;
 };
 

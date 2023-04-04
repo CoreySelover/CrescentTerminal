@@ -16,7 +16,7 @@ public:
 	EntityManager();
 	~EntityManager();
 
-	void update() { }
+	void update();
 	void drawEntities(sf::RenderWindow& window);
 
 	void addEntity(std::shared_ptr<Entity> entity);
