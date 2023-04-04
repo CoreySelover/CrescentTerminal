@@ -18,7 +18,7 @@ void EntityManager::addEntity(std::shared_ptr<Entity> entity)
 
 std::shared_ptr<Entity> EntityManager::getEntity(std::string entityName)
 {
-	return std::move(m_entities[entityName]);
+	return m_entities[entityName];
 }
 
 void EntityManager::removeEntity(std::string entityName)
@@ -36,11 +36,8 @@ void EntityManager::printEntities()
 
 void EntityManager::drawEntities(sf::RenderWindow& window)
 {
-	/*for (auto& entity : m_entities)
+	for (auto& entity : m_entities)
 	{
-		window.draw(entity.second->m_sprite);
-		//entity.second->draw(window);
-	}*/
-	//m_entities["Player"]->draw(window);
-	//window.draw(m_entities["Player"]->m_sprite);
+		entity.second->draw(window);
+	}
 }

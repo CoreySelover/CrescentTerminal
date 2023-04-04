@@ -14,6 +14,7 @@ int main()
 
     EntityManager entityManager;
     entityManager.addEntity(std::make_shared<Character>("Player", sf::Vector2f(), true));
+    entityManager.getEntity("Player")->loadTexture("Assets/Player.png");
 
     auto player = std::static_pointer_cast<Character>(entityManager.getEntity("Player"));
 
@@ -53,6 +54,7 @@ int main()
 
         window.clear();
         entityManager.update();
+        entityManager.drawEntities(window);
         window.display();
     }
 

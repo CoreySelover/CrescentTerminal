@@ -5,6 +5,7 @@
 #include <map>
 
 // SFML
+#include <SFML/Graphics.hpp>
 
 // Crescent Terminal
 #include "Entity.h"
