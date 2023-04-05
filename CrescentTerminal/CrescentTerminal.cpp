@@ -49,6 +49,27 @@ int main()
                 // Put other key presses here that should be allowed
                 // even if the user doesn't have control
 			}
+            if (event.type == sf::Event::KeyReleased)
+            {
+                if (userHasControl) {
+                    switch (event.key.code) {
+					case sf::Keyboard::W:
+						player->stopWalking();
+						break;
+					case sf::Keyboard::S:
+						player->stopWalking();
+						break;
+					case sf::Keyboard::A:
+						player->stopWalking();
+						break;
+					case sf::Keyboard::D:
+						player->stopWalking();
+						break;
+					}
+				}
+				// Put other key releases here that should be allowed
+				// even if the user doesn't have control
+			}
         }
 
         window.clear();

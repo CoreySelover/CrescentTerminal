@@ -13,7 +13,7 @@ public:
 	~Entity();
 	bool loadTexture(std::string filepath);
 
-	void update();
+	virtual void update();
 	void draw(sf::RenderWindow& window);
 
 	// Getters and Setters
