@@ -11,10 +11,9 @@ class Entity
 public:
 	Entity(std::string name);
 	~Entity();
-	bool loadTexture(std::string filepath);
 
-	virtual void update(float deltaTime);
-	void draw(sf::RenderWindow& window);
+	virtual void update(float deltaTime) = 0;
+	virtual void draw(sf::RenderWindow& window) = 0;
 
 	// Getters and Setters
 	std::string getName();
@@ -26,7 +25,5 @@ protected:
 
 private:
 	std::string m_name;
-	sf::Texture m_texture;
-	sf::Sprite m_sprite;
 };
 

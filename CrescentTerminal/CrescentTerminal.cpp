@@ -17,7 +17,6 @@ int main()
     EntityManager entityManager;
     entityManager.addEntity(std::make_shared<Character>("Player"));
     auto player = std::static_pointer_cast<Character>(entityManager.getEntity("Player"));
-    player->loadTexture("Assets/Player.png");
 
     sf::Clock clock;
 

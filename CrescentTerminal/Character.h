@@ -3,6 +3,9 @@
 #include "Entity.h"
 #include "Global.h"
 
+// Crescent Terminal
+#include "Animation.h"
+
 class Character :
     public Entity
 {
@@ -11,6 +14,7 @@ public:
 	~Character();
 
 	void update(float deltaTime);
+	void draw(sf::RenderWindow& window);
 
 	// Movement
 	void setDirection(Direction direction) { m_direction = direction;  }
@@ -22,5 +26,8 @@ private:
 	float m_walkSpeed;
 	bool m_walking;
 	Direction m_direction;
+
+	std::shared_ptr<Animation> m_anim_walk;
+	std::shared_ptr<Animation> m_anim_stop;
 };
 

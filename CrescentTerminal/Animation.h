@@ -1,13 +1,17 @@
 #pragma once
 
+// SFML
 #include <SFML/Graphics.hpp>
+
+// Crescent Terminal
+#include "TextureManager.h"
 
 class Animation
 {
 public:
-    Animation(sf::Texture* texture, int x, int y, int width, int height, int numFrames, float frameDuration)
+    Animation(std::string textureFilePath, int x, int y, int width, int height, int numFrames, float frameDuration)
     {
-        m_texture = texture;
+
         m_frameWidth = width;
         m_frameHeight = height;
         m_numFrames = numFrames;
@@ -24,7 +28,8 @@ public:
         m_currentFrame = 0;
         m_elapsedTime = 0.0f;
 
-        m_sprite.setTexture(*m_texture);
+        m_sprite.setTexture(TextureManager::getTexture(textureFilePath));
+
         m_sprite.setTextureRect(m_frames[m_currentFrame]);
     }
 
@@ -47,9 +52,9 @@ public:
         }
     }
 
-    void setPosition(float x, float y)
+    void setPosition(sf::Vector2f position)
     {
-        m_sprite.setPosition(x, y);
+        m_sprite.setPosition(position);
     }
 
     void draw(sf::RenderWindow& window)
@@ -58,7 +63,6 @@ public:
     }
 
 private:
-    sf::Texture* m_texture;
     int m_frameWidth;
     int m_frameHeight;
     int m_numFrames;
