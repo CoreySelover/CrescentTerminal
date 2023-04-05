@@ -27,11 +27,11 @@ void EntityManager::removeEntity(std::string entityName)
 	m_entities.erase(entityName);
 }
 
-void EntityManager::update()
+void EntityManager::update(float deltaTime)
 {
 	for (auto& entity : m_entities)
 	{
-		entity.second->update();
+		entity.second->update(deltaTime);
 	}
 }
 

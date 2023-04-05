@@ -10,7 +10,7 @@ public:
 	Character(std::string name);
 	~Character();
 
-	void update();
+	void update(float deltaTime);
 
 	// Movement
 	void setDirection(Direction direction) { m_direction = direction;  }

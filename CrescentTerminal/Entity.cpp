@@ -21,7 +21,7 @@ bool Entity::loadTexture(std::string filepath)
 	return true;
 }
 
-void Entity::update()
+void Entity::update(float deltaTime)
 {
 	m_sprite.setPosition(m_position);
 }

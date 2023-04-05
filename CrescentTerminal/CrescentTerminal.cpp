@@ -12,17 +12,19 @@
 int main()
 {
     sf::RenderWindow window(sf::VideoMode::getDesktopMode(), "Crescent Terminal");
+    window.setFramerateLimit(60);
 
     EntityManager entityManager;
     entityManager.addEntity(std::make_shared<Character>("Player"));
     auto player = std::static_pointer_cast<Character>(entityManager.getEntity("Player"));
     player->loadTexture("Assets/Player.png");
 
-    // TODO - move these variables into a GameVariables class or something
-    bool userHasControl = true;
+    sf::Clock clock;
 
     while (window.isOpen())
     {
+        float deltaTime = clock.restart().asMilliseconds();
+
         sf::Event event;
         while (window.pollEvent(event))
         {
@@ -30,7 +32,7 @@ int main()
                 window.close();
             if (event.type == sf::Event::KeyPressed)
             {
-                if (userHasControl) {
+                if (USER_HAS_CONTROL) {
                     switch (event.key.code) {
                     case sf::Keyboard::W:
                         player->walk(Direction::UP);
@@ -48,32 +50,33 @@ int main()
                 }
                 // Put other key presses here that should be allowed
                 // even if the user doesn't have control
-			}
+            }
             if (event.type == sf::Event::KeyReleased)
             {
-                if (userHasControl) {
+                if (USER_HAS_CONTROL) {
                     switch (event.key.code) {
-					case sf::Keyboard::W:
-						player->stopWalking();
-						break;
-					case sf::Keyboard::S:
-						player->stopWalking();
-						break;
-					case sf::Keyboard::A:
-						player->stopWalking();
-						break;
-					case sf::Keyboard::D:
-						player->stopWalking();
-						break;
-					}
-				}
-				// Put other key releases here that should be allowed
-				// even if the user doesn't have control
-			}
+                    case sf::Keyboard::W:
+                        player->stopWalking();
+                        break;
+                    case sf::Keyboard::S:
+                        player->stopWalking();
+                        break;
+                    case sf::Keyboard::A:
+                        player->stopWalking();
+                        break;
+                    case sf::Keyboard::D:
+                        player->stopWalking();
+                        break;
+                    }
+                }
+                // Put other key releases here that should be allowed
+                // even if the user doesn't have control
+            }
         }
 
+        entityManager.update(deltaTime);
+
         window.clear();
-        entityManager.update();
         entityManager.drawEntities(window);
         window.display();
     }

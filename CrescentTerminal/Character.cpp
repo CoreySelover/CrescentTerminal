@@ -14,29 +14,34 @@ Character::~Character()
 {
 }
 
-void Character::update() 
+void Character::update(float deltaTime)
 {
-	Entity::update();
+	Entity::update(deltaTime);
 
 	if (m_walking)
 	{
+		sf::Vector2f velocity(0.0f, 0.0f);
+
 		switch (m_direction)
 		{
 		case Direction::UP:
-			movePosition(sf::Vector2f(0, -m_walkSpeed));
+			velocity.y -= m_walkSpeed;
 			break;
 		case Direction::DOWN:
-			movePosition(sf::Vector2f(0, m_walkSpeed));
+			velocity.y += m_walkSpeed;
 			break;
 		case Direction::LEFT:
-			movePosition(sf::Vector2f(-m_walkSpeed, 0));
+			velocity.x -= m_walkSpeed;
 			break;
 		case Direction::RIGHT:
-			movePosition(sf::Vector2f(m_walkSpeed, 0));
+			velocity.x += m_walkSpeed;
 			break;
 		}
+
+		movePosition(velocity * deltaTime);
 	}
 }
+
 
 void Character::movePosition(sf::Vector2f movement)
 {

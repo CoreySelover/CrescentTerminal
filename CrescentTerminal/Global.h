@@ -1,9 +1,10 @@
 #pragma once
 
-// Enums
-enum Direction { UP, DOWN, LEFT, RIGHT };
+// UI
+extern bool USER_HAS_CONTROL;
 
 // Characters
 extern const float WALK_SPEED;
+enum Direction { UP, DOWN, LEFT, RIGHT };
 
 
