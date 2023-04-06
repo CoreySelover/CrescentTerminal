@@ -1,13 +1,15 @@
 #include "Character.h"
 #include "Global.h"
+#include "Board.h"
 
 #include <iostream>
 
-Character::Character(std::string name) : Entity(name)
+Character::Character(std::string name, const Board& board) : Entity(name), m_board(board)
 {
 	m_walkSpeed = WALK_SPEED;
 	m_direction = Direction::DOWN;
 	m_walking = false;
+	m_previousPosition = m_position;
 
 	std::string filepath = "Assets/" + name + ".png";
 
@@ -34,8 +36,7 @@ void Character::update(float deltaTime)
 {
 	Entity::update(deltaTime);
 
-	m_currentAnimation->update(deltaTime);
-	m_currentAnimation->setPosition(m_position);
+	m_previousPosition = m_position;
 
 	if (m_walking)
 	{
@@ -56,9 +57,18 @@ void Character::update(float deltaTime)
 			velocity.x += m_walkSpeed;
 			break;
 		}
+		
+		sf::Vector2i proposedPosition = Board::pixelsToTile(m_position + velocity * deltaTime);
 
-		movePosition(velocity * deltaTime);
+		if (m_board.isTileInBounds(proposedPosition.x, proposedPosition.y)
+			&& !m_board.isTileObstacle(proposedPosition.x, proposedPosition.y))
+		{
+			movePosition(velocity * deltaTime);
+		}
 	}
+
+	m_currentAnimation->update(deltaTime);
+	m_currentAnimation->setPosition(m_position);
 }
 
 void Character::draw(sf::RenderWindow& window)

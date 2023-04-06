@@ -8,11 +8,13 @@
 #include "Global.h"
 #include "Animation.h"
 
+#include "Board.h"
+
 class Character :
     public Entity
 {
 public:
-	Character(std::string name);
+	Character(std::string name, const Board& board);
 	~Character();
 
 	void update(float deltaTime);
@@ -25,9 +27,12 @@ public:
 	void stopWalking();
 
 private:
+	const Board& m_board;
+
 	float m_walkSpeed;
 	bool m_walking;
 	Direction m_direction;
+	sf::Vector2f m_previousPosition;
 
 	std::map<std::string, std::shared_ptr<Animation>> m_animations;
 	std::shared_ptr<Animation> m_currentAnimation;
