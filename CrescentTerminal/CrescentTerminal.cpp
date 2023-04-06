@@ -8,6 +8,7 @@
 #include "Global.h"
 #include "EntityManager.h"
 #include "Character.h"
+#include "Board.h"
 
 int main()
 {
@@ -19,6 +20,9 @@ int main()
     auto player = std::static_pointer_cast<Character>(entityManager.getEntity("Player"));
 
     sf::Clock clock;
+
+    Board board(20, 20, 32);
+    board.getTile(5, 5).setObstacle(true);
 
     while (window.isOpen())
     {
@@ -76,6 +80,7 @@ int main()
         entityManager.update(deltaTime);
 
         window.clear();
+        board.draw(window);
         entityManager.drawEntities(window);
         window.display();
     }

@@ -13,9 +13,15 @@ Character::Character(std::string name) : Entity(name)
 
 	// Reminder - the float represents milliseconds per frame (thus the high numbers)
 	// filepath, x, y, width, height, frames, milliseconds per frame
-	m_animations["stop"] = std::make_shared<Animation>(filepath, 0, 0, 18, 27, 1, 100.0f);
-	m_animations["walk"] = std::make_shared<Animation>(filepath, 0, 0, 18, 27, 4, 100.0f);
-	m_currentAnimation = m_animations["stop"];
+	m_animations["stop_down"] = std::make_shared<Animation>(filepath, 0, 0, 18, 27, 1, 100.0f);
+	m_animations["stop_up"] = std::make_shared<Animation>(filepath, 18, 0, 18, 27, 1, 100.0f);
+	m_animations["stop_right"] = std::make_shared<Animation>(filepath, 36, 0, 18, 27, 1, 100.0f);
+	m_animations["stop_left"] = std::make_shared<Animation>(filepath, 54, 0, 18, 27, 1, 100.0f);
+	m_animations["walk_down"] = std::make_shared<Animation>(filepath, 0, 0, 18, 27, 4, 100.0f);
+	m_animations["walk_up"] = std::make_shared<Animation>(filepath, 0, 0, 18, 27, 4, 100.0f);
+	m_animations["walk_left"] = std::make_shared<Animation>(filepath, 0, 0, 18, 27, 4, 100.0f);
+	m_animations["walk_right"] = std::make_shared<Animation>(filepath, 0, 0, 18, 27, 4, 100.0f);
+	m_currentAnimation = m_animations["stop_down"];
 }
 
 Character::~Character()
@@ -69,12 +75,48 @@ void Character::walk(Direction direction)
 {
 	setDirection(direction);
 	m_walking = true;
-	m_currentAnimation = m_animations["walk"];
+
+	switch (direction)
+	{
+		case Direction::UP:
+			m_currentAnimation = m_animations["walk_up"];
+			break;
+		case Direction::DOWN:
+			m_currentAnimation = m_animations["walk_down"];
+			break;
+		case Direction::LEFT:
+			m_currentAnimation = m_animations["walk_left"];
+			break;
+		case Direction::RIGHT:
+			m_currentAnimation = m_animations["walk_right"];
+			break;
+		default:
+			throw("Invalid direction!");
+			break;
+	}
 }
 
 void Character::stopWalking()
 {
 	m_walking = false;
-	m_currentAnimation = m_animations["stop"];
+	
+	switch (m_direction)
+	{
+	case Direction::UP:
+		m_currentAnimation = m_animations["stop_up"];
+		break;
+	case Direction::DOWN:
+		m_currentAnimation = m_animations["stop_down"];
+		break;
+	case Direction::LEFT:
+		m_currentAnimation = m_animations["stop_left"];
+		break;
+	case Direction::RIGHT:
+		m_currentAnimation = m_animations["stop_right"];
+		break;
+	default:
+		throw("Invalid direction!");
+		break;
+	}
 }
 
