@@ -2,6 +2,7 @@
 
 // UI
 extern bool USER_HAS_CONTROL;
+extern bool DEBUG_DRAW;
 
 // Board
 extern const int TILE_SIZE;

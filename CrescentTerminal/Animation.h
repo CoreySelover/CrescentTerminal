@@ -57,6 +57,16 @@ public:
         m_sprite.setPosition(position);
     }
 
+    sf::Vector2f getPosition()
+    {
+		return m_sprite.getPosition();
+	}
+
+    sf::Vector2f getSize()
+    {
+		return sf::Vector2f(m_frameWidth, m_frameHeight);
+	}
+
     void draw(sf::RenderWindow& window)
     {
         window.draw(m_sprite);
