@@ -1,9 +1,11 @@
 #pragma once
 
-#include "Entity.h"
-#include "Global.h"
+// STD
+#include <map>
 
 // Crescent Terminal
+#include "Entity.h"
+#include "Global.h"
 #include "Animation.h"
 
 class Character :
@@ -20,14 +22,14 @@ public:
 	void setDirection(Direction direction) { m_direction = direction;  }
 	void movePosition(sf::Vector2f movement);
 	void walk(Direction direction);
-	void stopWalking() { m_walking = false; }
+	void stopWalking();
 
 private:
 	float m_walkSpeed;
 	bool m_walking;
 	Direction m_direction;
 
-	std::shared_ptr<Animation> m_anim_walk;
-	std::shared_ptr<Animation> m_anim_stop;
+	std::map<std::string, std::shared_ptr<Animation>> m_animations;
+	std::shared_ptr<Animation> m_currentAnimation;
 };
 

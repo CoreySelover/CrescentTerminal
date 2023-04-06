@@ -11,21 +11,25 @@ Character::Character(std::string name) : Entity(name)
 
 	std::string filepath = "Assets/" + name + ".png";
 
-	m_anim_stop = std::make_shared<Animation>(filepath, 0, 0, 32, 32, 1, 0.2f);
-	m_anim_walk = std::make_shared<Animation>(filepath, 0, 0, 32, 32, 4, 0.2f);
+	// Reminder - the float represents milliseconds per frame (thus the high numbers)
+	// filepath, x, y, width, height, frames, milliseconds per frame
+	m_animations["stop"] = std::make_shared<Animation>(filepath, 0, 0, 18, 27, 1, 100.0f);
+	m_animations["walk"] = std::make_shared<Animation>(filepath, 0, 0, 18, 27, 4, 100.0f);
+	m_currentAnimation = m_animations["stop"];
 }
 
 Character::~Character()
 {
+	m_animations.clear();
+	m_currentAnimation = nullptr;
 }
 
 void Character::update(float deltaTime)
 {
 	Entity::update(deltaTime);
 
-	// TODO
-	m_anim_stop->update(deltaTime);
-	m_anim_stop->setPosition(m_position);
+	m_currentAnimation->update(deltaTime);
+	m_currentAnimation->setPosition(m_position);
 
 	if (m_walking)
 	{
@@ -53,9 +57,8 @@ void Character::update(float deltaTime)
 
 void Character::draw(sf::RenderWindow& window)
 {
-	m_anim_stop->draw(window);
+	m_currentAnimation->draw(window);
 }
-
 
 void Character::movePosition(sf::Vector2f movement)
 {
@@ -66,5 +69,12 @@ void Character::walk(Direction direction)
 {
 	setDirection(direction);
 	m_walking = true;
+	m_currentAnimation = m_animations["walk"];
+}
+
+void Character::stopWalking()
+{
+	m_walking = false;
+	m_currentAnimation = m_animations["stop"];
 }
 
