@@ -22,6 +22,10 @@ public:
         return m_tiles[x][y];
     }
 
+    Tile& getTile(sf::Vector2i tilePosition) {
+		return m_tiles[tilePosition.x][tilePosition.y];
+	}
+
     bool isTileObstacle(int x, int y) const {
 		return m_tiles[x][y].isObstacle();
 	}
@@ -38,9 +42,13 @@ public:
         }
     }
 
-    static sf::Vector2i pixelsToTile(sf::Vector2f pixelPosition) {
+    static sf::Vector2i pixelsToTileCoords(sf::Vector2f pixelPosition) {
         return sf::Vector2i(int(pixelPosition.x / TILE_SIZE), int(pixelPosition.y / TILE_SIZE));
     }
+
+    static sf::Vector2f tileCoordsToPixels(sf::Vector2i tilePosition) {
+		return sf::Vector2f(float(tilePosition.x * TILE_SIZE), float(tilePosition.y * TILE_SIZE));
+	}
 
 private:
     int m_width;

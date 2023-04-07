@@ -66,22 +66,62 @@ void Character::update(float deltaTime)
 			velocity.x += m_walkSpeed;
 			break;
 		}
-		
-		sf::Vector2i proposedPosition = Board::pixelsToTile(m_position + velocity * deltaTime);
 
-		if (m_board.isTileInBounds(proposedPosition.x, proposedPosition.y)
-			&& !m_board.isTileObstacle(proposedPosition.x, proposedPosition.y))
+		if (canWalk(velocity * deltaTime))
 		{
 			movePosition(velocity * deltaTime);
 		}
+
+		m_hitBox.left = m_position.x;
+		m_hitBox.top = m_position.y + m_currentAnimation->getSize().y - m_hitBox.height;
+		m_hitBoxShape.setPosition(m_hitBox.left, m_hitBox.top);
+
 	}
 
 	m_currentAnimation->update(deltaTime);
 	m_currentAnimation->setPosition(m_position);
+}
 
-	m_hitBox.left = m_position.x;
-	m_hitBox.top = m_position.y + m_currentAnimation->getSize().y - m_hitBox.height;
-	m_hitBoxShape.setPosition(m_hitBox.left, m_hitBox.top);
+
+bool Character::canWalk(sf::Vector2f velocity)
+{
+	// Check top left corner
+	sf::Vector2i proposedTile1 = m_board.pixelsToTileCoords(sf::Vector2f(m_hitBox.left + velocity.x, m_hitBox.top + velocity.y));
+
+	if (!m_board.isTileInBounds(proposedTile1.x, proposedTile1.y)
+		|| m_board.isTileObstacle(proposedTile1.x, proposedTile1.y))
+	{
+		return false;
+	}
+
+	// Check top right corner
+	sf::Vector2i proposedTile2 = m_board.pixelsToTileCoords(sf::Vector2f(m_hitBox.left + m_hitBox.width + velocity.x, m_hitBox.top + velocity.y));
+
+	if (!m_board.isTileInBounds(proposedTile2.x, proposedTile2.y)
+		|| m_board.isTileObstacle(proposedTile2.x, proposedTile2.y))
+	{
+		return false;
+	}
+
+	// Check bottom left corner
+	sf::Vector2i proposedTile3 = m_board.pixelsToTileCoords(sf::Vector2f(m_hitBox.left + velocity.x, m_hitBox.top + m_hitBox.height + velocity.y));
+
+	if (!m_board.isTileInBounds(proposedTile3.x, proposedTile3.y)
+		|| m_board.isTileObstacle(proposedTile3.x, proposedTile3.y))
+	{
+		return false;
+	}
+
+	// Check bottom right corner
+	sf::Vector2i proposedTile4 = m_board.pixelsToTileCoords(sf::Vector2f(m_hitBox.left + m_hitBox.width + velocity.x, m_hitBox.top + m_hitBox.height + velocity.y));
+
+	if (!m_board.isTileInBounds(proposedTile4.x, proposedTile4.y)
+		|| m_board.isTileObstacle(proposedTile4.x, proposedTile4.y))
+	{
+		return false;
+	}
+
+	return true;
 }
 
 void Character::draw(sf::RenderWindow& window)

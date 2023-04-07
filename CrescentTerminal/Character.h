@@ -25,6 +25,7 @@ public:
 	void movePosition(sf::Vector2f movement);
 	void walk(Direction direction);
 	void stopWalking();
+	bool canWalk(sf::Vector2f velocity);
 
 private:
 	const Board& m_board;
