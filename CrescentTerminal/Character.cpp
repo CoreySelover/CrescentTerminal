@@ -9,6 +9,10 @@ Character::Character(std::string name, const Board& board) : Entity(name), m_boa
 	m_walkSpeed = WALK_SPEED;
 	m_direction = Direction::DOWN;
 	m_walking = false;
+	m_down = false;
+	m_up = false;
+	m_left = false;
+	m_right = false;
 
 	std::string filepath = "Assets/" + name + ".png";
 
@@ -147,43 +151,55 @@ void Character::walk(Direction direction)
 	{
 		case Direction::UP:
 			m_currentAnimation = m_animations["walk_up"];
+			m_up = true;
 			break;
 		case Direction::DOWN:
 			m_currentAnimation = m_animations["walk_down"];
+			m_down = true;
 			break;
 		case Direction::LEFT:
 			m_currentAnimation = m_animations["walk_left"];
+			m_left = true;
 			break;
 		case Direction::RIGHT:
 			m_currentAnimation = m_animations["walk_right"];
+			m_right = true;
 			break;
 		default:
-			throw("Invalid direction!");
+			throw std::invalid_argument("Invalid direction!");
 			break;
 	}
 }
 
-void Character::stopWalking()
+void Character::stopWalking(Direction direction)
 {
-	m_walking = false;
-	
-	switch (m_direction)
+	switch (direction)
 	{
 	case Direction::UP:
-		m_currentAnimation = m_animations["stop_up"];
+		m_up = false;
 		break;
 	case Direction::DOWN:
-		m_currentAnimation = m_animations["stop_down"];
+		m_down = false;
 		break;
 	case Direction::LEFT:
-		m_currentAnimation = m_animations["stop_left"];
+		m_left = false;
 		break;
 	case Direction::RIGHT:
-		m_currentAnimation = m_animations["stop_right"];
+		m_right = false;
 		break;
 	default:
-		throw("Invalid direction!");
+		throw std::invalid_argument("Invalid direction!");
 		break;
 	}
+
+	if (!m_up && !m_down && !m_left && !m_right)
+	{
+		m_walking = false;
+		m_currentAnimation = m_animations["stop_" + directionToString(m_direction)];
+	}
+	else if (m_up) { walk(UP); }
+	else if (m_down) { walk(DOWN); }
+	else if (m_left) { walk(LEFT); }
+	else if (m_right) { walk(RIGHT); }
 }
 

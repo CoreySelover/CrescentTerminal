@@ -2,6 +2,7 @@
 
 // STD
 #include <vector>
+#include <iostream>
 
 // SFML
 #include <SFML/Graphics.hpp>
@@ -34,12 +35,17 @@ public:
 		return x >= 0 && x < m_width && y >= 0 && y < m_height;
 	}
 
-    void draw(sf::RenderWindow& window) const {
+    void drawBackground(sf::RenderWindow& window) const {
         for (int x = 0; x < m_width; ++x) {
             for (int y = 0; y < m_height; ++y) {
                 m_tiles[x][y].draw(window, { float(x * TILE_SIZE), float(y * TILE_SIZE) }, { float(TILE_SIZE), float(TILE_SIZE) });
             }
         }
+    }
+
+    void drawForeground(sf::RenderWindow& window) const {
+        // TODO
+        std::cout << "Board::drawForeground() not implemented yet" << std::endl;
     }
 
     static sf::Vector2i pixelsToTileCoords(sf::Vector2f pixelPosition) {

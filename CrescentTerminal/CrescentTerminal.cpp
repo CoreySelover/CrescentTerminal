@@ -49,26 +49,37 @@ int main()
                     case sf::Keyboard::D:
                         player->walk(Direction::RIGHT);
                         break;
+                    default:
+                        break;
                     }
                 }
                 // Put other key presses here that should be allowed
                 // even if the user doesn't have control
+                switch (event.key.code) {
+                    case sf::Keyboard::F1:
+						DEBUG_DRAW = !DEBUG_DRAW;
+						break;
+                    default:
+                        break;
+                }
             }
             if (event.type == sf::Event::KeyReleased)
             {
                 if (USER_HAS_CONTROL) {
                     switch (event.key.code) {
                     case sf::Keyboard::W:
-                        player->stopWalking();
+                        player->stopWalking(Direction::UP);
                         break;
                     case sf::Keyboard::S:
-                        player->stopWalking();
+                        player->stopWalking(Direction::DOWN);
                         break;
                     case sf::Keyboard::A:
-                        player->stopWalking();
+                        player->stopWalking(Direction::LEFT);
                         break;
                     case sf::Keyboard::D:
-                        player->stopWalking();
+                        player->stopWalking(Direction::RIGHT);
+                        break;
+                    default:
                         break;
                     }
                 }
@@ -77,12 +88,12 @@ int main()
             }
         }
 
-
         entityManager.update(deltaTime);
 
         window.clear();
-        board.draw(window);
+        board.drawBackground(window);
         entityManager.drawEntities(window);
+        board.drawForeground(window);
         window.display();
     }
 

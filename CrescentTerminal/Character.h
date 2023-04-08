@@ -24,7 +24,7 @@ public:
 	void setDirection(Direction direction) { m_direction = direction;  }
 	void movePosition(sf::Vector2f movement);
 	void walk(Direction direction);
-	void stopWalking();
+	void stopWalking(Direction direction);
 	bool canWalk(sf::Vector2f velocity);
 
 private:
@@ -33,6 +33,11 @@ private:
 	float m_walkSpeed;
 	bool m_walking;
 	Direction m_direction;
+	bool m_up;
+	bool m_down;
+	bool m_left;
+	bool m_right;
+
 	sf::IntRect m_hitBox;
 	sf::RectangleShape m_hitBoxShape;
 
