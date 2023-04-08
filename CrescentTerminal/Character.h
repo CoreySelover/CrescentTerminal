@@ -14,7 +14,7 @@ class Character :
     public Entity
 {
 public:
-	Character(std::string name, const Board& board);
+	Character(std::string name, std::shared_ptr<Board> board);
 	~Character();
 
 	void update(float deltaTime);
@@ -28,7 +28,7 @@ public:
 	bool canWalk(sf::Vector2f velocity);
 
 private:
-	const Board& m_board;
+	std::shared_ptr<Board> m_board;
 
 	float m_walkSpeed;
 	bool m_walking;
