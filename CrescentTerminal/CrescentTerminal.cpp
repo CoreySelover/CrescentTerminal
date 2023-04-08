@@ -9,13 +9,15 @@
 #include "EntityManager.h"
 #include "Character.h"
 #include "Board.h"
+#include "Camera.h"
 
 int main()
 {
     sf::RenderWindow window(sf::VideoMode::getDesktopMode(), "Crescent Terminal");
     window.setFramerateLimit(60);
+    Camera camera(window);
 
-    Board board(20, 20);
+    Board board(50, 50);
     board.getTile(5, 5).setObstacle(true);
 
     EntityManager entityManager;
@@ -26,7 +28,7 @@ int main()
 
     while (window.isOpen())
     {
-        float deltaTime = clock.restart().asMilliseconds();
+        sf::Time deltaTime = clock.restart();
 
         sf::Event event;
         while (window.pollEvent(event))
@@ -88,12 +90,14 @@ int main()
             }
         }
 
-        entityManager.update(deltaTime);
+        entityManager.update(deltaTime.asMilliseconds());
+        camera.setTarget(player->getPosition());
+        camera.update(deltaTime);
 
         window.clear();
         board.drawBackground(window);
         entityManager.drawEntities(window);
-        board.drawForeground(window);
+        //board.drawForeground(window);
         window.display();
     }
 

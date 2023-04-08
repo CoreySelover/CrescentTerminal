@@ -39,7 +39,8 @@ void EntityManager::drawEntities(sf::RenderWindow& window)
 {
 	for (auto& entity : m_entities)
 	{
-		entity.second->draw(window);
+		if (entity.second->isOnScreen(window))
+			entity.second->draw(window);
 	}
 }
 

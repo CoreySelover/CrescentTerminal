@@ -35,17 +35,28 @@ public:
 		return x >= 0 && x < m_width && y >= 0 && y < m_height;
 	}
 
+    bool isTileOnScreen(int x, int y, sf::RenderWindow& window) const {
+        sf::Vector2f windowSize = sf::Vector2f(window.getSize());
+        sf::Vector2f position = tileCoordsToPixels({ x, y });
+        if (position.x < 0 || position.x > windowSize.x || position.y < 0 || position.y > windowSize.y)
+        {
+            return false;
+        }
+        return true;
+    }
+
     void drawBackground(sf::RenderWindow& window) const {
         for (int x = 0; x < m_width; ++x) {
             for (int y = 0; y < m_height; ++y) {
-                m_tiles[x][y].draw(window, { float(x * TILE_SIZE), float(y * TILE_SIZE) }, { float(TILE_SIZE), float(TILE_SIZE) });
+                if (isTileOnScreen(x, y, window)) {
+                    m_tiles[x][y].draw(window, { float(x * TILE_SIZE), float(y * TILE_SIZE) }, { float(TILE_SIZE), float(TILE_SIZE) });
+                }  
             }
         }
     }
 
     void drawForeground(sf::RenderWindow& window) const {
         // TODO
-        std::cout << "Board::drawForeground() not implemented yet" << std::endl;
     }
 
     static sf::Vector2i pixelsToTileCoords(sf::Vector2f pixelPosition) {

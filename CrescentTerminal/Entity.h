@@ -19,6 +19,7 @@ public:
 	std::string getName();
 	sf::Vector2f getPosition();
 	void setPosition(sf::Vector2f position);
+	bool isOnScreen(sf::RenderWindow& window);
 
 protected:
 	sf::Vector2f m_position;
