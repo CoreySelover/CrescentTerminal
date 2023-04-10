@@ -13,6 +13,7 @@ public:
         , m_view(window.getDefaultView())
     {
         m_view.zoom(0.25f);
+        m_view.setCenter(0, 0);
     }
 
     void update(sf::Time dt) {
@@ -28,7 +29,6 @@ public:
 
         // set the camera view on the window
         m_window.setView(m_view);
-
     }
 
     void setTarget(sf::Vector2f target) {

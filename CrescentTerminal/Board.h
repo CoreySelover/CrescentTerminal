@@ -36,9 +36,15 @@ public:
 	}
 
     bool isTileOnScreen(int x, int y, sf::RenderWindow& window) const {
-        sf::Vector2f windowSize = sf::Vector2f(window.getSize());
+        sf::Vector2f viewCenter = window.getView().getCenter();
+        sf::Vector2f viewSize = window.getView().getSize();
         sf::Vector2f position = tileCoordsToPixels({ x, y });
-        if (position.x < 0 || position.x > windowSize.x || position.y < 0 || position.y > windowSize.y)
+        if (position.x < 0 || 
+            position.x < viewCenter.x - viewSize.x / 2 - TILE_SIZE ||
+            position.x > viewCenter.x + viewSize.x / 2 || 
+            position.y < 0 || 
+            position.y < viewCenter.y - viewSize.y / 2 - TILE_SIZE ||
+            position.y > viewCenter.y + viewSize.y / 2)
         {
             return false;
         }
