@@ -37,11 +37,16 @@ sf::Vector2f Entity::getPosition()
 
 bool Entity::isOnScreen(sf::RenderWindow& window)
 {
-	sf::Vector2f windowSize = sf::Vector2f(window.getSize());
-	sf::Vector2f position = getPosition();
-	if (position.x < 0 || position.x > windowSize.x || position.y < 0 || position.y > windowSize.y)
-	{
-		return false;
-	}
-	return true;
+    sf::Vector2f viewCenter = window.getView().getCenter();
+    sf::Vector2f viewSize = window.getView().getSize();
+    if (m_position.x < 0 ||
+        m_position.x < viewCenter.x - viewSize.x / 2  ||
+        m_position.x > viewCenter.x + viewSize.x / 2 ||
+        m_position.y < 0 ||
+        m_position.y < viewCenter.y - viewSize.y / 2  ||
+        m_position.y > viewCenter.y + viewSize.y / 2)
+    {
+        return false;
+    }
+    return true;
 }
