@@ -14,13 +14,11 @@ Character::Character(std::string name, std::shared_ptr<Board> board) : Entity(na
 	m_left = false;
 	m_right = false;
 
-	std::string filepath = "Assets/" + name + ".png";
-
 	// TODO - unhardcode this
 	sf::Vector2i spriteSize(18, 27);
 	int sX = spriteSize.x;
 	int sY = spriteSize.y;
-	m_hitBox = sf::IntRect(0, 0, sX, sY * 2/3);
+	m_hitBox = sf::IntRect(0, 0, sX, sY / 2);
 
 	m_hitBoxShape.setPosition(m_hitBox.left, m_hitBox.top);
 	m_hitBoxShape.setSize(sf::Vector2f(m_hitBox.width, m_hitBox.height));
@@ -30,14 +28,20 @@ Character::Character(std::string name, std::shared_ptr<Board> board) : Entity(na
 
 	// Reminder - the float represents milliseconds per frame (thus the high numbers)
 	// filepath, x, y, width, height, frames, milliseconds per frame
+	std::string filepath = "Assets/" + name + ".png";
 	m_animations["stop_down"] = std::make_shared<Animation>(filepath, 0, 0, sX, sY, 1, 100.0f);
 	m_animations["stop_up"] = std::make_shared<Animation>(filepath, 18, 0, sX, sY, 1, 100.0f);
 	m_animations["stop_right"] = std::make_shared<Animation>(filepath, 36, 0, sX, sY, 1, 100.0f);
 	m_animations["stop_left"] = std::make_shared<Animation>(filepath, 54, 0, sX, sY, 1, 100.0f);
-	m_animations["walk_down"] = std::make_shared<Animation>(filepath, 0, 0, sX, sY, 4, 100.0f);
-	m_animations["walk_up"] = std::make_shared<Animation>(filepath, 0, 0, sX, sY, 4, 100.0f);
-	m_animations["walk_left"] = std::make_shared<Animation>(filepath, 0, 0, sX, sY, 4, 100.0f);
-	m_animations["walk_right"] = std::make_shared<Animation>(filepath, 0, 0, sX, sY, 4, 100.0f);
+	// TODO
+	m_animations["walk_down"] = m_animations["stop_down"];
+	m_animations["walk_up"] = m_animations["stop_up"];
+	m_animations["walk_left"] = m_animations["stop_left"];
+	m_animations["walk_right"] = m_animations["stop_right"];
+	//m_animations["walk_down"] = std::make_shared<Animation>(filepath, 0, 0, sX, sY, 4, 100.0f);
+	//m_animations["walk_up"] = std::make_shared<Animation>(filepath, 0, 0, sX, sY, 4, 100.0f);
+	//m_animations["walk_left"] = std::make_shared<Animation>(filepath, 0, 0, sX, sY, 4, 100.0f);
+	//m_animations["walk_right"] = std::make_shared<Animation>(filepath, 0, 0, sX, sY, 4, 100.0f);
 	m_currentAnimation = m_animations["stop_down"];
 }
 

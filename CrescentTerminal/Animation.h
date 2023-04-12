@@ -11,7 +11,6 @@ class Animation
 public:
     Animation(std::string textureFilePath, int x, int y, int width, int height, int numFrames, float frameDuration)
     {
-
         m_frameWidth = width;
         m_frameHeight = height;
         m_numFrames = numFrames;

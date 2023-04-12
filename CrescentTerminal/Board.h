@@ -13,11 +13,17 @@
 
 class Board {
 public:
-    Board(int width, int height)
+    Board(int width, int height, TileType defaultTile = TileType_Dirt)
         : m_width(width)
         , m_height(height)
         , m_tiles(width, std::vector<Tile>(height))
-    {}
+    {
+        for (int x = 0; x < m_width; ++x) {
+            for (int y = 0; y < m_height; ++y) {
+                m_tiles[x][y].setType(defaultTile);
+            }
+        }
+    }
 
     Tile& getTile(int x, int y) {
         return m_tiles[x][y];
@@ -51,11 +57,11 @@ public:
         return true;
     }
 
-    void drawBackground(sf::RenderWindow& window) const {
+    void drawBackground(sf::RenderWindow& window) {
         for (int x = 0; x < m_width; ++x) {
             for (int y = 0; y < m_height; ++y) {
                 if (isTileOnScreen(x, y, window)) {
-                    m_tiles[x][y].draw(window, { float(x * TILE_SIZE), float(y * TILE_SIZE) }, { float(TILE_SIZE), float(TILE_SIZE) });
+                    m_tiles[x][y].draw(window, { float(x * TILE_SIZE), float(y * TILE_SIZE) });
                 }  
             }
         }
