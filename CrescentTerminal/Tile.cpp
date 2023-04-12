@@ -2,7 +2,8 @@
 #include "Global.h"
 
 Tile::Tile(TileType type, bool isObstacle)
-	: m_isObstacle(isObstacle)
+	: m_isObstacle(isObstacle),
+	m_buildEligible(false)
 {
 	setType(type);
 	//TODO: Unhardcode
@@ -42,10 +43,12 @@ void Tile::setType(TileType type)
 		break;
 	case TileType_Grass:
 		m_isObstacle = false;
+		m_buildEligible = true;
 		break;
 	case TileType_Dirt:
 		m_isObstacle = false;
 		m_sprite.setTextureRect(sf::IntRect(0, 0, TILE_SIZE, TILE_SIZE));
+		m_buildEligible = true;
 		break;
 	case TileType_Planter:
 		m_isObstacle = false;
@@ -54,11 +57,22 @@ void Tile::setType(TileType type)
 		m_isObstacle = false;
 		break;
 	}
+
 }
 
 TileType Tile::getType() const
 {
 	return m_type;
+}
+
+void Tile::setHighlight(bool isHighlighted)
+{
+	if (isHighlighted) {
+		m_sprite.setColor(sf::Color(255, 255, 255, 128));
+	}
+	else {
+		m_sprite.setColor(sf::Color(255, 255, 255, 255));
+	}
 }
 
 void Tile::draw(sf::RenderWindow& window, sf::Vector2f position)

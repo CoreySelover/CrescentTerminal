@@ -23,6 +23,10 @@ public:
 
     bool isTileOnScreen(int x, int y, sf::RenderWindow& window) const;
 
+    void highlightTiles(sf::Vector2i footprint, sf::Vector2f mousePos);
+
+    void clearHighlights();
+
     void drawBackground(sf::RenderWindow& window);
 
     void drawForeground(sf::RenderWindow& window) const {

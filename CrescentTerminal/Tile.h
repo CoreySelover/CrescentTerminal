@@ -27,12 +27,15 @@ public:
 
     void setType(TileType type);
 
+	void setHighlight(bool isHighlighted);
+
     TileType getType() const;
 
 	void draw(sf::RenderWindow& window, sf::Vector2f position);
 
 private:
     bool m_isObstacle;
+	bool m_buildEligible;
     TileType m_type;
     sf::Sprite m_sprite;
 };

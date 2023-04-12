@@ -50,6 +50,35 @@ bool Board::isTileOnScreen(int x, int y, sf::RenderWindow& window) const
     return true;
 }
 
+void Board::highlightTiles(sf::Vector2i footprint, sf::Vector2f mousePos)
+{
+    // Reset all tiles
+    for (int x = 0; x < m_width; ++x) {
+        for (int y = 0; y < m_height; ++y) {
+			m_tiles[x][y].setHighlight(false);
+		}
+	}
+
+    // Highlight new tiles
+	sf::Vector2i tileCoords = pixelsToTileCoords(mousePos);
+    for (int x = 0; x < footprint.x; ++x) {
+        for (int y = 0; y < footprint.y; ++y) {
+            if (isTileInBounds(tileCoords.x + x, tileCoords.y + y)) {
+				m_tiles[tileCoords.x + x][tileCoords.y + y].setHighlight(true);
+			}
+		}
+	}
+}
+
+void Board::clearHighlights()
+{
+    for (int x = 0; x < m_width; ++x) {
+        for (int y = 0; y < m_height; ++y) {
+			m_tiles[x][y].setHighlight(false);
+		}
+	}
+}
+
 void Board::drawBackground(sf::RenderWindow& window)
 {
     for (int x = 0; x < m_width; ++x) {

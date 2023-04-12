@@ -4,19 +4,27 @@
 #include "Character.h"
 #include "Board.h"
 #include "Camera.h"
+#include "Building.h"
 
 Game::Game(sf::RenderWindow& window) : m_window(window)
 {
+    // Meta
     m_screenType = Type::GameWorld;
 
+    // Map
     m_board = std::make_shared<Board>(50, 50);
 
+    // Camera
     m_camera = std::make_shared<Camera>(window);
     m_camera->setBoardSize(m_board->getBoardSize());
 
+    // Entities
     m_entityManager = std::make_shared<EntityManager>();
     m_entityManager->addEntity(std::make_shared<Character>("Player", m_board));
     m_player = std::static_pointer_cast<Character>(m_entityManager->getEntity("Player"));
+    
+    // Build Mode
+    m_currentBuilding = std::make_shared<Building>(BuildingType::BuildingType_Base, true);
 }
 
 Game::~Game()
@@ -55,6 +63,7 @@ void Game::handleInput(sf::Event event)
     else if (m_screenType == Type::GameWorld) {
         if (event.type == sf::Event::KeyPressed)
         {
+            // Normal character movement
             if (USER_HAS_CONTROL && !m_buildMode) {
                 switch (event.key.code) {
                 case sf::Keyboard::W:
@@ -76,20 +85,9 @@ void Game::handleInput(sf::Event event)
                     break;
                 }
             }
+            // Build mode
             else if (m_buildMode) {
                 switch (event.key.code) {
-                case sf::Keyboard::W:
-                    m_camera->pan(UP);
-                    break;
-                case sf::Keyboard::S:
-                    m_camera->pan(DOWN);
-                    break;
-                case sf::Keyboard::A:
-                    m_camera->pan(LEFT);
-                    break;
-                case sf::Keyboard::D:
-                    m_camera->pan(RIGHT);
-                    break;
 				case sf::Keyboard::B:
 					deactivateBuildMode();
 					break;
@@ -142,9 +140,19 @@ void Game::update(sf::Time deltaTime)
 		// Update main menu
 	}
     else if (m_screenType == Type::GameWorld) {
+        // Normal character movement
         m_entityManager->update(deltaTime.asMilliseconds());
         if (!m_buildMode) m_camera->setTarget(m_player->getPosition());
         m_camera->update(deltaTime);
+
+        // Build mode
+        if (m_buildMode) {
+			sf::Vector2f mousePos = m_window.mapPixelToCoords(sf::Mouse::getPosition(m_window));
+			m_camera->setTarget(mousePos);
+
+            // Highlight the tiles that the building will occupy
+            m_board->highlightTiles(m_currentBuilding->getFootprintSize(), mousePos);
+		}
 	}
 }
 
@@ -175,6 +183,7 @@ void Game::activateBuildMode()
 void Game::deactivateBuildMode()
 {
 	m_buildMode = false;
+    m_board->clearHighlights();
 
     m_camera->zoom(0.625f);
 }

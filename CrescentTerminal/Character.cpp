@@ -96,8 +96,6 @@ bool Character::canWalk(sf::Vector2f velocity)
 	// Check top left corner
 	sf::Vector2i proposedTile1 = m_board->pixelsToTileCoords(sf::Vector2f(m_hitBox.left + velocity.x, m_hitBox.top + velocity.y));
 
-	std::cout << proposedTile1.x << ", " << proposedTile1.y << std::endl;
-
 	if (!m_board->isTileInBounds(proposedTile1.x, proposedTile1.y)
 		|| m_board->isTileObstacle(proposedTile1.x, proposedTile1.y))
 	{

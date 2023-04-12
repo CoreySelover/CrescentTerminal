@@ -1,0 +1,32 @@
+#pragma once
+
+#include <vector>
+
+#include <SFML/System/Vector2.hpp>
+
+#include "Board.h"
+
+enum BuildingType {
+	BuildingType_Base,
+	BuildingType_Greenhouse,
+	BuildingType_Shed,
+	BuildingType_Count
+};
+
+class Building
+{
+public:
+	Building(BuildingType type = BuildingType_Base, bool hasInteriorMap = false);
+	~Building();
+	void setBuildingType(BuildingType type);
+	sf::Vector2i getFootprintSize() const { return m_footprintSize; }
+
+private:
+	void setTileType(sf::Vector2i position, TileType type);
+
+	BuildingType m_type;
+	sf::Vector2i m_footprintSize;
+	std::vector<std::vector <TileType> > m_tiles;
+	bool m_hasInteriorMap;
+};
+
