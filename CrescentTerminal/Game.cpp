@@ -69,6 +69,12 @@ void Game::handleInput(sf::Event event)
                 case sf::Keyboard::D:
                     m_player->walk(Direction::RIGHT);
                     break;
+                case sf::Keyboard::B:
+                    if (!m_buildMode)
+                        activateBuildMode();
+                    else
+                        deactivateBuildMode();
+                    break;
                 default:
                     break;
                 }
@@ -138,5 +144,15 @@ void Game::draw()
         //board.drawForeground(m_window);
     }
     m_window.display();
+}
+
+void Game::activateBuildMode()
+{
+    m_buildMode = true;
+}
+
+void Game::deactivateBuildMode()
+{
+	m_buildMode = false;
 }
 

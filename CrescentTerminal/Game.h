@@ -26,6 +26,10 @@ public:
 
     void draw();
 
+    void activateBuildMode();
+
+    void deactivateBuildMode();
+
 private:
     sf::RenderWindow& m_window;
     Type m_screenType;
@@ -35,6 +39,8 @@ private:
     std::shared_ptr<Board> m_board;
     std::shared_ptr<EntityManager> m_entityManager;
     std::shared_ptr<Character> m_player;
+
+    bool m_buildMode = false;
 };
 
 
