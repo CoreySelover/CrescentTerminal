@@ -9,10 +9,10 @@ Game::Game(sf::RenderWindow& window) : m_window(window)
 {
     m_screenType = Type::GameWorld;
 
-    m_camera = std::make_shared<Camera>(window);
-
     m_board = std::make_shared<Board>(50, 50);
-    m_board->getTile(5, 5).setObstacle(true);
+
+    m_camera = std::make_shared<Camera>(window);
+    m_camera->setBoardSize(m_board->getBoardSize());
 
     m_entityManager = std::make_shared<EntityManager>();
     m_entityManager->addEntity(std::make_shared<Character>("Player", m_board));

@@ -61,6 +61,11 @@ void Board::drawBackground(sf::RenderWindow& window)
     }
 }
 
+sf::Vector2f Board::getBoardSize() const
+{
+	return sf::Vector2f(float(m_width * TILE_SIZE), float(m_height * TILE_SIZE));
+}
+
 sf::Vector2i Board::pixelsToTileCoords(sf::Vector2f pixelPosition)
 {
 	return sf::Vector2i(int(pixelPosition.x / TILE_SIZE), int(pixelPosition.y / TILE_SIZE));

@@ -29,6 +29,8 @@ public:
         // TODO
     }
 
+    sf::Vector2f getBoardSize() const;
+
     static sf::Vector2i pixelsToTileCoords(sf::Vector2f pixelPosition);
 
     static sf::Vector2f tileCoordsToPixels(sf::Vector2i tilePosition);
