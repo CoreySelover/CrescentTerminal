@@ -55,7 +55,7 @@ void Game::handleInput(sf::Event event)
     else if (m_screenType == Type::GameWorld) {
         if (event.type == sf::Event::KeyPressed)
         {
-            if (USER_HAS_CONTROL) {
+            if (USER_HAS_CONTROL && !m_buildMode) {
                 switch (event.key.code) {
                 case sf::Keyboard::W:
                     m_player->walk(Direction::UP);
@@ -70,15 +70,33 @@ void Game::handleInput(sf::Event event)
                     m_player->walk(Direction::RIGHT);
                     break;
                 case sf::Keyboard::B:
-                    if (!m_buildMode)
-                        activateBuildMode();
-                    else
-                        deactivateBuildMode();
+                    activateBuildMode();
                     break;
                 default:
                     break;
                 }
             }
+            else if (m_buildMode) {
+                switch (event.key.code) {
+                case sf::Keyboard::W:
+                    m_camera->pan(UP);
+                    break;
+                case sf::Keyboard::S:
+                    m_camera->pan(DOWN);
+                    break;
+                case sf::Keyboard::A:
+                    m_camera->pan(LEFT);
+                    break;
+                case sf::Keyboard::D:
+                    m_camera->pan(RIGHT);
+                    break;
+				case sf::Keyboard::B:
+					deactivateBuildMode();
+					break;
+				default:
+					break;
+				}
+			}
             // Put other key presses here that should be allowed
             // even if the user doesn't have control
             switch (event.key.code) {
@@ -125,7 +143,7 @@ void Game::update(sf::Time deltaTime)
 	}
     else if (m_screenType == Type::GameWorld) {
         m_entityManager->update(deltaTime.asMilliseconds());
-        m_camera->setTarget(m_player->getPosition());
+        if (!m_buildMode) m_camera->setTarget(m_player->getPosition());
         m_camera->update(deltaTime);
 	}
 }
@@ -149,10 +167,15 @@ void Game::draw()
 void Game::activateBuildMode()
 {
     m_buildMode = true;
+    m_player->stopCompletely();
+    
+    m_camera->zoom(1.6f);
 }
 
 void Game::deactivateBuildMode()
 {
 	m_buildMode = false;
+
+    m_camera->zoom(0.625f);
 }
 

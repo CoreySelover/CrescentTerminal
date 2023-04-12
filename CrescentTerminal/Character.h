@@ -18,13 +18,16 @@ public:
 	~Character();
 
 	void update(float deltaTime);
+	bool isOnScreen(sf::RenderWindow& window);
 	void draw(sf::RenderWindow& window);
 
 	// Movement
-	void setDirection(Direction direction) { m_direction = direction;  }
+	void setDirection(Direction direction) { m_direction = direction; }
+	Direction getDirection() { return m_direction; }
 	void movePosition(sf::Vector2f movement);
 	void walk(Direction direction);
 	void stopWalking(Direction direction);
+	void stopCompletely();
 	bool canWalk(sf::Vector2f velocity);
 
 private:

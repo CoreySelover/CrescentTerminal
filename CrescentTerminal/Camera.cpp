@@ -39,3 +39,26 @@ void Camera::setTarget(sf::Vector2f target)
     m_target = sf::Vector2f(std::min(m_target.x, m_boardSize.x - m_view.getSize().x / 2),
         std::min(m_target.y, m_boardSize.y - m_view.getSize().y / 2));
 }
+
+void Camera::pan(Direction direction) {
+    switch (direction)
+    {
+	case Direction::UP:
+		m_target.y -= m_speed;
+		break;
+	case Direction::DOWN:
+		m_target.y += m_speed;
+		break;
+	case Direction::LEFT:
+		m_target.x -= m_speed;
+		break;
+	case Direction::RIGHT:
+		m_target.x += m_speed;
+		break;
+	}
+}
+
+void Camera::zoom(float zoom)
+{
+	m_view.zoom(zoom);
+}

@@ -96,6 +96,8 @@ bool Character::canWalk(sf::Vector2f velocity)
 	// Check top left corner
 	sf::Vector2i proposedTile1 = m_board->pixelsToTileCoords(sf::Vector2f(m_hitBox.left + velocity.x, m_hitBox.top + velocity.y));
 
+	std::cout << proposedTile1.x << ", " << proposedTile1.y << std::endl;
+
 	if (!m_board->isTileInBounds(proposedTile1.x, proposedTile1.y)
 		|| m_board->isTileObstacle(proposedTile1.x, proposedTile1.y))
 	{
@@ -129,6 +131,22 @@ bool Character::canWalk(sf::Vector2f velocity)
 		return false;
 	}
 
+	return true;
+}
+
+bool Character::isOnScreen(sf::RenderWindow& window)
+{
+	sf::Vector2f viewCenter = window.getView().getCenter();
+	sf::Vector2f viewSize = window.getView().getSize();
+	if (m_position.x < 0 - m_currentAnimation->getSize().x ||
+		m_position.x < viewCenter.x - m_currentAnimation->getSize().x - viewSize.x / 2 ||
+		m_position.x > viewCenter.x + viewSize.x / 2 ||
+		m_position.y < 0 - m_currentAnimation->getSize().y ||
+		m_position.y < viewCenter.y - m_currentAnimation->getSize().y - viewSize.y / 2 ||
+		m_position.y > viewCenter.y + viewSize.y / 2)
+	{
+		return false;
+	}
 	return true;
 }
 
@@ -205,5 +223,14 @@ void Character::stopWalking(Direction direction)
 	else if (m_down) { walk(DOWN); }
 	else if (m_left) { walk(LEFT); }
 	else if (m_right) { walk(RIGHT); }
+}
+
+void Character::stopCompletely() {
+	m_up = false;
+	m_down = false;
+	m_left = false;
+	m_right = false;
+	m_walking = false;
+	m_currentAnimation = m_animations["stop_" + directionToString(m_direction)];
 }
 

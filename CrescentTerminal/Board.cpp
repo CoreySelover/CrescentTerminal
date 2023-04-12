@@ -68,7 +68,19 @@ sf::Vector2f Board::getBoardSize() const
 
 sf::Vector2i Board::pixelsToTileCoords(sf::Vector2f pixelPosition)
 {
-	return sf::Vector2i(int(pixelPosition.x / TILE_SIZE), int(pixelPosition.y / TILE_SIZE));
+    // Acount for negative positions
+    if (pixelPosition.x < 0) {
+		pixelPosition.x -= TILE_SIZE;
+	}
+    if (pixelPosition.y < 0) {
+        pixelPosition.y -= TILE_SIZE;
+    }
+
+    sf::Vector2i tileCoords;
+    tileCoords.x = int(pixelPosition.x / TILE_SIZE);
+    tileCoords.y = int(pixelPosition.y / TILE_SIZE);
+
+    return tileCoords;
 }
 
 sf::Vector2f Board::tileCoordsToPixels(sf::Vector2i tilePosition)
