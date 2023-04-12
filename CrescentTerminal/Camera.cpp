@@ -44,16 +44,16 @@ void Camera::pan(Direction direction) {
     switch (direction)
     {
 	case Direction::UP:
-		m_target.y -= m_speed;
+		setTarget(m_target + sf::Vector2f(0, -m_speed));
 		break;
 	case Direction::DOWN:
-		m_target.y += m_speed;
+		setTarget(m_target + sf::Vector2f(0, m_speed));
 		break;
 	case Direction::LEFT:
-		m_target.x -= m_speed;
+		setTarget(m_target + sf::Vector2f(-m_speed, 0));
 		break;
 	case Direction::RIGHT:
-		m_target.x += m_speed;
+		setTarget(m_target + sf::Vector2f(m_speed, 0));
 		break;
 	}
 }
@@ -61,4 +61,5 @@ void Camera::pan(Direction direction) {
 void Camera::zoom(float zoom)
 {
 	m_view.zoom(zoom);
+	setTarget(m_target);
 }

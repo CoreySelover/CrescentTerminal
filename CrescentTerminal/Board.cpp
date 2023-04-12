@@ -68,7 +68,7 @@ sf::Vector2f Board::getBoardSize() const
 
 sf::Vector2i Board::pixelsToTileCoords(sf::Vector2f pixelPosition)
 {
-    // Acount for negative positions
+    // Because e.g. int(-5 / 32) = 0, but we want it to resolve to -1
     if (pixelPosition.x < 0) {
 		pixelPosition.x -= TILE_SIZE;
 	}
