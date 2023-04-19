@@ -24,6 +24,11 @@ bool Tile::isObstacle() const
 	return m_isObstacle;
 }
 
+bool Tile::isBuildEligible() const
+{
+	return m_buildEligible;
+}
+
 void Tile::setType(TileType type)
 {
 	m_type = type;

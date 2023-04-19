@@ -25,6 +25,8 @@ public:
 
 	bool isObstacle() const;
 
+	bool isBuildEligible() const;
+
     void setType(TileType type);
 
 	void setHighlight(sf::Color color);

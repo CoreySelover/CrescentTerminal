@@ -21,11 +21,13 @@ public:
     bool isTileObstacle(int x, int y) const;
     bool isTileInBounds(int x, int y) const;
     bool isTileOnScreen(int x, int y, sf::RenderWindow& window) const;
+    bool isTileBuildEligible(int x, int y) const;
     void highlightTiles(sf::Vector2i footprint, sf::Vector2f mousePos, bool canBuild);
     void clearHighlights();
 
     // Buildings
     void buildBuilding(BuildingType type, sf::Vector2f position);
+    bool canBuildHere(sf::Vector2i footprint, sf::Vector2f mousepos) const;
 
     // Drawing
     void drawBackground(sf::RenderWindow& window);

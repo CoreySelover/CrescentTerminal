@@ -139,7 +139,8 @@ void Game::handleInput(sf::Event event)
             if (m_buildMode) {
                 if (event.mouseButton.button == sf::Mouse::Left) {
 					sf::Vector2f mousePos = m_window.mapPixelToCoords(sf::Mouse::getPosition(m_window));
-                    if (m_inventory->doWeHaveEnough(m_currentBuilding->getCost())) {
+                    if (m_inventory->doWeHaveEnough(m_currentBuilding->getCost())
+                        && m_board->canBuildHere(m_currentBuilding->getFootprintSize(), mousePos)) {
 						m_board->buildBuilding(m_currentBuilding->getBuildingType(), mousePos);
 						m_inventory->removeResources(m_currentBuilding->getCost());
 					}
@@ -167,7 +168,8 @@ void Game::update(sf::Time deltaTime)
 			m_camera->setTarget(mousePos);
 
             // Highlight the tiles that the building will occupy
-            bool canBuild = m_inventory->doWeHaveEnough(m_currentBuilding->getCost());
+            bool canBuild = m_inventory->doWeHaveEnough(m_currentBuilding->getCost())
+                && m_board->canBuildHere(m_currentBuilding->getFootprintSize(), mousePos);
             m_board->highlightTiles(m_currentBuilding->getFootprintSize(), mousePos, canBuild);
 		}
 	}

@@ -51,6 +51,11 @@ bool Board::isTileOnScreen(int x, int y, sf::RenderWindow& window) const
     return true;
 }
 
+bool Board::isTileBuildEligible(int x, int y) const
+{
+    return m_tiles[x][y].isBuildEligible();
+}
+
 void Board::highlightTiles(sf::Vector2i footprint, sf::Vector2f mousePos, bool canBuild)
 {
     // Reset all tiles
@@ -105,6 +110,24 @@ void Board::buildBuilding(BuildingType type, sf::Vector2f position) {
 			m_tiles[tileCoords.x + x][tileCoords.y + y].setType(TileType::TileType_Wall);
 		}
 	}
+}
+
+bool Board::canBuildHere(sf::Vector2i footprint, sf::Vector2f mousepos) const {
+    sf::Vector2i tileCoords = pixelsToTileCoords(mousepos);
+    for (int x = 0; x < footprint.x; ++x) {
+        for (int y = 0; y < footprint.y; ++y) {
+            if (!isTileInBounds(tileCoords.x + x, tileCoords.y + y)) {
+				return false;
+			}
+            if (isTileObstacle(tileCoords.x + x, tileCoords.y + y)) {
+				return false;
+			}
+            if (!isTileBuildEligible(tileCoords.x + x, tileCoords.y + y)) {
+				return false;
+            }
+		}
+	}
+	return true;
 }
 
 sf::Vector2f Board::getBoardSize() const
