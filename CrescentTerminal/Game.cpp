@@ -25,6 +25,9 @@ Game::Game(sf::RenderWindow& window) : m_window(window)
     
     // Build Mode
     m_currentBuilding = std::make_shared<Building>(BuildingType::BuildingType_Base, true);
+
+    // Inventory
+    m_inventory = std::make_shared<Inventory>();
 }
 
 Game::~Game()
@@ -33,6 +36,7 @@ Game::~Game()
     m_board = nullptr;
     m_entityManager = nullptr;
     m_player = nullptr;
+    m_inventory = nullptr;
 }
 
 void Game::setScreenType(Type type) 
@@ -151,7 +155,8 @@ void Game::update(sf::Time deltaTime)
 			m_camera->setTarget(mousePos);
 
             // Highlight the tiles that the building will occupy
-            m_board->highlightTiles(m_currentBuilding->getFootprintSize(), mousePos, true);
+            bool canBuild = m_inventory->doWeHaveEnough(m_currentBuilding->getCost());
+            m_board->highlightTiles(m_currentBuilding->getFootprintSize(), mousePos, canBuild);
 		}
 	}
 }

@@ -7,6 +7,7 @@
 #include "EntityManager.h"
 #include "Character.h"
 #include "Building.h"
+#include "Inventory.h"
 
 class Game {
 public:
@@ -40,6 +41,7 @@ private:
     std::shared_ptr<Board> m_board;
     std::shared_ptr<EntityManager> m_entityManager;
     std::shared_ptr<Character> m_player;
+    std::shared_ptr<Inventory> m_inventory;
 
     bool m_buildMode = false;
     std::shared_ptr<Building> m_currentBuilding;

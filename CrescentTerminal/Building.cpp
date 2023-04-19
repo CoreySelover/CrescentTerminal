@@ -43,6 +43,15 @@ void Building::resizeTiles()
 	}
 }
 
+std::vector<std::pair<std::string, int>> Building::getCost() const
+{
+	std::vector<std::pair<std::string, int>> cost;
+	cost.push_back(std::make_pair("steel", m_requirements.m_steel));
+	cost.push_back(std::make_pair("plastic", m_requirements.m_plastic));
+	cost.push_back(std::make_pair("glass", m_requirements.m_glass));
+	return cost;
+}
+
 void Building::setTileType(sf::Vector2i position, TileType type)
 {
 	m_tiles[position.x][position.y] = type;

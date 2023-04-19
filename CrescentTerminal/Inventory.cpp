@@ -21,3 +21,18 @@ int Inventory::getAmountOf(std::string resource) const {
 	
 	throw std::invalid_argument("Invalid resource name");
 }
+
+bool Inventory::doWeHaveEnough(std::string resource, int amount) const {
+	return getAmountOf(resource) >= amount;
+}
+
+bool Inventory::doWeHaveEnough(std::vector<std::pair<std::string, int>> requirements) const {
+	for (auto& requirement : requirements)
+	{
+		if (getAmountOf(requirement.first) < requirement.second)
+		{
+			return false;
+		}
+	}
+	return true;
+}

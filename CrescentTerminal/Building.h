@@ -26,7 +26,8 @@ public:
 	~Building();
 	void setBuildingType(BuildingType type);
 	sf::Vector2i getFootprintSize() const { return m_footprintSize; }
-	void resizeTiles();
+		void resizeTiles();
+	std::vector<std::pair<std::string, int>> getCost() const;
 
 private:
 	void setTileType(sf::Vector2i position, TileType type);
