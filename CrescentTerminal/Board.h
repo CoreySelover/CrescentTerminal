@@ -8,7 +8,8 @@
 
 // Crescent Terminal
 #include "Tile.h"
-#include "Building.h"
+class Building;
+enum BuildingType;
 
 class Board {
 public:
@@ -41,6 +42,7 @@ private:
     int m_width;
     int m_height;
     std::vector<std::vector<Tile>> m_tiles;
+    std::vector<std::shared_ptr<Building>> m_buildings;
 };
 
 

@@ -5,9 +5,9 @@
 Inventory::Inventory()
 {
 	// TODO - read from file
-	m_steel = 50;
-	m_plastic = 50;
-	m_glass = 100;
+	m_steel = 5000;
+	m_plastic = 5000;
+	m_glass = 1000;
 }
 
 Inventory::~Inventory()

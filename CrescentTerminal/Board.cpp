@@ -1,5 +1,6 @@
 #include "Board.h"
 #include "Global.h"
+#include "Building.h"
 
 Board::Board(int width, int height, TileType defaultTile)
     : m_width(width)
@@ -96,7 +97,14 @@ void Board::drawBackground(sf::RenderWindow& window)
 }
 
 void Board::buildBuilding(BuildingType type, sf::Vector2f position) {
-    // TODO
+	m_buildings.push_back(std::make_shared<Building>(type));
+    // Update tiles to reflect new building
+    sf::Vector2i tileCoords = pixelsToTileCoords(position);
+    for (int x = 0; x < m_buildings.back()->getFootprintSize().x; ++x) {
+        for (int y = 0; y < m_buildings.back()->getFootprintSize().y; ++y) {
+			m_tiles[tileCoords.x + x][tileCoords.y + y].setType(TileType::TileType_Wall);
+		}
+	}
 }
 
 sf::Vector2f Board::getBoardSize() const

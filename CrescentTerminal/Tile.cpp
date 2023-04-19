@@ -31,18 +31,24 @@ void Tile::setType(TileType type)
 	switch (type) {
 	case TileType_Empty:
 		m_isObstacle = true;
+		m_buildEligible = false;
 		break;
 	case TileType_Wall:
 		m_isObstacle = true;
+		m_sprite.setTextureRect(sf::IntRect(32, 0, TILE_SIZE, TILE_SIZE));
+		m_buildEligible = false;
 		break;
 	case TileType_Floor:
 		m_isObstacle = false;
+		m_buildEligible = false;
 		break;
 	case TileType_Door:
 		m_isObstacle = true;
+		m_buildEligible = false;
 		break;
 	case TileType_Stairs:
 		m_isObstacle = false;
+		m_buildEligible = false;
 		break;
 	case TileType_Grass:
 		m_isObstacle = false;
@@ -55,9 +61,11 @@ void Tile::setType(TileType type)
 		break;
 	case TileType_Planter:
 		m_isObstacle = false;
+		m_buildEligible = false;
 		break;
 	default:
 		m_isObstacle = false;
+		m_buildEligible = false;
 		break;
 	}
 
