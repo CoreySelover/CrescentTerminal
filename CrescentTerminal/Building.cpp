@@ -20,9 +20,9 @@ void Building::setBuildingType(BuildingType type)
 		case BuildingType_Base:
 			m_footprintSize = sf::Vector2i(5, 5);
 			resizeTiles();
-			for (int i = 0; i < m_footprintSize.x; i++)
+			for (int i = 0; i < m_footprintSize.x; ++i)
 			{
-				for (int j = 0; j < m_footprintSize.y; j++)
+				for (int j = 0; j < m_footprintSize.y; ++j)
 				{
 					setTileType(sf::Vector2i(i, j), TileType_Wall);
 				}
@@ -37,10 +37,10 @@ void Building::setBuildingType(BuildingType type)
 
 void Building::resizeTiles()
 {
-	m_tiles.resize(m_footprintSize.x);
+	m_tilesAsTypes.resize(m_footprintSize.x);
 	for (int i = 0; i < m_footprintSize.x; i++)
 	{
-		m_tiles[i].resize(m_footprintSize.y);
+		m_tilesAsTypes[i].resize(m_footprintSize.y);
 	}
 }
 
@@ -55,5 +55,10 @@ std::vector<std::pair<std::string, int>> Building::getCost() const
 
 void Building::setTileType(sf::Vector2i position, TileType type)
 {
-	m_tiles[position.x][position.y] = type;
+	m_tilesAsTypes[position.x][position.y] = type;
+}
+
+TileType Building::getTileType(sf::Vector2i position) const
+{
+	return m_tilesAsTypes[position.x][position.y];
 }

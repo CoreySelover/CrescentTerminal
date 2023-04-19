@@ -32,6 +32,7 @@ public:
 	sf::Vector2i getFootprintSize() const { return m_footprintSize; }
 		void resizeTiles();
 	std::vector<std::pair<std::string, int>> getCost() const;
+	TileType getTileType(sf::Vector2i position) const;
 
 private:
 	void setTileType(sf::Vector2i position, TileType type);
@@ -39,7 +40,7 @@ private:
 	BuildingType m_type;
 	BuildingRequirements m_requirements;
 	sf::Vector2i m_footprintSize;
-	std::vector<std::vector <TileType> > m_tiles;
+	std::vector<std::vector <TileType> > m_tilesAsTypes;
 	bool m_hasInteriorMap;
 };
 

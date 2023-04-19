@@ -107,7 +107,7 @@ void Board::buildBuilding(BuildingType type, sf::Vector2f position) {
     sf::Vector2i tileCoords = pixelsToTileCoords(position);
     for (int x = 0; x < m_buildings.back()->getFootprintSize().x; ++x) {
         for (int y = 0; y < m_buildings.back()->getFootprintSize().y; ++y) {
-			m_tiles[tileCoords.x + x][tileCoords.y + y].setType(TileType::TileType_Wall);
+			m_tiles[tileCoords.x + x][tileCoords.y + y].setType(m_buildings.back()->getTileType(sf::Vector2i(x, y)));
 		}
 	}
 }
