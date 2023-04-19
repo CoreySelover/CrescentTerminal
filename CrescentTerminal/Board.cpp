@@ -95,6 +95,10 @@ void Board::drawBackground(sf::RenderWindow& window)
     }
 }
 
+void Board::buildBuilding(BuildingType type, sf::Vector2f position) {
+    // TODO
+}
+
 sf::Vector2f Board::getBoardSize() const
 {
 	return sf::Vector2f(float(m_width * TILE_SIZE), float(m_height * TILE_SIZE));

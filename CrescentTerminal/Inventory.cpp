@@ -14,6 +14,38 @@ Inventory::~Inventory()
 {
 }
 
+void Inventory::addResource(std::string resource, int amount)
+{
+	if (resource == "steel") { m_steel += amount; }
+	else if (resource == "plastic") { m_plastic += amount; }
+	else if (resource == "glass") { m_glass += amount; }
+	else { throw std::invalid_argument("Invalid resource name"); }
+}
+
+void Inventory::removeResource(std::string resource, int amount)
+{
+	if (resource == "steel") { m_steel -= amount; }
+	else if (resource == "plastic") { m_plastic -= amount; }
+	else if (resource == "glass") { m_glass -= amount; }
+	else { throw std::invalid_argument("Invalid resource name"); }
+}
+
+void Inventory::addResources(std::vector<std::pair<std::string, int>> resources)
+{
+	for (auto& resource : resources)
+	{
+		addResource(resource.first, resource.second);
+	}
+}
+
+void Inventory::removeResources(std::vector<std::pair<std::string, int>> resources)
+{
+	for (auto& resource : resources)
+	{
+		removeResource(resource.first, resource.second);
+	}
+}
+
 int Inventory::getAmountOf(std::string resource) const {
 	if (resource == "steel") { return m_steel; }
 	else if (resource == "plastic") { return m_plastic; }

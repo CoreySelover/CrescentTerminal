@@ -1,4 +1,5 @@
 #include "Building.h"
+#include "Tile.h"
 
 Building::Building(BuildingType type, bool hasInteriorMap) 
 	: m_hasInteriorMap(hasInteriorMap)

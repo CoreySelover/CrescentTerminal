@@ -134,6 +134,18 @@ void Game::handleInput(sf::Event event)
             // Put other key releases here that should be allowed
             // even if the user doesn't have control
         }
+        if (event.type == sf::Event::MouseButtonPressed)
+        {
+            if (m_buildMode) {
+                if (event.mouseButton.button == sf::Mouse::Left) {
+					sf::Vector2f mousePos = m_window.mapPixelToCoords(sf::Mouse::getPosition(m_window));
+                    if (m_inventory->doWeHaveEnough(m_currentBuilding->getCost())) {
+						m_board->buildBuilding(m_currentBuilding->getBuildingType(), mousePos);
+						m_inventory->removeResources(m_currentBuilding->getCost());
+					}
+				}
+			}
+		}
     }
 }
 

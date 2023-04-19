@@ -1,10 +1,11 @@
 #pragma once
 
 #include <vector>
+#include <string>
 
 #include <SFML/System/Vector2.hpp>
 
-#include "Board.h"
+//#include "Board.h"
 
 enum BuildingType {
 	BuildingType_Base,
@@ -19,12 +20,15 @@ struct BuildingRequirements {
 	int m_glass;
 };
 
+enum TileType;
+
 class Building
 {
 public:
 	Building(BuildingType type = BuildingType_Base, bool hasInteriorMap = false);
 	~Building();
 	void setBuildingType(BuildingType type);
+	BuildingType getBuildingType() const { return m_type; }
 	sf::Vector2i getFootprintSize() const { return m_footprintSize; }
 		void resizeTiles();
 	std::vector<std::pair<std::string, int>> getCost() const;
