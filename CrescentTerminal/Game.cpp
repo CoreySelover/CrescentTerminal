@@ -151,7 +151,7 @@ void Game::update(sf::Time deltaTime)
 			m_camera->setTarget(mousePos);
 
             // Highlight the tiles that the building will occupy
-            m_board->highlightTiles(m_currentBuilding->getFootprintSize(), mousePos);
+            m_board->highlightTiles(m_currentBuilding->getFootprintSize(), mousePos, true);
 		}
 	}
 }

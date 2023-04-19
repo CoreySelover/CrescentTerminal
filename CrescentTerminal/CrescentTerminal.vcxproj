@@ -143,6 +143,7 @@
     <ClCompile Include="EntityManager.cpp" />
     <ClCompile Include="Global.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Inventory.cpp" />
     <ClCompile Include="TextureManager.cpp" />
     <ClCompile Include="Tile.cpp" />
   </ItemGroup>
@@ -156,6 +157,7 @@
     <ClInclude Include="EntityManager.h" />
     <ClInclude Include="Global.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="Inventory.h" />
     <ClInclude Include="TextureManager.h" />
     <ClInclude Include="Tile.h" />
   </ItemGroup>

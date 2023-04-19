@@ -13,6 +13,12 @@ enum BuildingType {
 	BuildingType_Count
 };
 
+struct BuildingRequirements {
+	int m_steel;
+	int m_plastic;
+	int m_glass;
+};
+
 class Building
 {
 public:
@@ -20,11 +26,13 @@ public:
 	~Building();
 	void setBuildingType(BuildingType type);
 	sf::Vector2i getFootprintSize() const { return m_footprintSize; }
+	void resizeTiles();
 
 private:
 	void setTileType(sf::Vector2i position, TileType type);
 
 	BuildingType m_type;
+	BuildingRequirements m_requirements;
 	sf::Vector2i m_footprintSize;
 	std::vector<std::vector <TileType> > m_tiles;
 	bool m_hasInteriorMap;

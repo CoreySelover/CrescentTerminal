@@ -9,6 +9,9 @@ Tile::Tile(TileType type, bool isObstacle)
 	//TODO: Unhardcode
 	m_sprite.setTexture(TextureManager::getTexture("Assets/World.png"));
 	m_sprite.setTextureRect(sf::IntRect(0, 0, 32, 32));
+
+	m_highlight.setFillColor(sf::Color::Transparent);
+	m_highlight.setSize(sf::Vector2f(TILE_SIZE, TILE_SIZE));
 }
 
 void Tile::setObstacle(bool isObstacle)
@@ -65,20 +68,19 @@ TileType Tile::getType() const
 	return m_type;
 }
 
-void Tile::setHighlight(bool isHighlighted)
+void Tile::setHighlight(sf::Color color)
 {
-	if (isHighlighted) {
-		m_sprite.setColor(sf::Color(255, 255, 255, 128));
-	}
-	else {
-		m_sprite.setColor(sf::Color(255, 255, 255, 255));
-	}
+	m_highlight.setFillColor(color);
+	if (color != sf::Color::Transparent)
+		m_highlight.setFillColor(sf::Color(color.r, color.g, color.b, 100));
 }
 
 void Tile::draw(sf::RenderWindow& window, sf::Vector2f position)
 {
 	m_sprite.setPosition(position);
+	m_highlight.setPosition(position);
 	window.draw(m_sprite);
+	window.draw(m_highlight);
 }
 
 

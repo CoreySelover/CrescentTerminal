@@ -18,12 +18,7 @@ void Building::setBuildingType(BuildingType type)
 	{
 		case BuildingType_Base:
 			m_footprintSize = sf::Vector2i(5, 5);
-			m_tiles.resize(m_footprintSize.x);
-			for (int i = 0; i < m_footprintSize.x; i++)
-			{
-				m_tiles[i].resize(m_footprintSize.y);
-			}
-
+			resizeTiles();
 			for (int i = 0; i < m_footprintSize.x; i++)
 			{
 				for (int j = 0; j < m_footprintSize.y; j++)
@@ -31,9 +26,20 @@ void Building::setBuildingType(BuildingType type)
 					setTileType(sf::Vector2i(i, j), TileType_Wall);
 				}
 			}
+			// Steel, plastic, glass
+			m_requirements = BuildingRequirements{ 50, 50, 100 };
 			break;
 		default:
 			break;
+	}
+}
+
+void Building::resizeTiles()
+{
+	m_tiles.resize(m_footprintSize.x);
+	for (int i = 0; i < m_footprintSize.x; i++)
+	{
+		m_tiles[i].resize(m_footprintSize.y);
 	}
 }
 

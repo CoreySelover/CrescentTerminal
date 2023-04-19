@@ -27,7 +27,7 @@ public:
 
     void setType(TileType type);
 
-	void setHighlight(bool isHighlighted);
+	void setHighlight(sf::Color color);
 
     TileType getType() const;
 
@@ -38,6 +38,7 @@ private:
 	bool m_buildEligible;
     TileType m_type;
     sf::Sprite m_sprite;
+	sf::RectangleShape m_highlight;
 };
 
 
