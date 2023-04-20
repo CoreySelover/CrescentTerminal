@@ -8,12 +8,19 @@
 
 // Crescent Terminal
 #include "Tile.h"
+
+enum BoardType {
+	BoardType_World,
+	BoardType_Interior,
+	BoardType_Count
+};
+
 class Building;
 enum BuildingType;
 
 class Board {
 public:
-    Board(int width, int height, TileType defaultTile = TileType_Dirt);
+    Board(int width, int height, BoardType type = BoardType_World, TileType defaultTile = TileType_Dirt);
 
     // Tiles
     Tile& getTile(int x, int y);
@@ -28,6 +35,7 @@ public:
     // Buildings
     void buildBuilding(BuildingType type, sf::Vector2f position);
     bool canBuildHere(sf::Vector2i footprint, sf::Vector2f mousepos) const;
+    std::shared_ptr<Board> getDoorDestination(sf::Vector2i position) const;
 
     // Drawing
     void drawBackground(sf::RenderWindow& window);
@@ -43,6 +51,7 @@ public:
 private:
     int m_width;
     int m_height;
+    BoardType m_type;
     std::vector<std::vector<Tile>> m_tiles;
     std::vector<std::shared_ptr<Building>> m_buildings;
 };

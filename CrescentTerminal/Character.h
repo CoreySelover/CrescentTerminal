@@ -6,9 +6,9 @@
 // Crescent Terminal
 #include "Entity.h"
 #include "Global.h"
-#include "Animation.h"
 
-#include "Board.h"
+class Board;
+class Animation;
 
 class Character :
     public Entity
@@ -20,8 +20,10 @@ public:
 	void update(float deltaTime);
 	bool isOnScreen(sf::RenderWindow& window);
 	void draw(sf::RenderWindow& window);
+	void setBoard(std::shared_ptr<Board> board);
 
 	// Movement
+	void checkForCollisions();
 	void setDirection(Direction direction) { m_direction = direction; }
 	Direction getDirection() { return m_direction; }
 	void movePosition(sf::Vector2f movement);

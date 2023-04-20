@@ -12,7 +12,6 @@ Entity::~Entity()
 
 void Entity::update(float deltaTime)
 {
-
 }
 
 void Entity::draw(sf::RenderWindow& window)

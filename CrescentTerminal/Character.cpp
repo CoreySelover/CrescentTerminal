@@ -1,6 +1,7 @@
 #include "Character.h"
 #include "Global.h"
 #include "Board.h"
+#include "Animation.h"
 
 #include <iostream>
 
@@ -55,6 +56,8 @@ void Character::update(float deltaTime)
 {
 	Entity::update(deltaTime);
 
+	checkForCollisions();
+
 	if (m_walking)
 	{
 		sf::Vector2f velocity(0.0f, 0.0f);
@@ -90,9 +93,10 @@ void Character::update(float deltaTime)
 	m_currentAnimation->setPosition(m_position);
 }
 
-
 bool Character::canWalk(sf::Vector2f velocity)
 {
+	if (m_board == nullptr) return false;
+
 	// Check top left corner
 	sf::Vector2i proposedTile1 = m_board->pixelsToTileCoords(sf::Vector2f(m_hitBox.left + velocity.x, m_hitBox.top + velocity.y));
 
@@ -154,6 +158,23 @@ void Character::draw(sf::RenderWindow& window)
 
 	if (DEBUG_DRAW) {
 		window.draw(m_hitBoxShape);
+	}
+}
+
+void Character::setBoard(std::shared_ptr<Board> board)
+{
+	m_board = board;
+}
+
+void Character::checkForCollisions() {
+
+	sf::Vector2i currentTile = Board::pixelsToTileCoords(m_position);
+
+	// Doors
+	if (m_board->getTile(currentTile).getType() == TileType_Door) {
+		// TODO - get character position once they're in the new room
+		setPosition(sf::Vector2f(TILE_SIZE, TILE_SIZE));
+		setBoard(m_board->getDoorDestination(currentTile));
 	}
 }
 

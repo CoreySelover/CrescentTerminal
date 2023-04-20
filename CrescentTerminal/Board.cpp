@@ -1,10 +1,13 @@
+#include <iostream>
+
 #include "Board.h"
 #include "Global.h"
 #include "Building.h"
 
-Board::Board(int width, int height, TileType defaultTile)
+Board::Board(int width, int height, BoardType type, TileType defaultTile)
     : m_width(width)
     , m_height(height)
+    , m_type(type)
     , m_tiles(width, std::vector<Tile>(height))
 {
     for (int x = 0; x < m_width; ++x) {
@@ -102,9 +105,10 @@ void Board::drawBackground(sf::RenderWindow& window)
 }
 
 void Board::buildBuilding(BuildingType type, sf::Vector2f position) {
-	m_buildings.push_back(std::make_shared<Building>(type));
+	m_buildings.push_back(std::make_shared<Building>(type, true));
     // Update tiles to reflect new building
     sf::Vector2i tileCoords = pixelsToTileCoords(position);
+    m_buildings.back()->setBoardPosition(tileCoords);
     for (int x = 0; x < m_buildings.back()->getFootprintSize().x; ++x) {
         for (int y = 0; y < m_buildings.back()->getFootprintSize().y; ++y) {
 			m_tiles[tileCoords.x + x][tileCoords.y + y].setType(m_buildings.back()->getTileType(sf::Vector2i(x, y)));
@@ -128,6 +132,16 @@ bool Board::canBuildHere(sf::Vector2i footprint, sf::Vector2f mousepos) const {
 		}
 	}
 	return true;
+}
+
+std::shared_ptr<Board> Board::getDoorDestination(sf::Vector2i position) const
+{
+    for (auto& building : m_buildings) {
+        if (building->hasDoorAt(position)) {
+			return building->getInterior();
+	    }
+	}
+	return nullptr;
 }
 
 sf::Vector2f Board::getBoardSize() const

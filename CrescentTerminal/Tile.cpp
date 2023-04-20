@@ -39,16 +39,18 @@ void Tile::setType(TileType type)
 		m_buildEligible = false;
 		break;
 	case TileType_Wall:
-		m_isObstacle = true;
 		m_sprite.setTextureRect(sf::IntRect(32, 0, TILE_SIZE, TILE_SIZE));
+		m_isObstacle = true;
 		m_buildEligible = false;
 		break;
 	case TileType_Floor:
+		m_sprite.setTextureRect(sf::IntRect(96, 0, TILE_SIZE, TILE_SIZE));
 		m_isObstacle = false;
 		m_buildEligible = false;
 		break;
 	case TileType_Door:
-		m_isObstacle = true;
+		m_sprite.setTextureRect(sf::IntRect(64, 0, TILE_SIZE, TILE_SIZE));
+		m_isObstacle = false;
 		m_buildEligible = false;
 		break;
 	case TileType_Stairs:

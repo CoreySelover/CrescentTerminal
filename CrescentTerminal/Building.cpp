@@ -1,14 +1,28 @@
+#include <iostream>
+
 #include "Building.h"
 #include "Tile.h"
+#include "Board.h"
 
-Building::Building(BuildingType type, bool hasInteriorMap) 
-	: m_hasInteriorMap(hasInteriorMap)
+Building::Building(BuildingType type, bool interior)
 {
 	setBuildingType(type);
+	if (interior) buildInterior();
 }
 
 Building::~Building()
 {
+}
+
+void Building::buildInterior() {
+	switch (m_type) {
+		case BuildingType_Base:
+			m_interior = std::make_shared<Board>(5, 5, BoardType_Interior, TileType_Floor);
+			std::cout << "Built interior" << std::endl;
+			break;
+		default:
+			break;
+	}
 }
 
 void Building::setBuildingType(BuildingType type)
@@ -27,12 +41,18 @@ void Building::setBuildingType(BuildingType type)
 					setTileType(sf::Vector2i(i, j), TileType_Wall);
 				}
 			}
+			setTileType(sf::Vector2i(2, 4), TileType_Door);
 			// Steel, plastic, glass
 			m_requirements = BuildingRequirements{ 50, 50, 100 };
 			break;
 		default:
 			break;
 	}
+}
+
+void Building::setBoardPosition(sf::Vector2i position)
+{
+	m_boardPosition = position;
 }
 
 void Building::resizeTiles()
@@ -51,6 +71,12 @@ std::vector<std::pair<std::string, int>> Building::getCost() const
 	cost.push_back(std::make_pair("plastic", m_requirements.m_plastic));
 	cost.push_back(std::make_pair("glass", m_requirements.m_glass));
 	return cost;
+}
+
+bool Building::hasDoorAt(sf::Vector2i position) const
+{
+	sf::Vector2i relativePosition = position - m_boardPosition;
+	return getTileType(relativePosition) == TileType_Door;
 }
 
 void Building::setTileType(sf::Vector2i position, TileType type)
