@@ -23,7 +23,6 @@ public:
 	void setBoard(std::shared_ptr<Board> board);
 
 	// Movement
-	void checkForCollisions();
 	void setDirection(Direction direction) { m_direction = direction; }
 	Direction getDirection() { return m_direction; }
 	void movePosition(sf::Vector2f movement);

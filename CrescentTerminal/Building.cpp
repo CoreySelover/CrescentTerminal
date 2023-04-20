@@ -17,8 +17,8 @@ Building::~Building()
 void Building::buildInterior() {
 	switch (m_type) {
 		case BuildingType_Base:
-			m_interior = std::make_shared<Board>(5, 5, BoardType_Interior, TileType_Floor);
-			std::cout << "Built interior" << std::endl;
+			m_interior = std::make_shared<Board>("test", 5, 5, BoardType_Interior, TileType_Floor);
+			m_interior->setStartPos(sf::Vector2i(3, 3));
 			break;
 		default:
 			break;

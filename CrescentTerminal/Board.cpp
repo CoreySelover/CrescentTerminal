@@ -4,10 +4,12 @@
 #include "Global.h"
 #include "Building.h"
 
-Board::Board(int width, int height, BoardType type, TileType defaultTile)
-    : m_width(width)
+Board::Board(std::string name, int width, int height, BoardType type, TileType defaultTile)
+    : m_name(name)
+    , m_width(width)
     , m_height(height)
     , m_type(type)
+    , m_startPos(sf::Vector2i(0, 0))
     , m_tiles(width, std::vector<Tile>(height))
 {
     for (int x = 0; x < m_width; ++x) {
@@ -134,14 +136,24 @@ bool Board::canBuildHere(sf::Vector2i footprint, sf::Vector2f mousepos) const {
 	return true;
 }
 
-std::shared_ptr<Board> Board::getDoorDestination(sf::Vector2i position) const
+std::string Board::getDoorDestinationName(sf::Vector2i position) const
 {
     for (auto& building : m_buildings) {
         if (building->hasDoorAt(position)) {
-			return building->getInterior();
+			return building->getInterior()->getName();
 	    }
 	}
-	return nullptr;
+    return "NOT_FOUND";
+}
+
+sf::Vector2i Board::getDoorDestinationStartPos(sf::Vector2i position) const
+{
+    for (auto& building : m_buildings) {
+        if (building->hasDoorAt(position)) {
+			return building->getInterior()->getStartPos(position);
+	    }
+	}
+	return sf::Vector2i(-1, -1);
 }
 
 sf::Vector2f Board::getBoardSize() const

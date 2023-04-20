@@ -135,6 +135,7 @@
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Board.cpp" />
+    <ClCompile Include="BoardManager.cpp" />
     <ClCompile Include="Building.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Character.cpp" />
@@ -150,6 +151,7 @@
   <ItemGroup>
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Board.h" />
+    <ClInclude Include="BoardManager.h" />
     <ClInclude Include="Building.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Character.h" />

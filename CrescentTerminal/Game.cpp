@@ -12,15 +12,18 @@ Game::Game(sf::RenderWindow& window) : m_window(window)
     m_screenType = Type::GameWorld;
 
     // Map
-    m_board = std::make_shared<Board>(50, 50);
+    m_boardManager = std::make_shared<BoardManager>();
+    m_boardManager->addBoard("World", std::make_shared<Board>("World", 50, 50));
+    m_currentBoard = m_boardManager->getBoard("World");
+    m_currentBoard->setStartPos(sf::Vector2i(0, 0));
 
     // Camera
     m_camera = std::make_shared<Camera>(window);
-    m_camera->setBoardSize(m_board->getBoardSize());
+    m_camera->setBoardSize(m_currentBoard->getBoardSize());
 
     // Entities
     m_entityManager = std::make_shared<EntityManager>();
-    m_entityManager->addEntity(std::make_shared<Character>("Player", m_board));
+    m_entityManager->addEntity(std::make_shared<Character>("Player", m_currentBoard));
     m_player = std::static_pointer_cast<Character>(m_entityManager->getEntity("Player"));
     
     // Build Mode
@@ -33,7 +36,8 @@ Game::Game(sf::RenderWindow& window) : m_window(window)
 Game::~Game()
 {
     m_camera = nullptr;
-    m_board = nullptr;
+    m_boardManager = nullptr;
+    m_currentBoard = nullptr;
     m_entityManager = nullptr;
     m_player = nullptr;
     m_inventory = nullptr;
@@ -140,8 +144,11 @@ void Game::handleInput(sf::Event event)
                 if (event.mouseButton.button == sf::Mouse::Left) {
 					sf::Vector2f mousePos = m_window.mapPixelToCoords(sf::Mouse::getPosition(m_window));
                     if (m_inventory->doWeHaveEnough(m_currentBuilding->getCost())
-                        && m_board->canBuildHere(m_currentBuilding->getFootprintSize(), mousePos)) {
-						m_board->buildBuilding(m_currentBuilding->getBuildingType(), mousePos);
+                        && m_currentBoard->canBuildHere(m_currentBuilding->getFootprintSize(), mousePos)) {
+                        m_currentBoard->buildBuilding(m_currentBuilding->getBuildingType(), mousePos);
+                        if (m_currentBoard->lastBuilding()->getInterior() != nullptr) {
+                            m_boardManager->addBoard(m_currentBoard->lastBuilding()->getInterior()->getName(), m_currentBoard->lastBuilding()->getInterior());
+                        }
 						m_inventory->removeResources(m_currentBuilding->getCost());
 					}
 				}
@@ -158,8 +165,12 @@ void Game::update(sf::Time deltaTime)
 	}
     else if (m_screenType == Type::GameWorld) {
         // Normal character movement
-        m_entityManager->update(deltaTime.asMilliseconds());
-        if (!m_buildMode) m_camera->setTarget(m_player->getPosition());
+        if (!m_buildMode) {
+            m_entityManager->update(deltaTime.asMilliseconds());
+            handleCollisions();
+            m_camera->setTarget(m_player->getPosition());
+        }
+
         m_camera->update(deltaTime);
 
         // Build mode
@@ -169,10 +180,31 @@ void Game::update(sf::Time deltaTime)
 
             // Highlight the tiles that the building will occupy
             bool canBuild = m_inventory->doWeHaveEnough(m_currentBuilding->getCost())
-                && m_board->canBuildHere(m_currentBuilding->getFootprintSize(), mousePos);
-            m_board->highlightTiles(m_currentBuilding->getFootprintSize(), mousePos, canBuild);
+                && m_currentBoard->canBuildHere(m_currentBuilding->getFootprintSize(), mousePos);
+            m_currentBoard->highlightTiles(m_currentBuilding->getFootprintSize(), mousePos, canBuild);
 		}
 	}
+}
+
+void Game::handleCollisions() {
+
+    sf::Vector2i currentTile = Board::pixelsToTileCoords(m_player->getPosition());
+
+    // Doors
+    if (m_currentBoard->getTile(currentTile).getType() == TileType_Door) {
+        std::string newBoardName = m_currentBoard->getDoorDestinationName(currentTile);
+        sf::Vector2i newBoardStartPos = m_currentBoard->getDoorDestinationStartPos(currentTile);
+        
+        std::shared_ptr<Board> newBoard = m_boardManager->getBoard(newBoardName);
+        if (newBoard == nullptr) {
+			throw std::runtime_error("Board " + newBoardName + " does not exist");
+		}
+
+        m_player->setBoard(newBoard);
+        m_player->setPosition(Board::tileCoordsToPixels(newBoardStartPos));
+        m_currentBoard = newBoard;
+        m_camera->setBoardSize(m_currentBoard->getBoardSize());
+    }
 }
 
 void Game::draw()
@@ -184,7 +216,7 @@ void Game::draw()
     }
     else if (m_screenType == Type::GameWorld) {
         // Draw game world
-        m_board->drawBackground(m_window);
+        m_currentBoard->drawBackground(m_window);
         m_entityManager->drawEntities(m_window);
         //board.drawForeground(m_window);
     }
@@ -202,7 +234,7 @@ void Game::activateBuildMode()
 void Game::deactivateBuildMode()
 {
 	m_buildMode = false;
-    m_board->clearHighlights();
+    m_currentBoard->clearHighlights();
 
     m_camera->zoom(0.625f);
 }

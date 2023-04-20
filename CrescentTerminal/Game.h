@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 
 #include "Camera.h"
+#include "BoardManager.h"
 #include "Board.h"
 #include "EntityManager.h"
 #include "Character.h"
@@ -25,6 +26,8 @@ public:
     void handleInput(sf::Event event);
 
     void update(sf::Time deltaTime);
+    
+    void handleCollisions();
 
     void draw();
 
@@ -37,8 +40,8 @@ private:
     Type m_screenType;
 
     std::shared_ptr<Camera> m_camera;
-    // TODO - handle several boards
-    std::shared_ptr<Board> m_board;
+    std::shared_ptr<BoardManager> m_boardManager;
+    std::shared_ptr<Board> m_currentBoard;
     std::shared_ptr<EntityManager> m_entityManager;
     std::shared_ptr<Character> m_player;
     std::shared_ptr<Inventory> m_inventory;
