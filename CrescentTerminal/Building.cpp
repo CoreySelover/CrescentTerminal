@@ -17,7 +17,7 @@ Building::~Building()
 void Building::buildInterior() {
 	switch (m_type) {
 		case BuildingType_Base:
-			m_interior = std::make_shared<Board>("test", 5, 5, BoardType_Interior, TileType_Floor);
+			m_interior = std::make_shared<Board>(m_name + "_interior", 5, 5, BoardType_Interior, TileType_Floor);
 			m_interior->setStartPos(sf::Vector2i(3, 3));
 			break;
 		default:
@@ -28,6 +28,10 @@ void Building::buildInterior() {
 void Building::setBuildingType(BuildingType type)
 {
 	m_type = type;
+	static const std::string buildingNames[] = { "Base", "Greenhouse", "Shed" };
+	static int buildingCounts[] = {0, 0, 0};
+	m_name = buildingNames[type] + std::to_string(buildingCounts[type]++);
+
 	// TODO - should this be hardcoded or read from a file?
 	switch (type)
 	{

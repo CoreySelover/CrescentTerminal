@@ -140,19 +140,26 @@ void Game::handleInput(sf::Event event)
         }
         if (event.type == sf::Event::MouseButtonPressed)
         {
+            // Commenting because this is hard to read
             if (m_buildMode) {
                 if (event.mouseButton.button == sf::Mouse::Left) {
 					sf::Vector2f mousePos = m_window.mapPixelToCoords(sf::Mouse::getPosition(m_window));
 
+                    // Check if we meet the requirements to build
+                    // and if the proposed tiles are valid
                     if (m_inventory->doWeHaveEnough(m_currentBuilding->getCost())
                         && m_currentBoard->canBuildHere(m_currentBuilding->getFootprintSize(), mousePos)) 
                     {
+                        // Build the building
                         m_currentBoard->buildBuilding(m_currentBuilding->getBuildingType(), mousePos);
 
+                        // If the building has an interior, add it to the board manager
                         if (m_currentBoard->lastBuilding()->getInterior() != nullptr) 
                         {
                             m_boardManager->addBoard(m_currentBoard->lastBuilding()->getInterior    ()->getName(), m_currentBoard->lastBuilding()->getInterior());
                         }
+
+                        // Remove the resources from the inventory
 						m_inventory->removeResources(m_currentBuilding->getCost());
 					}
 				}

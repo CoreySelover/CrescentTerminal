@@ -47,6 +47,7 @@ public:
 private:
 	void setTileType(sf::Vector2i position, TileType type);
 
+	std::string m_name;
 	BuildingType m_type;
 	sf::Vector2i m_boardPosition;
 	BuildingRequirements m_requirements;
