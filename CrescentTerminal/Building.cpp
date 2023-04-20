@@ -4,10 +4,11 @@
 #include "Tile.h"
 #include "Board.h"
 
-Building::Building(BuildingType type, std::string ownerName, bool interior)
+Building::Building(BuildingType type, std::string ownerName, sf::Vector2i tileCoords, bool interior)
 	: m_ownerName(ownerName)
 {
 	setBuildingType(type);
+	setBoardPosition(tileCoords);
 	if (interior) buildInterior();
 }
 

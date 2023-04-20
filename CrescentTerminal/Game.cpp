@@ -26,7 +26,7 @@ Game::Game(sf::RenderWindow& window) : m_window(window)
     m_player = std::static_pointer_cast<Character>(m_entityManager->getEntity("Player"));
     
     // Build Mode
-    m_currentBuilding = std::make_shared<Building>(BuildingType::BuildingType_Base, m_currentBoard->getName(), false);
+    m_currentBuilding = std::make_shared<Building>(BuildingType::BuildingType_Base, m_currentBoard->getName());
 
     // Inventory
     m_inventory = std::make_shared<Inventory>();

@@ -123,10 +123,9 @@ void Board::drawBackground(sf::RenderWindow& window)
 }
 
 void Board::buildBuilding(BuildingType type, sf::Vector2f position) {
-	m_buildings.push_back(std::make_shared<Building>(type, m_name, true));
     sf::Vector2i tileCoords = pixelsToTileCoords(position);
+	m_buildings.push_back(std::make_shared<Building>(type, m_name, tileCoords, true));
     std::shared_ptr<Building> newBuilding = m_buildings.back();
-    newBuilding->setBoardPosition(tileCoords);
 
     // Update tiles to reflect new building
     for (int x = 0; x < newBuilding->getFootprintSize().x; ++x) {

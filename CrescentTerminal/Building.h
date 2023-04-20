@@ -25,7 +25,7 @@ class Board;
 class Building
 {
 public:
-	Building(BuildingType type, std::string ownerName, bool interior = false);
+	Building(BuildingType type, std::string ownerName, sf::Vector2i tileCoords = sf::Vector2i(), bool interior = false);
 	~Building();
 
 	// Building actions
