@@ -25,10 +25,12 @@ public:
     // Tiles
     Tile& getTile(int x, int y);
     Tile& getTile(sf::Vector2i tilePosition);
+
     bool isTileObstacle(int x, int y) const;
     bool isTileInBounds(int x, int y) const;
     bool isTileOnScreen(int x, int y, sf::RenderWindow& window) const;
     bool isTileBuildEligible(int x, int y) const;
+
     void highlightTiles(sf::Vector2i footprint, sf::Vector2f mousePos, bool canBuild);
     void clearHighlights();
 
@@ -36,8 +38,10 @@ public:
     void buildBuilding(BuildingType type, sf::Vector2f position);
     bool canBuildHere(sf::Vector2i footprint, sf::Vector2f mousepos) const;
     std::shared_ptr<Building> lastBuilding() const { return m_buildings.back(); }
+
     std::string getDoorDestinationName(sf::Vector2i position) const;
     sf::Vector2i getDoorDestinationStartPos(sf::Vector2i position) const;
+
     void setStartPos(sf::Vector2i position) { m_startPos = position; }
     // TODO - handle multiple possible starting positions
     sf::Vector2i getStartPos(sf::Vector2i comingFrom) const { return m_startPos; }

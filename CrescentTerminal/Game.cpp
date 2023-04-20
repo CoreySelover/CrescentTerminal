@@ -143,11 +143,15 @@ void Game::handleInput(sf::Event event)
             if (m_buildMode) {
                 if (event.mouseButton.button == sf::Mouse::Left) {
 					sf::Vector2f mousePos = m_window.mapPixelToCoords(sf::Mouse::getPosition(m_window));
+
                     if (m_inventory->doWeHaveEnough(m_currentBuilding->getCost())
-                        && m_currentBoard->canBuildHere(m_currentBuilding->getFootprintSize(), mousePos)) {
+                        && m_currentBoard->canBuildHere(m_currentBuilding->getFootprintSize(), mousePos)) 
+                    {
                         m_currentBoard->buildBuilding(m_currentBuilding->getBuildingType(), mousePos);
-                        if (m_currentBoard->lastBuilding()->getInterior() != nullptr) {
-                            m_boardManager->addBoard(m_currentBoard->lastBuilding()->getInterior()->getName(), m_currentBoard->lastBuilding()->getInterior());
+
+                        if (m_currentBoard->lastBuilding()->getInterior() != nullptr) 
+                        {
+                            m_boardManager->addBoard(m_currentBoard->lastBuilding()->getInterior    ()->getName(), m_currentBoard->lastBuilding()->getInterior());
                         }
 						m_inventory->removeResources(m_currentBuilding->getCost());
 					}
@@ -189,6 +193,7 @@ void Game::update(sf::Time deltaTime)
 void Game::handleCollisions() {
 
     sf::Vector2i currentTile = Board::pixelsToTileCoords(m_player->getPosition());
+    if (!m_currentBoard->isTileInBounds(currentTile.x, currentTile.y)) return;
 
     // Doors
     if (m_currentBoard->getTile(currentTile).getType() == TileType_Door) {
