@@ -34,10 +34,16 @@ void Camera::update(sf::Time dt)
 
 void Camera::setTarget(sf::Vector2f target)
 {
-	m_target = sf::Vector2f(std::max(target.x, m_view.getSize().x / 2), 
-        std::max(target.y, m_view.getSize().y / 2));
-    m_target = sf::Vector2f(std::min(m_target.x, m_boardSize.x - m_view.getSize().x / 2),
-        std::min(m_target.y, m_boardSize.y - m_view.getSize().y / 2));
+	if (m_boardSize.x < m_view.getSize().x || m_boardSize.y < m_view.getSize().y) {
+		m_target = sf::Vector2f(m_boardSize.x / 2, m_boardSize.y / 2);
+		return;
+	}
+	else {
+		m_target = sf::Vector2f(std::max(target.x, m_view.getSize().x / 2),
+			std::max(target.y, m_view.getSize().y / 2));
+		m_target = sf::Vector2f(std::min(m_target.x, m_boardSize.x - m_view.getSize().x / 2),
+			std::min(m_target.y, m_boardSize.y - m_view.getSize().y / 2));
+	}
 }
 
 void Camera::pan(Direction direction) {
