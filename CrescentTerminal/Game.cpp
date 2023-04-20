@@ -15,7 +15,6 @@ Game::Game(sf::RenderWindow& window) : m_window(window)
     m_boardManager = std::make_shared<BoardManager>();
     m_boardManager->addBoard("World", std::make_shared<Board>("World", 50, 50));
     m_currentBoard = m_boardManager->getBoard("World");
-    m_currentBoard->setStartPos(sf::Vector2i(0, 0));
 
     // Camera
     m_camera = std::make_shared<Camera>(window);
@@ -27,7 +26,7 @@ Game::Game(sf::RenderWindow& window) : m_window(window)
     m_player = std::static_pointer_cast<Character>(m_entityManager->getEntity("Player"));
     
     // Build Mode
-    m_currentBuilding = std::make_shared<Building>(BuildingType::BuildingType_Base, false);
+    m_currentBuilding = std::make_shared<Building>(BuildingType::BuildingType_Base, m_currentBoard->getName(), false);
 
     // Inventory
     m_inventory = std::make_shared<Inventory>();
@@ -35,12 +34,6 @@ Game::Game(sf::RenderWindow& window) : m_window(window)
 
 Game::~Game()
 {
-    m_camera = nullptr;
-    m_boardManager = nullptr;
-    m_currentBoard = nullptr;
-    m_entityManager = nullptr;
-    m_player = nullptr;
-    m_inventory = nullptr;
 }
 
 void Game::setScreenType(Type type) 

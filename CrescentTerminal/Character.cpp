@@ -49,7 +49,6 @@ Character::Character(std::string name, std::shared_ptr<Board> board) : Entity(na
 Character::~Character()
 {
 	m_animations.clear();
-	m_currentAnimation = nullptr;
 }
 
 void Character::update(float deltaTime)

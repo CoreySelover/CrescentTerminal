@@ -9,7 +9,6 @@ Board::Board(std::string name, int width, int height, BoardType type, TileType d
     , m_width(width)
     , m_height(height)
     , m_type(type)
-    , m_startPos(sf::Vector2i(0, 0))
     , m_tiles(width, std::vector<Tile>(height))
 {
     for (int x = 0; x < m_width; ++x) {
@@ -17,6 +16,23 @@ Board::Board(std::string name, int width, int height, BoardType type, TileType d
             m_tiles[x][y].setType(defaultTile);
         }
     }
+    
+    // resize m_doors
+    m_doors.resize(m_width);
+    for (int x = 0; x < m_width; ++x) {
+		m_doors[x].resize(m_height);
+	}
+}
+
+Board::~Board()
+{
+    m_doors.clear();
+    m_tiles.clear();
+}
+
+void Board::clearBuildings()
+{
+	m_buildings.clear();
 }
 
 Tile& Board::getTile(int x, int y)
@@ -107,13 +123,19 @@ void Board::drawBackground(sf::RenderWindow& window)
 }
 
 void Board::buildBuilding(BuildingType type, sf::Vector2f position) {
-	m_buildings.push_back(std::make_shared<Building>(type, true));
-    // Update tiles to reflect new building
+	m_buildings.push_back(std::make_shared<Building>(type, m_name, true));
     sf::Vector2i tileCoords = pixelsToTileCoords(position);
-    m_buildings.back()->setBoardPosition(tileCoords);
-    for (int x = 0; x < m_buildings.back()->getFootprintSize().x; ++x) {
-        for (int y = 0; y < m_buildings.back()->getFootprintSize().y; ++y) {
-			m_tiles[tileCoords.x + x][tileCoords.y + y].setType(m_buildings.back()->getTileType(sf::Vector2i(x, y)));
+    std::shared_ptr<Building> newBuilding = m_buildings.back();
+    newBuilding->setBoardPosition(tileCoords);
+
+    // Update tiles to reflect new building
+    for (int x = 0; x < newBuilding->getFootprintSize().x; ++x) {
+        for (int y = 0; y < newBuilding->getFootprintSize().y; ++y) {
+			m_tiles[tileCoords.x + x][tileCoords.y + y].setType(newBuilding->getTileType(sf::Vector2i(x, y)));
+            // Add a door if the tile is a door
+            if (newBuilding->getTileType(sf::Vector2i(x, y)) == TileType_Door) {
+                m_doors[tileCoords.x + x][tileCoords.y + y] = Door({ newBuilding->getInterior()->getName(), sf::Vector2i(2,2) });
+			}
 		}
 	}
 }
@@ -136,22 +158,23 @@ bool Board::canBuildHere(sf::Vector2i footprint, sf::Vector2f mousepos) const {
 	return true;
 }
 
+void Board::addDoor(sf::Vector2i position, std::string destinationName, sf::Vector2i destinationPosition)
+{
+	m_doors[position.x][position.y] = Door({ destinationName, destinationPosition });
+}
+
 std::string Board::getDoorDestinationName(sf::Vector2i position) const
 {
-    for (auto& building : m_buildings) {
-        if (building->hasDoorAt(position)) {
-			return building->getInterior()->getName();
-	    }
-	}
+    if (m_doors[position.x][position.y].destinationName != "") {
+		return m_doors[position.x][position.y].destinationName;
+    }
     return "NOT_FOUND";
 }
 
 sf::Vector2i Board::getDoorDestinationStartPos(sf::Vector2i position) const
 {
-    for (auto& building : m_buildings) {
-        if (building->hasDoorAt(position)) {
-			return building->getInterior()->getStartPos(position);
-	    }
+    if (m_doors[position.x][position.y].destinationName != "") {
+		return m_doors[position.x][position.y].destinationPosition;
 	}
 	return sf::Vector2i(-1, -1);
 }

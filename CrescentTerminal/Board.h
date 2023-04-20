@@ -15,12 +15,19 @@ enum BoardType {
 	BoardType_Count
 };
 
+struct Door {
+    std::string destinationName;
+    sf::Vector2i destinationPosition;
+};
+
 class Building;
 enum BuildingType;
 
 class Board {
 public:
     Board(std::string name, int width, int height, BoardType type = BoardType_World, TileType defaultTile = TileType_Dirt);
+    ~Board();
+    void clearBuildings();
 
     // Tiles
     Tile& getTile(int x, int y);
@@ -39,12 +46,10 @@ public:
     bool canBuildHere(sf::Vector2i footprint, sf::Vector2f mousepos) const;
     std::shared_ptr<Building> lastBuilding() const { return m_buildings.back(); }
 
+    // Doors
+    void addDoor(sf::Vector2i position, std::string destinationName, sf::Vector2i destinationPosition);
     std::string getDoorDestinationName(sf::Vector2i position) const;
     sf::Vector2i getDoorDestinationStartPos(sf::Vector2i position) const;
-
-    void setStartPos(sf::Vector2i position) { m_startPos = position; }
-    // TODO - handle multiple possible starting positions
-    sf::Vector2i getStartPos(sf::Vector2i comingFrom) const { return m_startPos; }
 
     // Drawing
     void drawBackground(sf::RenderWindow& window);
@@ -63,10 +68,9 @@ private:
     int m_width;
     int m_height;
     BoardType m_type;
-    // TODO - handle multiple possible starting positions
-    sf::Vector2i m_startPos;
     std::vector<std::vector<Tile>> m_tiles;
     std::vector<std::shared_ptr<Building>> m_buildings;
+    std::vector<std::vector<Door>> m_doors;
 };
 
 

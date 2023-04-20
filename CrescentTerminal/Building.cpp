@@ -4,7 +4,8 @@
 #include "Tile.h"
 #include "Board.h"
 
-Building::Building(BuildingType type, bool interior)
+Building::Building(BuildingType type, std::string ownerName, bool interior)
+	: m_ownerName(ownerName)
 {
 	setBuildingType(type);
 	if (interior) buildInterior();
@@ -18,7 +19,8 @@ void Building::buildInterior() {
 	switch (m_type) {
 		case BuildingType_Base:
 			m_interior = std::make_shared<Board>(m_name + "_interior", 5, 5, BoardType_Interior, TileType_Floor);
-			m_interior->setStartPos(sf::Vector2i(3, 3));
+			m_interior->getTile(2, 4).setType(TileType_Door);
+			m_interior->addDoor(sf::Vector2i(2, 4), m_ownerName, m_boardPosition + sf::Vector2i(2, 5));
 			break;
 		default:
 			break;
@@ -75,12 +77,6 @@ std::vector<std::pair<std::string, int>> Building::getCost() const
 	cost.push_back(std::make_pair("plastic", m_requirements.m_plastic));
 	cost.push_back(std::make_pair("glass", m_requirements.m_glass));
 	return cost;
-}
-
-bool Building::hasDoorAt(sf::Vector2i position) const
-{
-	sf::Vector2i relativePosition = position - m_boardPosition;
-	return getTileType(relativePosition) == TileType_Door;
 }
 
 void Building::setTileType(sf::Vector2i position, TileType type)

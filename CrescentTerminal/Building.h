@@ -25,7 +25,7 @@ class Board;
 class Building
 {
 public:
-	Building(BuildingType type, bool interior = false);
+	Building(BuildingType type, std::string ownerName, bool interior = false);
 	~Building();
 
 	// Building actions
@@ -39,7 +39,6 @@ public:
 	sf::Vector2i getFootprintSize() const { return m_footprintSize; }
 		void resizeTiles();
 	std::vector<std::pair<std::string, int>> getCost() const;
-	bool hasDoorAt(sf::Vector2i position) const;
 
 	// Tile properties
 	TileType getTileType(sf::Vector2i position) const;
@@ -47,6 +46,7 @@ public:
 private:
 	void setTileType(sf::Vector2i position, TileType type);
 
+	std::string m_ownerName;
 	std::string m_name;
 	BuildingType m_type;
 	sf::Vector2i m_boardPosition;
