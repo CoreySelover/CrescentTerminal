@@ -2,6 +2,9 @@
 
 #include <string>
 
+// Meta
+sf::Clock GAME_CLOCK;
+
 // UI
 bool USER_HAS_CONTROL = true;
 bool DEBUG_DRAW = false;

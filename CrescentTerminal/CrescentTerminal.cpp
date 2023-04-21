@@ -15,10 +15,8 @@ int main()
     window.setFramerateLimit(60);
     Game game(window);
 
-    sf::Clock clock;
-
     while (window.isOpen()) {
-        sf::Time deltaTime = clock.restart();
+        sf::Time deltaTime = GAME_CLOCK.restart();
 
         sf::Event event;
         while (window.pollEvent(event)) {

@@ -64,10 +64,11 @@ void Game::handleInput(sf::Event event)
 		}
     }
     else if (m_screenType == Type::GameWorld) {
+        if (!USER_HAS_CONTROL) return;
         if (event.type == sf::Event::KeyPressed)
         {
             // Normal character movement
-            if (USER_HAS_CONTROL && !m_buildMode) {
+            if (!m_buildMode) {
                 switch (event.key.code) {
                 case sf::Keyboard::W:
                     m_player->walk(Direction::UP);
@@ -207,13 +208,18 @@ void Game::handleCollisions() {
 			throw std::runtime_error("Board " + newBoardName + " does not exist");
 		}
 
+        USER_HAS_CONTROL = false;
         fadeOut();
+
         m_player->setBoard(newBoard);
         m_camera->setBoardSize(newBoard->getBoardSize());
         m_player->setPosition(Board::tileCoordsToPixels(newBoardStartPos));
         m_camera->setPosition(m_player->getPosition());
         m_currentBoard = newBoard;
+
         fadeIn();
+        GAME_CLOCK.restart();
+        USER_HAS_CONTROL = true;
     }
 }
 

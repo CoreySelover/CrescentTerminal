@@ -2,6 +2,11 @@
 
 #include <string>
 
+#include <SFML/Graphics.hpp>
+
+// Meta
+extern sf::Clock GAME_CLOCK;
+
 // UI
 extern bool USER_HAS_CONTROL;
 extern bool DEBUG_DRAW;

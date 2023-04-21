@@ -180,6 +180,7 @@ void Character::setPosition(sf::Vector2f position)
 	m_hitBoxShape.setPosition(m_hitBox.left, m_hitBox.top);
 	m_currentAnimation->setPosition(m_position);
 }
+
 void Character::walk(Direction direction)
 {
 	setDirection(direction);
