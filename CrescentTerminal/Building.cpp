@@ -16,18 +16,6 @@ Building::~Building()
 {
 }
 
-void Building::buildInterior() {
-	switch (m_type) {
-		case BuildingType_Base:
-			m_interior = std::make_shared<Board>(m_name + "_interior", 5, 5, BoardType_Interior, TileType_Floor);
-			m_interior->getTile(2, 4).setType(TileType_Door);
-			m_interior->addDoor(sf::Vector2i(2, 4), m_ownerName, m_boardPosition + sf::Vector2i(2, 5));
-			break;
-		default:
-			break;
-	}
-}
-
 void Building::setBuildingType(BuildingType type)
 {
 	m_type = type;
@@ -51,9 +39,23 @@ void Building::setBuildingType(BuildingType type)
 			setTileType(sf::Vector2i(2, 4), TileType_Door);
 			// Steel, plastic, glass
 			m_requirements = BuildingRequirements{ 50, 50, 100 };
+			m_buildBuffer = 1;
 			break;
 		default:
+			m_buildBuffer = 0;
 			break;
+	}
+}
+
+void Building::buildInterior() {
+	switch (m_type) {
+	case BuildingType_Base:
+		m_interior = std::make_shared<Board>(m_name + "_interior", 5, 5, BoardType_Interior, TileType_Floor);
+		m_interior->getTile(2, 4).setType(TileType_Door);
+		m_interior->addDoor(sf::Vector2i(2, 4), m_ownerName, m_boardPosition + sf::Vector2i(2, 5));
+		break;
+	default:
+		break;
 	}
 }
 

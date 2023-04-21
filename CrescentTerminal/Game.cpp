@@ -143,7 +143,7 @@ void Game::handleInput(sf::Event event)
                     // Check if we meet the requirements to build
                     // and if the proposed tiles are valid
                     if (m_inventory->doWeHaveEnough(m_currentBuilding->getCost())
-                        && m_currentBoard->canBuildHere(m_currentBuilding->getFootprintSize(), mousePos)) 
+                        && m_currentBoard->canBuildHere(m_currentBuilding->getFootprintSize(), mousePos, m_currentBuilding->getBuildBuffer()))
                     {
                         // Build the building
                         m_currentBoard->buildBuilding(m_currentBuilding->getBuildingType(), mousePos);
@@ -186,7 +186,7 @@ void Game::update(sf::Time deltaTime)
 
             // Highlight the tiles that the building will occupy
             bool canBuild = m_inventory->doWeHaveEnough(m_currentBuilding->getCost())
-                && m_currentBoard->canBuildHere(m_currentBuilding->getFootprintSize(), mousePos);
+                && m_currentBoard->canBuildHere(m_currentBuilding->getFootprintSize(), mousePos, m_currentBuilding->getBuildBuffer());
             m_currentBoard->highlightTiles(m_currentBuilding->getFootprintSize(), mousePos, canBuild);
 		}
 	}

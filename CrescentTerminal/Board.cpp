@@ -139,10 +139,10 @@ void Board::buildBuilding(BuildingType type, sf::Vector2f position) {
 	}
 }
 
-bool Board::canBuildHere(sf::Vector2i footprint, sf::Vector2f mousepos) const {
-    sf::Vector2i tileCoords = pixelsToTileCoords(mousepos);
-    for (int x = 0; x < footprint.x; ++x) {
-        for (int y = 0; y < footprint.y; ++y) {
+bool Board::canBuildHere(sf::Vector2i footprint, sf::Vector2f mousepos, int buffer) const {
+    sf::Vector2i tileCoords = pixelsToTileCoords(mousepos);\
+    for (int x = -buffer; x < footprint.x + buffer; ++x) {
+        for (int y = -buffer; y < footprint.y + buffer; ++y) {
             if (!isTileInBounds(tileCoords.x + x, tileCoords.y + y)) {
 				return false;
 			}

@@ -43,7 +43,7 @@ public:
 
     // Buildings
     void buildBuilding(BuildingType type, sf::Vector2f position);
-    bool canBuildHere(sf::Vector2i footprint, sf::Vector2f mousepos) const;
+    bool canBuildHere(sf::Vector2i footprint, sf::Vector2f mousepos, int buffer = 0) const;
     std::shared_ptr<Building> lastBuilding() const { return m_buildings.back(); }
 
     // Doors

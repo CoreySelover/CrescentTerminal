@@ -38,6 +38,7 @@ public:
 	BuildingType getBuildingType() const { return m_type; }
 	sf::Vector2i getFootprintSize() const { return m_footprintSize; }
 		void resizeTiles();
+	int getBuildBuffer() const { return m_buildBuffer; }
 	std::vector<std::pair<std::string, int>> getCost() const;
 
 	// Tile properties
@@ -52,6 +53,7 @@ private:
 	sf::Vector2i m_boardPosition;
 	BuildingRequirements m_requirements;
 	sf::Vector2i m_footprintSize;
+	int m_buildBuffer;
 	std::vector<std::vector <TileType> > m_tilesAsTypes;
 
 	// Interior
