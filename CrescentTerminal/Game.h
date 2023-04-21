@@ -29,6 +29,10 @@ public:
     
     void handleCollisions();
 
+    void fadeIn(float duration = 1.0f);
+
+    void fadeOut(float duration = 1.0f);
+
     void draw();
 
     void activateBuildMode();

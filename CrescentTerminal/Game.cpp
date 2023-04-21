@@ -205,10 +205,38 @@ void Game::handleCollisions() {
 			throw std::runtime_error("Board " + newBoardName + " does not exist");
 		}
 
+        fadeOut();
         m_player->setBoard(newBoard);
         m_player->setPosition(Board::tileCoordsToPixels(newBoardStartPos));
         m_currentBoard = newBoard;
         m_camera->setBoardSize(m_currentBoard->getBoardSize());
+        m_camera->setPosition(m_player->getPosition());
+    }
+}
+
+void Game::fadeOut(float duration) {
+    sf::RectangleShape fadeRect;
+	fadeRect.setSize(sf::Vector2f(m_window.getSize()));
+	fadeRect.setFillColor(sf::Color::Black);
+	sf::Clock clock;
+    while (clock.getElapsedTime().asSeconds() < duration) {
+		float alpha = 255 * (clock.getElapsedTime().asSeconds() / duration);
+		fadeRect.setFillColor(sf::Color(0, 0, 0, alpha));
+		m_window.draw(fadeRect);
+		m_window.display();
+	}
+}
+
+void Game::fadeIn(float duration) {
+    sf::RectangleShape fadeRect;
+	fadeRect.setSize(sf::Vector2f(m_window.getSize()));
+	fadeRect.setFillColor(sf::Color::Black);
+	sf::Clock clock;
+	while (clock.getElapsedTime().asSeconds() < duration) {
+        float alpha = 255 * (1 - clock.getElapsedTime().asSeconds() / duration);
+    	fadeRect.setFillColor(sf::Color(0, 0, 0, alpha));
+        m_window.draw(fadeRect);
+        m_window.display();
     }
 }
 

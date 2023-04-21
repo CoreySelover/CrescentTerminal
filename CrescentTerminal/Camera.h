@@ -16,6 +16,8 @@ public:
 
     void setTarget(sf::Vector2f target);
 
+    void setPosition(sf::Vector2f position);
+
     void pan(Direction direction);
 
     void zoom(float zoom);

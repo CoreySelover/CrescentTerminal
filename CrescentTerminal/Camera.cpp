@@ -46,6 +46,12 @@ void Camera::setTarget(sf::Vector2f target)
 	}
 }
 
+void Camera::setPosition(sf::Vector2f position)
+{
+	setTarget(position);
+	m_view.setCenter(m_target);
+}
+
 void Camera::pan(Direction direction) {
     switch (direction)
     {
