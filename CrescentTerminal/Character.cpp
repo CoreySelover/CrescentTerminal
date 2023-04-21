@@ -166,8 +166,20 @@ void Character::setBoard(std::shared_ptr<Board> board)
 void Character::movePosition(sf::Vector2f movement)
 {
 	m_position += movement;
+	m_hitBox.left = m_position.x;
+	m_hitBox.top = m_position.y + m_currentAnimation->getSize().y - m_hitBox.height;
+	m_hitBoxShape.setPosition(m_hitBox.left, m_hitBox.top);
+	m_currentAnimation->setPosition(m_position);
 }
 
+void Character::setPosition(sf::Vector2f position)
+{
+	Entity::setPosition(position);
+	m_hitBox.left = m_position.x;
+	m_hitBox.top = m_position.y + m_currentAnimation->getSize().y - m_hitBox.height;
+	m_hitBoxShape.setPosition(m_hitBox.left, m_hitBox.top);
+	m_currentAnimation->setPosition(m_position);
+}
 void Character::walk(Direction direction)
 {
 	setDirection(direction);

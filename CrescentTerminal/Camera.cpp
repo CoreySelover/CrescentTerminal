@@ -50,6 +50,7 @@ void Camera::setPosition(sf::Vector2f position)
 {
 	setTarget(position);
 	m_view.setCenter(m_target);
+	m_window.setView(m_view);
 }
 
 void Camera::pan(Direction direction) {

@@ -35,6 +35,8 @@ public:
 
     void draw();
 
+    void drawEntities();
+
     void activateBuildMode();
 
     void deactivateBuildMode();
@@ -42,6 +44,7 @@ public:
 private:
     sf::RenderWindow& m_window;
     Type m_screenType;
+    sf::RectangleShape m_fadeRect;
 
     std::shared_ptr<Camera> m_camera;
     std::shared_ptr<BoardManager> m_boardManager;

@@ -18,7 +18,7 @@ public:
 	// Getters and Setters
 	std::string getName();
 	sf::Vector2f getPosition();
-	void setPosition(sf::Vector2f position);
+	virtual void setPosition(sf::Vector2f position);
 	virtual bool isOnScreen(sf::RenderWindow& window);
 
 protected:

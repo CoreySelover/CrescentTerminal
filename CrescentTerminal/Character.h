@@ -26,6 +26,7 @@ public:
 	void setDirection(Direction direction) { m_direction = direction; }
 	Direction getDirection() { return m_direction; }
 	void movePosition(sf::Vector2f movement);
+	void setPosition(sf::Vector2f position);
 	void walk(Direction direction);
 	void stopWalking(Direction direction);
 	void stopCompletely();

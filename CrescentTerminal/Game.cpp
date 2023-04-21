@@ -19,6 +19,8 @@ Game::Game(sf::RenderWindow& window) : m_window(window)
     // Camera
     m_camera = std::make_shared<Camera>(window);
     m_camera->setBoardSize(m_currentBoard->getBoardSize());
+    m_fadeRect.setSize(sf::Vector2f(m_window.getSize()));
+    m_fadeRect.setFillColor(sf::Color::Black);
 
     // Entities
     m_entityManager = std::make_shared<EntityManager>();
@@ -207,35 +209,32 @@ void Game::handleCollisions() {
 
         fadeOut();
         m_player->setBoard(newBoard);
+        m_camera->setBoardSize(newBoard->getBoardSize());
         m_player->setPosition(Board::tileCoordsToPixels(newBoardStartPos));
-        m_currentBoard = newBoard;
-        m_camera->setBoardSize(m_currentBoard->getBoardSize());
         m_camera->setPosition(m_player->getPosition());
+        m_currentBoard = newBoard;
+        fadeIn();
     }
 }
 
 void Game::fadeOut(float duration) {
-    sf::RectangleShape fadeRect;
-	fadeRect.setSize(sf::Vector2f(m_window.getSize()));
-	fadeRect.setFillColor(sf::Color::Black);
-	sf::Clock clock;
+    sf::Clock clock;
     while (clock.getElapsedTime().asSeconds() < duration) {
-		float alpha = 255 * (clock.getElapsedTime().asSeconds() / duration);
-		fadeRect.setFillColor(sf::Color(0, 0, 0, alpha));
-		m_window.draw(fadeRect);
+        m_window.clear();
+        m_fadeRect.setFillColor(sf::Color(0, 0, 0, 255 * (clock.getElapsedTime().asSeconds() / duration)));
+        drawEntities();
+        m_window.draw(m_fadeRect);
 		m_window.display();
 	}
 }
 
 void Game::fadeIn(float duration) {
-    sf::RectangleShape fadeRect;
-	fadeRect.setSize(sf::Vector2f(m_window.getSize()));
-	fadeRect.setFillColor(sf::Color::Black);
-	sf::Clock clock;
-	while (clock.getElapsedTime().asSeconds() < duration) {
-        float alpha = 255 * (1 - clock.getElapsedTime().asSeconds() / duration);
-    	fadeRect.setFillColor(sf::Color(0, 0, 0, alpha));
-        m_window.draw(fadeRect);
+    sf::Clock clock;
+    while (clock.getElapsedTime().asSeconds() < duration) {
+        m_window.clear();
+        m_fadeRect.setFillColor(sf::Color(0, 0, 0, 255 * (1 - (clock.getElapsedTime().asSeconds() / duration))));
+        drawEntities();
+        m_window.draw(m_fadeRect);
         m_window.display();
     }
 }
@@ -243,6 +242,13 @@ void Game::fadeIn(float duration) {
 void Game::draw()
 {
     m_window.clear();
+
+    drawEntities();
+
+    m_window.display();
+}
+
+void Game::drawEntities() {
     // Draw the current screen type
     if (m_screenType == Type::MainMenu) {
         // Draw main menu
@@ -251,9 +257,7 @@ void Game::draw()
         // Draw game world
         m_currentBoard->drawBackground(m_window);
         m_entityManager->drawEntities(m_window);
-        //board.drawForeground(m_window);
     }
-    m_window.display();
 }
 
 void Game::activateBuildMode()
