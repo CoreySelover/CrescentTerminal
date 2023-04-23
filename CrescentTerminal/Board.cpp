@@ -14,19 +14,15 @@ Board::Board(std::string name, int width, int height, BoardType type, TileType d
     , m_width(width)
     , m_height(height)
     , m_type(type)
-    , m_tiles(width, std::vector<Tile>(height))
 {
+    resizeVectors();
+
     for (int x = 0; x < m_width; ++x) {
         for (int y = 0; y < m_height; ++y) {
-            m_tiles[x][y].setType(defaultTile);
+            m_drawLayers["Background"].m_tiles[x][y].setType(defaultTile);
+            m_drawLayers["Background"].m_tiles[x][y].setTextureRect(sf::IntRect(0, 0, TILE_SIZE, TILE_SIZE));
         }
     }
-    
-    // resize m_doors
-    m_doors.resize(m_width);
-    for (int x = 0; x < m_width; ++x) {
-		m_doors[x].resize(m_height);
-	}
 
     if (m_name == "World") {
 		loadLevel("Assets/Maps/test.xml");
@@ -36,7 +32,35 @@ Board::Board(std::string name, int width, int height, BoardType type, TileType d
 Board::~Board()
 {
     m_doors.clear();
-    m_tiles.clear();
+
+    // Loop through layers and clear tiles
+    for (auto& layer : m_drawLayers) {
+		layer.second.m_tiles.clear();
+	}
+    m_drawLayers.clear();
+}
+
+void Board::resizeVectors()
+{
+    m_drawLayers["Background"].m_tiles.resize(m_width);
+    for (int x = 0; x < m_width; ++x) {
+        m_drawLayers["Background"].m_tiles[x].resize(m_height);
+    }
+
+    m_drawLayers["Obstacles"].m_tiles.resize(m_width);
+    for (int x = 0; x < m_width; ++x) {
+        m_drawLayers["Obstacles"].m_tiles[x].resize(m_height);
+    }
+
+    m_drawLayers["Foreground"].m_tiles.resize(m_width);
+    for (int x = 0; x < m_width; ++x) {
+        m_drawLayers["Foreground"].m_tiles[x].resize(m_height);
+    }
+
+    m_doors.resize(m_width);
+    for (int x = 0; x < m_width; ++x) {
+		m_doors[x].resize(m_height);
+	}
 }
 
 void Board::clearBuildings()
@@ -58,17 +82,7 @@ void Board::loadLevel(std::string filename)
 	m_width = map.attribute("width").as_int();
 	m_height = map.attribute("height").as_int();
 
-	// Resize m_tiles
-	m_tiles.resize(m_width);
-    for (int x = 0; x < m_width; ++x) {
-		m_tiles[x].resize(m_height);
-	}
-
-	// Resize m_doors
-	m_doors.resize(m_width);
-    for (int x = 0; x < m_width; ++x) {
-		m_doors[x].resize(m_height);
-	}
+    resizeVectors();
 
 	// Load tiles
     for (pugi::xml_node layer = map.child("layer"); layer; layer = layer.next_sibling("layer"))
@@ -89,7 +103,7 @@ void Board::loadLevel(std::string filename)
             if (id != 0) { // skip empty tiles
                 // Obstacles
                 if (layer.attribute("name").as_string() == "Obstacles") {
-                    m_tiles[x][y].setObstacle(true);
+                    m_drawLayers["Obstacles"].m_tiles[x][y].setObstacle(true);
                 }
 
                 // Texture rects
@@ -97,7 +111,7 @@ void Board::loadLevel(std::string filename)
                 int tileX = tileIndex % textureWidth;
                 int tileY = tileIndex / textureWidth;
                 sf::IntRect textureRect(tileX * TILE_SIZE, tileY * TILE_SIZE, TILE_SIZE, TILE_SIZE);
-                m_tiles[x][y].setTextureRect(textureRect);
+                m_drawLayers[layer.attribute("name").as_string()].m_tiles[x][y].setTextureRect(textureRect);
             }
             x++;
             if (x == map.attribute("width").as_int()) {
@@ -119,22 +133,22 @@ std::vector<std::string> Board::splitString(const std::string& s, char delimiter
     return tokens;
 }
 
-Tile& Board::getTile(int x, int y)
+Tile& Board::getTile(int x, int y, std::string layer)
 {
-	return m_tiles[x][y];
+	return m_drawLayers[layer].m_tiles[x][y];
 }
 
-Tile& Board::getTile(sf::Vector2i tilePosition)
+Tile& Board::getTile(sf::Vector2i tilePosition, std::string layer)
 {
-	return m_tiles[tilePosition.x][tilePosition.y];
+	return m_drawLayers[layer].m_tiles[tilePosition.x][tilePosition.y];
 }
 
-bool Board::isTileObstacle(int x, int y) const
+bool Board::isTileObstacle(int x, int y)
 {
-	return m_tiles[x][y].isObstacle();
+    return m_drawLayers["Obstacles"].m_tiles[x][y].isObstacle();
 }
 
-bool Board::isTileInBounds(int x, int y) const
+bool Board::isTileInBounds(int x, int y)
 {
 	return x >= 0 && x < m_width && y >= 0 && y < m_height;
 }
@@ -156,9 +170,9 @@ bool Board::isTileOnScreen(int x, int y, sf::RenderWindow& window) const
     return true;
 }
 
-bool Board::isTileBuildEligible(int x, int y) const
+bool Board::isTileBuildEligible(int x, int y, std::string layer)
 {
-    return m_tiles[x][y].isBuildEligible();
+    return m_drawLayers[layer].m_tiles[x][y].isBuildEligible();
 }
 
 void Board::highlightTiles(sf::Vector2i footprint, sf::Vector2f mousePos, bool canBuild)
@@ -166,7 +180,7 @@ void Board::highlightTiles(sf::Vector2i footprint, sf::Vector2f mousePos, bool c
     // Reset all tiles
     for (int x = 0; x < m_width; ++x) {
         for (int y = 0; y < m_height; ++y) {
-			m_tiles[x][y].setHighlight(sf::Color::Transparent);
+            m_drawLayers["Foreground"].m_tiles[x][y].setHighlight(sf::Color::Transparent);
 		}
 	}
 
@@ -176,10 +190,10 @@ void Board::highlightTiles(sf::Vector2i footprint, sf::Vector2f mousePos, bool c
         for (int y = 0; y < footprint.y; ++y) {
             if (isTileInBounds(tileCoords.x + x, tileCoords.y + y)) {
                 if (canBuild) {
-                    m_tiles[tileCoords.x + x][tileCoords.y + y].setHighlight(sf::Color::Green);
+                    m_drawLayers["Foreground"].m_tiles[tileCoords.x + x][tileCoords.y + y].setHighlight(sf::Color::Green);
                 }
                 else {
-                    m_tiles[tileCoords.x + x][tileCoords.y + y].setHighlight(sf::Color::Red);
+                    m_drawLayers["Foreground"].m_tiles[tileCoords.x + x][tileCoords.y + y].setHighlight(sf::Color::Red);
                 }
             }
 		}
@@ -190,7 +204,7 @@ void Board::clearHighlights()
 {
     for (int x = 0; x < m_width; ++x) {
         for (int y = 0; y < m_height; ++y) {
-			m_tiles[x][y].setHighlight(sf::Color::Transparent);
+            m_drawLayers["Foreground"].m_tiles[x][y].setHighlight(sf::Color::Transparent);
 		}
 	}
 }
@@ -200,7 +214,7 @@ void Board::drawBackground(sf::RenderWindow& window)
     for (int x = 0; x < m_width; ++x) {
         for (int y = 0; y < m_height; ++y) {
             if (isTileOnScreen(x, y, window)) {
-                m_tiles[x][y].draw(window, { float(x * TILE_SIZE), float(y * TILE_SIZE) });
+                m_drawLayers["Background"].m_tiles[x][y].draw(window, {float(x * TILE_SIZE), float(y * TILE_SIZE)});
             }
         }
     }
@@ -214,7 +228,7 @@ void Board::buildBuilding(BuildingType type, sf::Vector2f position) {
     // Update tiles to reflect new building
     for (int x = 0; x < newBuilding->getFootprintSize().x; ++x) {
         for (int y = 0; y < newBuilding->getFootprintSize().y; ++y) {
-			m_tiles[tileCoords.x + x][tileCoords.y + y].setType(newBuilding->getTileType(sf::Vector2i(x, y)));
+            m_drawLayers["Background"].m_tiles[tileCoords.x + x][tileCoords.y + y].setType(newBuilding->getTileType(sf::Vector2i(x, y)));
             // Add a door if the tile is a door
             if (newBuilding->getTileType(sf::Vector2i(x, y)) == TileType_Door) {
                 m_doors[tileCoords.x + x][tileCoords.y + y] = Door({ newBuilding->getInterior()->getName(), sf::Vector2i(2,2) });
@@ -223,8 +237,8 @@ void Board::buildBuilding(BuildingType type, sf::Vector2f position) {
 	}
 }
 
-bool Board::canBuildHere(sf::Vector2i footprint, sf::Vector2f mousepos, int buffer) const {
-    sf::Vector2i tileCoords = pixelsToTileCoords(mousepos);\
+bool Board::canBuildHere(sf::Vector2i footprint, sf::Vector2f mousepos, int buffer) {
+    sf::Vector2i tileCoords = pixelsToTileCoords(mousepos);
     for (int x = -buffer; x < footprint.x + buffer; ++x) {
         for (int y = -buffer; y < footprint.y + buffer; ++y) {
             if (!isTileInBounds(tileCoords.x + x, tileCoords.y + y)) {
