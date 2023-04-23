@@ -7,7 +7,7 @@ Tile::Tile(TileType type, bool isObstacle)
 {
 	setType(type);
 	//TODO: Unhardcode
-	m_sprite.setTexture(TextureManager::getTexture("Assets/World.png"));
+	m_sprite.setTexture(TextureManager::getTexture("Assets/Maps/tile_set_base.png"));
 	m_sprite.setTextureRect(sf::IntRect(0, 0, 32, 32));
 
 	m_highlight.setFillColor(sf::Color::Transparent);
@@ -39,34 +39,14 @@ void Tile::setType(TileType type)
 		m_buildEligible = false;
 		break;
 	case TileType_Wall:
-		m_sprite.setTextureRect(sf::IntRect(32, 0, TILE_SIZE, TILE_SIZE));
 		m_isObstacle = true;
 		m_buildEligible = false;
 		break;
 	case TileType_Floor:
-		m_sprite.setTextureRect(sf::IntRect(96, 0, TILE_SIZE, TILE_SIZE));
 		m_isObstacle = false;
-		m_buildEligible = false;
+		m_buildEligible = true;
 		break;
 	case TileType_Door:
-		m_sprite.setTextureRect(sf::IntRect(64, 0, TILE_SIZE, TILE_SIZE));
-		m_isObstacle = false;
-		m_buildEligible = false;
-		break;
-	case TileType_Stairs:
-		m_isObstacle = false;
-		m_buildEligible = false;
-		break;
-	case TileType_Grass:
-		m_isObstacle = false;
-		m_buildEligible = true;
-		break;
-	case TileType_Dirt:
-		m_isObstacle = false;
-		m_sprite.setTextureRect(sf::IntRect(0, 0, TILE_SIZE, TILE_SIZE));
-		m_buildEligible = true;
-		break;
-	case TileType_Planter:
 		m_isObstacle = false;
 		m_buildEligible = false;
 		break;
@@ -76,6 +56,11 @@ void Tile::setType(TileType type)
 		break;
 	}
 
+}
+
+void Tile::setTextureRect(sf::IntRect rect)
+{
+	m_sprite.setTextureRect(rect);
 }
 
 TileType Tile::getType() const

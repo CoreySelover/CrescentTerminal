@@ -1,4 +1,9 @@
 #include <iostream>
+#include <string>
+#include <sstream>
+#include <vector>
+
+#include "pugixml.hpp"
 
 #include "Board.h"
 #include "Global.h"
@@ -22,6 +27,10 @@ Board::Board(std::string name, int width, int height, BoardType type, TileType d
     for (int x = 0; x < m_width; ++x) {
 		m_doors[x].resize(m_height);
 	}
+
+    if (m_name == "World") {
+		loadLevel("Assets/Maps/test.xml");
+	}
 }
 
 Board::~Board()
@@ -33,6 +42,81 @@ Board::~Board()
 void Board::clearBuildings()
 {
 	m_buildings.clear();
+}
+
+void Board::loadLevel(std::string filename)
+{
+    pugi::xml_document doc;
+    pugi::xml_parse_result result = doc.load_file(filename.c_str());
+
+    if (!result) {
+		std::cout << "Error loading level: " << filename << std::endl;
+		return;
+	}
+
+    pugi::xml_node map = doc.child("map");
+	m_width = map.attribute("width").as_int();
+	m_height = map.attribute("height").as_int();
+
+	// Resize m_tiles
+	m_tiles.resize(m_width);
+    for (int x = 0; x < m_width; ++x) {
+		m_tiles[x].resize(m_height);
+	}
+
+	// Resize m_doors
+	m_doors.resize(m_width);
+    for (int x = 0; x < m_width; ++x) {
+		m_doors[x].resize(m_height);
+	}
+
+	// Load tiles
+    for (pugi::xml_node layer = map.child("layer"); layer; layer = layer.next_sibling("layer"))
+    {
+        // Get the CSV-encoded tile data from the "data" element
+        std::string csvData = layer.child("data").text().get();
+
+        // Split the CSV data into individual tile IDs
+        std::vector<std::string> tileIds = splitString(std::string(csvData).c_str(), ',');
+
+        // Load tile data
+        int x = 0;
+        int y = 0;
+        // Our tileset texture is 10 tiles wide
+        const int textureWidth = 10;
+        for (const std::string& tileId : tileIds) {
+            int id = std::stoi(tileId);
+            if (id != 0) { // skip empty tiles
+                // Obstacles
+                if (layer.attribute("name").as_string() == "Obstacles") {
+                    m_tiles[x][y].setObstacle(true);
+                }
+
+                // Texture rects
+                int tileIndex = id - 1; // adjust index to start at 0
+                int tileX = tileIndex % textureWidth;
+                int tileY = tileIndex / textureWidth;
+                sf::IntRect textureRect(tileX * TILE_SIZE, tileY * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+                m_tiles[x][y].setTextureRect(textureRect);
+            }
+            x++;
+            if (x == map.attribute("width").as_int()) {
+                x = 0;
+                y++;
+            }
+        }
+    }
+}
+
+// Helper function to split a string into a vector of strings based on a delimiter
+std::vector<std::string> Board::splitString(const std::string& s, char delimiter) {
+    std::vector<std::string> tokens;
+    std::string token;
+    std::istringstream tokenStream(s);
+    while (std::getline(tokenStream, token, delimiter)) {
+        tokens.push_back(token);
+    }
+    return tokens;
 }
 
 Tile& Board::getTile(int x, int y)

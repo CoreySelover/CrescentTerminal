@@ -25,9 +25,10 @@ enum BuildingType;
 
 class Board {
 public:
-    Board(std::string name, int width, int height, BoardType type = BoardType_World, TileType defaultTile = TileType_Dirt);
+    Board(std::string name, int width, int height, BoardType type = BoardType_World, TileType defaultTile = TileType_Floor);
     ~Board();
     void clearBuildings();
+    void loadLevel(std::string filename);
 
     // Tiles
     Tile& getTile(int x, int y);
@@ -71,6 +72,9 @@ private:
     std::vector<std::vector<Tile>> m_tiles;
     std::vector<std::shared_ptr<Building>> m_buildings;
     std::vector<std::vector<Door>> m_doors;
+    //std::vector<DrawLayer> m_drawLayers;
+
+    std::vector<std::string> splitString(const std::string& s, char delimiter);
 };
 
 

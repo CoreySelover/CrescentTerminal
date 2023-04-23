@@ -1,0 +1,40 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "test.tmx",
+    "expandedProjectPaths": [
+        "."
+    ],
+    "file.lastUsedOpenFilter": "All Files (*)",
+    "fileStates": {
+        "Base_tileset.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "test.tmx": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 408.5,
+                "y": 276
+            }
+        }
+    },
+    "last.exportedFilePath": "C:/Users/corey/source/repos/CrescentTerminal/CrescentTerminal/Assets/Maps",
+    "last.imagePath": "C:/Users/corey/source/repos/CrescentTerminal/CrescentTerminal/Assets/Maps",
+    "map.lastUsedExportFilter": "All Files (*)",
+    "map.lastUsedFormat": "tmx",
+    "map.renderOrder": null,
+    "openFiles": [
+        "Base_tileset.tsx",
+        "test.tmx"
+    ],
+    "project": "World.tiled-project",
+    "recentFiles": [
+        "Base_tileset.tsx",
+        "test.tmx"
+    ],
+    "tileset.lastUsedFormat": "tsx"
+}

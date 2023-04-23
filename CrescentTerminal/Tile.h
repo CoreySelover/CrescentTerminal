@@ -6,13 +6,9 @@
 
 enum TileType {
 	TileType_Empty,
-	TileType_Wall,
 	TileType_Floor,
+	TileType_Wall,
 	TileType_Door,
-	TileType_Stairs,
-    TileType_Grass,
-    TileType_Dirt,
-    TileType_Planter,
 	TileType_Count
 };;
 
@@ -28,6 +24,8 @@ public:
 	bool isBuildEligible() const;
 
     void setType(TileType type);
+
+	void setTextureRect(sf::IntRect rect);
 
 	void setHighlight(sf::Color color);
 
