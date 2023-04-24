@@ -263,7 +263,9 @@ void Game::drawEntities() {
     else if (m_screenType == Type::GameWorld) {
         // Draw game world
         m_currentBoard->drawBackground(m_window);
+        m_currentBoard->drawObstacles(m_window);
         m_entityManager->drawEntities(m_window);
+        m_currentBoard->drawForeground(m_window);
     }
 }
 

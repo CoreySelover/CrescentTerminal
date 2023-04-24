@@ -60,9 +60,8 @@ public:
 
     // Drawing
     void drawBackground(sf::RenderWindow& window);
-    void drawForeground(sf::RenderWindow& window) const {
-        // TODO
-    }
+    void drawObstacles(sf::RenderWindow& window);
+    void drawForeground(sf::RenderWindow& window);
 
     // Helpers
     sf::Vector2f getBoardSize() const;

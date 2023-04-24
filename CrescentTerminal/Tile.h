@@ -36,6 +36,7 @@ public:
 private:
     bool m_isObstacle;
 	bool m_buildEligible;
+	bool m_draw;
     TileType m_type;
     sf::Sprite m_sprite;
 	sf::RectangleShape m_highlight;

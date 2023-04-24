@@ -87,6 +87,8 @@ void Board::loadLevel(std::string filename)
 	// Load tiles
     for (pugi::xml_node layer = map.child("layer"); layer; layer = layer.next_sibling("layer"))
     {
+        std::string layerName = layer.attribute("name").as_string();
+
         // Get the CSV-encoded tile data from the "data" element
         std::string csvData = layer.child("data").text().get();
 
@@ -100,19 +102,25 @@ void Board::loadLevel(std::string filename)
         const int textureWidth = 10;
         for (const std::string& tileId : tileIds) {
             int id = std::stoi(tileId);
-            if (id != 0) { // skip empty tiles
-                // Obstacles
-                if (layer.attribute("name").as_string() == "Obstacles") {
-                    m_drawLayers["Obstacles"].m_tiles[x][y].setObstacle(true);
-                }
-
-                // Texture rects
-                int tileIndex = id - 1; // adjust index to start at 0
-                int tileX = tileIndex % textureWidth;
-                int tileY = tileIndex / textureWidth;
-                sf::IntRect textureRect(tileX * TILE_SIZE, tileY * TILE_SIZE, TILE_SIZE, TILE_SIZE);
-                m_drawLayers[layer.attribute("name").as_string()].m_tiles[x][y].setTextureRect(textureRect);
+            // Empty tiles
+            if (id == 0) {
+				m_drawLayers[layerName].m_tiles[x][y].setType(TileType_Empty);
+			}
+            // Obstacles
+            else if (layerName == "Obstacles") {
+                std::cout << "Obstacle at " << x << ", " << y << std::endl;
+                m_drawLayers["Obstacles"].m_tiles[x][y].setObstacle(true);
+                m_drawLayers["Obstacles"].m_tiles[x][y].setType(TileType_Wall);
             }
+
+            // Texture rects
+            int tileIndex = id - 1; // adjust index to start at 0
+            int tileX = tileIndex % textureWidth;
+            int tileY = tileIndex / textureWidth;
+            sf::IntRect textureRect(tileX * TILE_SIZE, tileY * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+            m_drawLayers[layerName].m_tiles[x][y].setTextureRect(textureRect);
+
+            // Next column and/or row
             x++;
             if (x == map.attribute("width").as_int()) {
                 x = 0;
@@ -215,6 +223,28 @@ void Board::drawBackground(sf::RenderWindow& window)
         for (int y = 0; y < m_height; ++y) {
             if (isTileOnScreen(x, y, window)) {
                 m_drawLayers["Background"].m_tiles[x][y].draw(window, {float(x * TILE_SIZE), float(y * TILE_SIZE)});
+            }
+        }
+    }
+}
+
+void Board::drawObstacles(sf::RenderWindow& window)
+{
+    for (int x = 0; x < m_width; ++x) {
+        for (int y = 0; y < m_height; ++y) {
+            if (isTileOnScreen(x, y, window)) {
+                m_drawLayers["Obstacles"].m_tiles[x][y].draw(window, { float(x * TILE_SIZE), float(y * TILE_SIZE) });
+            }
+        }
+    }
+}
+
+void Board::drawForeground(sf::RenderWindow& window)
+{
+    for (int x = 0; x < m_width; ++x) {
+        for (int y = 0; y < m_height; ++y) {
+            if (isTileOnScreen(x, y, window)) {
+                m_drawLayers["Foreground"].m_tiles[x][y].draw(window, { float(x * TILE_SIZE), float(y * TILE_SIZE) });
             }
         }
     }

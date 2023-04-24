@@ -3,7 +3,8 @@
 
 Tile::Tile(TileType type, bool isObstacle)
 	: m_isObstacle(isObstacle),
-	m_buildEligible(false)
+	m_buildEligible(false),
+	m_draw(true)
 {
 	setType(type);
 	//TODO: Unhardcode
@@ -31,12 +32,16 @@ bool Tile::isBuildEligible() const
 
 void Tile::setType(TileType type)
 {
+	if (m_type == TileType_Empty && type != TileType_Empty)
+		m_draw = true;
+
 	m_type = type;
 
 	switch (type) {
 	case TileType_Empty:
-		m_isObstacle = true;
+		m_isObstacle = false;
 		m_buildEligible = false;
+		m_draw = false;
 		break;
 	case TileType_Wall:
 		m_isObstacle = true;
@@ -77,6 +82,7 @@ void Tile::setHighlight(sf::Color color)
 
 void Tile::draw(sf::RenderWindow& window, sf::Vector2f position)
 {
+	if (!m_draw) return;
 	m_sprite.setPosition(position);
 	m_highlight.setPosition(position);
 	window.draw(m_sprite);
