@@ -108,7 +108,6 @@ void Board::loadLevel(std::string filename)
 			}
             // Obstacles
             else if (layerName == "Obstacles") {
-                std::cout << "Obstacle at " << x << ", " << y << std::endl;
                 m_drawLayers["Obstacles"].m_tiles[x][y].setObstacle(true);
                 m_drawLayers["Obstacles"].m_tiles[x][y].setType(TileType_Wall);
             }
