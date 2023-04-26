@@ -13,6 +13,7 @@ extern bool DEBUG_DRAW;
 
 // Board
 extern const int TILE_SIZE;
+extern const std::vector<std::string> LAYER_NAMES;
 
 // Characters
 extern const float WALK_SPEED;

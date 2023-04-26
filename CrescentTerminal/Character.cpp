@@ -94,40 +94,21 @@ bool Character::canWalk(sf::Vector2f velocity)
 {
 	if (m_board == nullptr) return false;
 
-	// Check top left corner
-	sf::Vector2i proposedTile1 = m_board->pixelsToTileCoords(sf::Vector2f(m_hitBox.left + velocity.x, m_hitBox.top + velocity.y));
+	// Determine which tiles the character would be in if they moved
+	std::vector<sf::Vector2i> proposedTiles;
+	proposedTiles.push_back(m_board->pixelsToTileCoords(sf::Vector2f(m_hitBox.left + velocity.x, m_hitBox.top + velocity.y)));
+	proposedTiles.push_back(m_board->pixelsToTileCoords(sf::Vector2f(m_hitBox.left + m_hitBox.width + velocity.x, m_hitBox.top + velocity.y)));
+	proposedTiles.push_back(m_board->pixelsToTileCoords(sf::Vector2f(m_hitBox.left + velocity.x, m_hitBox.top + m_hitBox.height + velocity.y)));
+	proposedTiles.push_back(m_board->pixelsToTileCoords(sf::Vector2f(m_hitBox.left + m_hitBox.width + velocity.x, m_hitBox.top + m_hitBox.height + velocity.y)));
 
-	if (!m_board->isTileInBounds(proposedTile1.x, proposedTile1.y)
-		|| m_board->isTileObstacle(proposedTile1.x, proposedTile1.y))
+	// Check if any of the proposed tiles are obstacles
+	for (auto& tile : proposedTiles)
 	{
-		return false;
-	}
-
-	// Check top right corner
-	sf::Vector2i proposedTile2 = m_board->pixelsToTileCoords(sf::Vector2f(m_hitBox.left + m_hitBox.width + velocity.x, m_hitBox.top + velocity.y));
-
-	if (!m_board->isTileInBounds(proposedTile2.x, proposedTile2.y)
-		|| m_board->isTileObstacle(proposedTile2.x, proposedTile2.y))
-	{
-		return false;
-	}
-
-	// Check bottom left corner
-	sf::Vector2i proposedTile3 = m_board->pixelsToTileCoords(sf::Vector2f(m_hitBox.left + velocity.x, m_hitBox.top + m_hitBox.height + velocity.y));
-
-	if (!m_board->isTileInBounds(proposedTile3.x, proposedTile3.y)
-		|| m_board->isTileObstacle(proposedTile3.x, proposedTile3.y))
-	{
-		return false;
-	}
-
-	// Check bottom right corner
-	sf::Vector2i proposedTile4 = m_board->pixelsToTileCoords(sf::Vector2f(m_hitBox.left + m_hitBox.width + velocity.x, m_hitBox.top + m_hitBox.height + velocity.y));
-
-	if (!m_board->isTileInBounds(proposedTile4.x, proposedTile4.y)
-		|| m_board->isTileObstacle(proposedTile4.x, proposedTile4.y))
-	{
-		return false;
+		if (!m_board->isTileInBounds(tile.x, tile.y) ||
+			m_board->isTileObstacle(tile.x, tile.y))
+		{
+			return false;
+		}
 	}
 
 	return true;

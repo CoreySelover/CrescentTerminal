@@ -15,6 +15,11 @@ Board::Board(std::string name, int width, int height, BoardType type, TileType d
     , m_height(height)
     , m_type(type)
 {
+    for (auto layer : LAYER_NAMES) {
+        m_drawLayers[layer] = DrawLayer{ layer, std::vector<std::vector<Tile>>(m_width, std::vector<Tile>(m_height))
+        };
+    }
+
     resizeVectors();
 
     for (int x = 0; x < m_width; ++x) {
@@ -42,19 +47,11 @@ Board::~Board()
 
 void Board::resizeVectors()
 {
-    m_drawLayers["Background"].m_tiles.resize(m_width);
-    for (int x = 0; x < m_width; ++x) {
-        m_drawLayers["Background"].m_tiles[x].resize(m_height);
-    }
-
-    m_drawLayers["Obstacles"].m_tiles.resize(m_width);
-    for (int x = 0; x < m_width; ++x) {
-        m_drawLayers["Obstacles"].m_tiles[x].resize(m_height);
-    }
-
-    m_drawLayers["Foreground"].m_tiles.resize(m_width);
-    for (int x = 0; x < m_width; ++x) {
-        m_drawLayers["Foreground"].m_tiles[x].resize(m_height);
+    for (auto& layer : m_drawLayers) {
+        layer.second.m_tiles.resize(m_width);
+        for (int x = 0; x < m_width; ++x) {
+			layer.second.m_tiles[x].resize(m_height);
+		}
     }
 
     m_doors.resize(m_width);
@@ -187,7 +184,7 @@ void Board::highlightTiles(sf::Vector2i footprint, sf::Vector2f mousePos, bool c
     // Reset all tiles
     for (int x = 0; x < m_width; ++x) {
         for (int y = 0; y < m_height; ++y) {
-            m_drawLayers["Foreground"].m_tiles[x][y].setHighlight(sf::Color::Transparent);
+            m_drawLayers["Background"].m_tiles[x][y].setHighlight(sf::Color::Transparent);
 		}
 	}
 
@@ -197,10 +194,10 @@ void Board::highlightTiles(sf::Vector2i footprint, sf::Vector2f mousePos, bool c
         for (int y = 0; y < footprint.y; ++y) {
             if (isTileInBounds(tileCoords.x + x, tileCoords.y + y)) {
                 if (canBuild) {
-                    m_drawLayers["Foreground"].m_tiles[tileCoords.x + x][tileCoords.y + y].setHighlight(sf::Color::Green);
+                    m_drawLayers["Background"].m_tiles[tileCoords.x + x][tileCoords.y + y].setHighlight(sf::Color::Green);
                 }
                 else {
-                    m_drawLayers["Foreground"].m_tiles[tileCoords.x + x][tileCoords.y + y].setHighlight(sf::Color::Red);
+                    m_drawLayers["Background"].m_tiles[tileCoords.x + x][tileCoords.y + y].setHighlight(sf::Color::Red);
                 }
             }
 		}
@@ -211,7 +208,7 @@ void Board::clearHighlights()
 {
     for (int x = 0; x < m_width; ++x) {
         for (int y = 0; y < m_height; ++y) {
-            m_drawLayers["Foreground"].m_tiles[x][y].setHighlight(sf::Color::Transparent);
+            m_drawLayers["Background"].m_tiles[x][y].setHighlight(sf::Color::Transparent);
 		}
 	}
 }
@@ -254,12 +251,16 @@ void Board::buildBuilding(BuildingType type, sf::Vector2f position) {
 	m_buildings.push_back(std::make_shared<Building>(type, m_name, tileCoords, true));
     std::shared_ptr<Building> newBuilding = m_buildings.back();
 
-    // Update tiles to reflect new building
+    // Update tiles on all drawLayers to reflect new building
     for (int x = 0; x < newBuilding->getFootprintSize().x; ++x) {
         for (int y = 0; y < newBuilding->getFootprintSize().y; ++y) {
-            m_drawLayers["Background"].m_tiles[tileCoords.x + x][tileCoords.y + y].setType(newBuilding->getTileType(sf::Vector2i(x, y)));
+            for (auto& layer : m_drawLayers) {
+				std::string layerName = layer.first;
+                m_drawLayers[layerName].m_tiles[tileCoords.x + x][tileCoords.y + y].setType(newBuilding->getTileType(layerName, sf::Vector2i(x, y)));
+            }
+
             // Add a door if the tile is a door
-            if (newBuilding->getTileType(sf::Vector2i(x, y)) == TileType_Door) {
+            if (newBuilding->getTileType("Background", sf::Vector2i(x, y)) == TileType_Door) {
                 m_doors[tileCoords.x + x][tileCoords.y + y] = Door({ newBuilding->getInterior()->getName(), sf::Vector2i(2,2) });
 			}
 		}

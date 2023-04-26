@@ -11,6 +11,7 @@ bool DEBUG_DRAW = false;
 
 // Board
 const int TILE_SIZE = 32;
+const std::vector<std::string> LAYER_NAMES = { "Background", "Obstacles", "Foreground" };
 
 // Characters
 const float WALK_SPEED = 0.1f;

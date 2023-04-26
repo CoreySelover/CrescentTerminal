@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="left-down" width="5" height="4" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="1">
+ <tileset firstgid="1" source="Base_tileset.tsx"/>
+ <layer id="1" name="Background" width="5" height="4">
+  <data encoding="csv">
+0,0,0,0,0,
+0,0,0,0,0,
+0,0,211,0,0,
+0,0,211,0,0
+</data>
+ </layer>
+ <layer id="2" name="Obstacles" width="5" height="4">
+  <data encoding="csv">
+2,3,3,3,4,
+22,23,23,23,24,
+33,36,0,35,33,
+34,34,0,34,34
+</data>
+ </layer>
+ <layer id="3" name="Foreground" width="5" height="4">
+  <data encoding="csv">
+0,0,0,0,0,
+0,0,0,0,0,
+0,0,0,0,0,
+0,0,0,0,0
+</data>
+ </layer>
+</map>

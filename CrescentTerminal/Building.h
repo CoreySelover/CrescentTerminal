@@ -1,5 +1,6 @@
 #pragma once
 
+#include <map>
 #include <vector>
 #include <string>
 #include <memory>
@@ -42,10 +43,10 @@ public:
 	std::vector<std::pair<std::string, int>> getCost() const;
 
 	// Tile properties
-	TileType getTileType(sf::Vector2i position) const;
+	TileType getTileType(std::string layerName, sf::Vector2i position) const;
 
 private:
-	void setTileType(sf::Vector2i position, TileType type);
+	void setTileType(std::string layerName, sf::Vector2i position, TileType type);
 
 	std::string m_ownerName;
 	std::string m_name;
@@ -54,7 +55,7 @@ private:
 	BuildingRequirements m_requirements;
 	sf::Vector2i m_footprintSize;
 	int m_buildBuffer;
-	std::vector<std::vector <TileType> > m_tilesAsTypes;
+	std::map<std::string, std::vector<std::vector<TileType>>> m_tiles;
 
 	// Interior
 	std::shared_ptr<Board> m_interior;

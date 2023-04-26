@@ -10,31 +10,33 @@
     "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
         "Base_tileset.tsx": {
-            "scaleInDock": 1,
+            "scaleInDock": 0.75,
             "scaleInEditor": 1
         },
         "test.tmx": {
-            "scale": 1,
+            "scale": 0.5,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 405.5,
-                "y": 122
+                "x": 402,
+                "y": 280
             }
         }
     },
     "last.exportedFilePath": "C:/Users/corey/source/repos/CrescentTerminal/CrescentTerminal/Assets/Maps",
     "last.imagePath": "C:/Users/corey/source/repos/CrescentTerminal/CrescentTerminal/Assets/Maps",
+    "map.height": 4,
     "map.lastUsedExportFilter": "All Files (*)",
     "map.lastUsedFormat": "tmx",
     "map.renderOrder": null,
+    "map.width": 5,
     "openFiles": [
         "Base_tileset.tsx",
         "test.tmx"
     ],
     "project": "World.tiled-project",
     "recentFiles": [
-        "test.tmx",
-        "Base_tileset.tsx"
+        "Base_tileset.tsx",
+        "test.tmx"
     ],
     "tileset.lastUsedFormat": "tsx"
 }

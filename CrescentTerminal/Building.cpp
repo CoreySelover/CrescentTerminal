@@ -3,10 +3,27 @@
 #include "Building.h"
 #include "Tile.h"
 #include "Board.h"
+#include "Global.h"
 
 Building::Building(BuildingType type, std::string ownerName, sf::Vector2i tileCoords, bool interior)
 	: m_ownerName(ownerName)
 {
+	// Loop through each layer and create a vector of vectors of tiles
+	for (auto layer : LAYER_NAMES)
+	{
+		std::vector<std::vector<TileType>> tiles;
+		for (int i = 0; i < m_footprintSize.x; ++i)
+		{
+			std::vector<TileType> row;
+			for (int j = 0; j < m_footprintSize.y; ++j)
+			{
+				row.push_back(TileType_Empty);
+			}
+			tiles.push_back(row);
+		}
+		m_tiles[layer] = tiles;
+	}
+
 	setBuildingType(type);
 	setBoardPosition(tileCoords);
 	if (interior) buildInterior();
@@ -14,6 +31,7 @@ Building::Building(BuildingType type, std::string ownerName, sf::Vector2i tileCo
 
 Building::~Building()
 {
+	m_tiles.clear();
 }
 
 void Building::setBuildingType(BuildingType type)
@@ -33,10 +51,10 @@ void Building::setBuildingType(BuildingType type)
 			{
 				for (int j = 0; j < m_footprintSize.y; ++j)
 				{
-					setTileType(sf::Vector2i(i, j), TileType_Wall);
+					setTileType("Background", sf::Vector2i(i, j), TileType_Wall);
 				}
 			}
-			setTileType(sf::Vector2i(2, 4), TileType_Door);
+			setTileType("Background", sf::Vector2i(2, 4), TileType_Door);
 			// Steel, plastic, glass
 			m_requirements = BuildingRequirements{ 50, 50, 100 };
 			m_buildBuffer = 1;
@@ -66,10 +84,11 @@ void Building::setBoardPosition(sf::Vector2i position)
 
 void Building::resizeTiles()
 {
-	m_tilesAsTypes.resize(m_footprintSize.x);
-	for (int i = 0; i < m_footprintSize.x; i++)
-	{
-		m_tilesAsTypes[i].resize(m_footprintSize.y);
+	for (auto& layer : m_tiles) {
+		layer.second.resize(m_footprintSize.x);
+		for (int x = 0; x < m_footprintSize.x; ++x) {
+			layer.second[x].resize(m_footprintSize.y);
+		}
 	}
 }
 
@@ -82,12 +101,13 @@ std::vector<std::pair<std::string, int>> Building::getCost() const
 	return cost;
 }
 
-void Building::setTileType(sf::Vector2i position, TileType type)
+void Building::setTileType(std::string layerName, sf::Vector2i position, TileType type)
 {
-	m_tilesAsTypes[position.x][position.y] = type;
+	m_tiles[layerName][position.x][position.y] = type;
 }
 
-TileType Building::getTileType(sf::Vector2i position) const
+TileType Building::getTileType(std::string layerName, sf::Vector2i position) const
 {
-	return m_tilesAsTypes[position.x][position.y];
+	// return the tile type at the given position on the given layer
+	return m_tiles.at(layerName).at(position.x).at(position.y);
 }
