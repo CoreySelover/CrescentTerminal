@@ -3,22 +3,46 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "test.tmx",
+    "activeFile": "Base_Interior.tmx",
     "expandedProjectPaths": [
         "."
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
+        "Base_Interior.tmx": {
+            "scale": 2,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 79.5,
+                "y": 45
+            }
+        },
         "Base_tileset.tsx": {
             "scaleInDock": 0.75,
             "scaleInEditor": 1
+        },
+        "World.tmx": {
+            "scale": 0.57890625,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 480.2159244264508,
+                "y": 321.2955465587045
+            }
+        },
+        "base.tmx": {
+            "scale": 2.89453125,
+            "selectedLayer": 3,
+            "viewCenter": {
+                "x": 80.15114709851552,
+                "y": 74.62348178137651
+            }
         },
         "test.tmx": {
             "scale": 0.5,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 402,
-                "y": 280
+                "x": 400,
+                "y": 278
             }
         }
     },
@@ -31,12 +55,16 @@
     "map.width": 5,
     "openFiles": [
         "Base_tileset.tsx",
-        "test.tmx"
+        "test.tmx",
+        "Base_Interior.tmx"
     ],
     "project": "World.tiled-project",
     "recentFiles": [
+        "World.tmx",
         "Base_tileset.tsx",
-        "test.tmx"
+        "Base_Interior.tmx",
+        "test.tmx",
+        "base.tmx"
     ],
     "tileset.lastUsedFormat": "tsx"
 }

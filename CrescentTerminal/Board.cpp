@@ -9,29 +9,12 @@
 #include "Global.h"
 #include "Building.h"
 
-Board::Board(std::string name, int width, int height, BoardType type, TileType defaultTile)
+Board::Board(std::string name, std::string filePath)
     : m_name(name)
-    , m_width(width)
-    , m_height(height)
-    , m_type(type)
 {
-    for (auto layer : LAYER_NAMES) {
-        m_drawLayers[layer] = DrawLayer{ layer, std::vector<std::vector<Tile>>(m_width, std::vector<Tile>(m_height))
-        };
-    }
-
-    resizeVectors();
-
-    for (int x = 0; x < m_width; ++x) {
-        for (int y = 0; y < m_height; ++y) {
-            m_drawLayers["Background"].m_tiles[x][y].setType(defaultTile);
-            m_drawLayers["Background"].m_tiles[x][y].setTextureRect(sf::IntRect(0, 0, TILE_SIZE, TILE_SIZE));
-        }
-    }
-
-    if (m_name == "World") {
-		loadLevel("Assets/Maps/test.xml");
-	}
+    m_width = -1;
+    m_height = -1;
+    loadLevel(filePath);
 }
 
 Board::~Board()
@@ -80,6 +63,11 @@ void Board::loadLevel(std::string filename)
 	m_height = map.attribute("height").as_int();
 
     resizeVectors();
+
+    for (auto lName : LAYER_NAMES) {
+        m_drawLayers[lName] = DrawLayer{ lName, std::vector<std::vector<Tile>>(m_width, std::vector<Tile>(m_height))
+        };
+    }
 
 	// Load tiles
     for (pugi::xml_node layer = map.child("layer"); layer; layer = layer.next_sibling("layer"))

@@ -13,7 +13,7 @@ Game::Game(sf::RenderWindow& window) : m_window(window)
     m_screenType = Type::GameWorld;
 
     // Map
-    BoardManager::getInstance().addBoard("World", std::make_shared<Board>("World", 50, 50));
+    BoardManager::getInstance().addBoard("World", std::make_shared<Board>("World", "Assets/Maps/World.xml"));
     m_currentBoard = BoardManager::getInstance().getBoard("World");
 
     // Camera

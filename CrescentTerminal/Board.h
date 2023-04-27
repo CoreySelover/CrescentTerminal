@@ -9,12 +9,6 @@
 // Crescent Terminal
 #include "Tile.h"
 
-enum BoardType {
-	BoardType_World,
-	BoardType_Interior,
-	BoardType_Count
-};
-
 struct Door {
     std::string destinationName;
     sf::Vector2i destinationPosition;
@@ -30,7 +24,7 @@ enum BuildingType;
 
 class Board {
 public:
-    Board(std::string name, int width, int height, BoardType type = BoardType_World, TileType defaultTile = TileType_Floor);
+    Board(std::string name, std::string filePath);
     ~Board();
     void resizeVectors();
     void clearBuildings();
@@ -74,7 +68,6 @@ private:
     std::string m_name;
     int m_width;
     int m_height;
-    BoardType m_type;
     std::vector<std::shared_ptr<Building>> m_buildings;
     std::vector<std::vector<Door>> m_doors;
     std::map<std::string, DrawLayer> m_drawLayers;

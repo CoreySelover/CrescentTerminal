@@ -36,7 +36,7 @@ void Building::loadBlueprint() {
 	switch (m_type)
 	{
 	case BuildingType_Base:
-		blueprint = BoardManager::getInstance().getBlueprint("Base");
+		blueprint = BoardManager::getInstance().getBlueprint("Base_Blueprint");
 		// Steel, plastic, glass
 		m_requirements = BuildingRequirements{ 50, 50, 100 };
 		m_buildBuffer = 1;
@@ -53,9 +53,9 @@ void Building::loadBlueprint() {
 void Building::buildInterior() {
 	switch (m_type) {
 	case BuildingType_Base:
-		m_interior = std::make_shared<Board>(m_name + "_interior", 5, 5, BoardType_Interior, TileType_Floor);
-		m_interior->getTile(2, 4).setType(TileType_Door);
-		m_interior->addDoor(sf::Vector2i(2, 4), m_ownerName, m_boardPosition + sf::Vector2i(2, 5));
+		m_interior = std::make_shared<Board>(m_name + "_Interior", "Assets/Maps/Base_Interior.xml");
+		m_interior->getTile(2, 3).setType(TileType_Door);
+		m_interior->addDoor(sf::Vector2i(2, 3), m_ownerName, m_boardPosition + sf::Vector2i(2, 4));
 		break;
 	default:
 		break;
