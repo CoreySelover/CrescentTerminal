@@ -54,8 +54,8 @@ void Building::buildInterior() {
 	switch (m_type) {
 	case BuildingType_Base:
 		m_interior = std::make_shared<Board>(m_name + "_Interior", "Assets/Maps/Base_Interior.xml");
-		m_interior->getTile(2, 3).setType(TileType_Door);
-		m_interior->addDoor(sf::Vector2i(2, 3), m_ownerName, m_boardPosition + sf::Vector2i(2, 4));
+		// TODO - unhardcode this.  This is the door to the outside
+		m_interior->addDoor(sf::Vector2i(4, 5), m_ownerName, m_boardPosition + sf::Vector2i(int(m_footprintSize.x / 2), int(m_footprintSize.y)));
 		break;
 	default:
 		break;

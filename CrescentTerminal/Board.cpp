@@ -96,6 +96,10 @@ void Board::loadLevel(std::string filename)
                 m_drawLayers["Obstacles"].m_tiles[x][y].setObstacle(true);
                 m_drawLayers["Obstacles"].m_tiles[x][y].setType(TileType_Wall);
             }
+            // Doors
+            else if (layerName == "Doors") {
+                m_drawLayers["Background"].m_tiles[x][y].setType(TileType_Door);
+			}
 
             // Texture rects
             int tileIndex = id - 1; // adjust index to start at 0
@@ -238,7 +242,7 @@ void Board::buildBuilding(BuildingType type, sf::Vector2f position) {
 
             // Add a door if the tile is a door
             if (newBuilding->getTile("Doors", sf::Vector2i(x, y)).getType() != TileType_Empty) {
-                m_doors[tileCoords.x + x][tileCoords.y + y] = Door({ newBuilding->getInterior()->getName(), sf::Vector2i(2,2) });
+                m_doors[tileCoords.x + x][tileCoords.y + y] = Door({ newBuilding->getInterior()->getName(), sf::Vector2i(4, 4)});
 			}
 		}
 	}

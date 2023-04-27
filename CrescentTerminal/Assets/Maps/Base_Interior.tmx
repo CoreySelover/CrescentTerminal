@@ -1,39 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="left-down" width="5" height="4" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="1">
+<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="left-down" width="9" height="6" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="1">
  <editorsettings>
   <export target="Base_Interior.xml" format="tmx"/>
  </editorsettings>
  <tileset firstgid="1" source="Base_tileset.tsx"/>
- <layer id="1" name="Background" width="5" height="4">
+ <layer id="1" name="Background" width="9" height="6">
   <data encoding="csv">
-11,11,11,11,11,
-11,11,11,11,11,
-11,11,11,11,11,
-11,11,13,11,11
+11,11,11,11,11,11,11,11,11,
+11,11,11,11,11,11,11,11,11,
+11,11,11,11,11,11,11,11,11,
+11,11,11,11,11,11,11,11,11,
+11,11,11,11,11,11,11,11,11,
+11,11,11,11,211,11,11,11,11
 </data>
  </layer>
- <layer id="2" name="Obstacles" width="5" height="4">
+ <layer id="2" name="Obstacles" width="9" height="6">
   <data encoding="csv">
-0,0,0,0,0,
-0,0,0,0,0,
-0,0,0,0,0,
-0,0,0,0,0
+13,23,23,23,23,23,23,23,13,
+14,33,33,33,33,33,33,33,12,
+14,0,0,0,0,0,0,0,12,
+14,0,0,0,0,0,0,0,12,
+14,0,0,0,0,0,0,0,12,
+13,3,3,4,0,2,3,3,13
 </data>
  </layer>
- <layer id="3" name="Foreground" width="5" height="4">
+ <layer id="3" name="Foreground" width="9" height="6">
   <data encoding="csv">
-0,0,0,0,0,
-0,0,0,0,0,
-0,0,0,0,0,
-0,0,0,0,0
+0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <layer id="4" name="Doors" width="5" height="4">
+ <layer id="4" name="Doors" width="9" height="6">
   <data encoding="csv">
-0,0,0,0,0,
-0,0,0,0,0,
-0,0,0,0,0,
-0,0,0,0,0
+0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,
+0,0,0,0,211,0,0,0,0
 </data>
  </layer>
 </map>
