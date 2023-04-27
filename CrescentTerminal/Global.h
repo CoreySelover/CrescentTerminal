@@ -6,6 +6,8 @@
 
 // Meta
 extern sf::Clock GAME_CLOCK;
+std::vector<std::string> splitString(const std::string& s, char delimiter);
+
 
 // UI
 extern bool USER_HAS_CONTROL;

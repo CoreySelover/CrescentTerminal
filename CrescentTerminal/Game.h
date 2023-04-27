@@ -47,7 +47,6 @@ private:
     sf::RectangleShape m_fadeRect;
 
     std::shared_ptr<Camera> m_camera;
-    std::shared_ptr<BoardManager> m_boardManager;
     std::shared_ptr<Board> m_currentBoard;
     std::shared_ptr<EntityManager> m_entityManager;
     std::shared_ptr<Character> m_player;

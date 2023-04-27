@@ -77,8 +77,6 @@ private:
     std::vector<std::shared_ptr<Building>> m_buildings;
     std::vector<std::vector<Door>> m_doors;
     std::map<std::string, DrawLayer> m_drawLayers;
-
-    std::vector<std::string> splitString(const std::string& s, char delimiter);
 };
 
 

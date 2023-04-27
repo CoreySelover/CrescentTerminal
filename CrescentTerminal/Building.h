@@ -20,7 +20,7 @@ struct BuildingRequirements {
 	int m_glass;
 };
 
-enum TileType;
+class Tile;
 class Board;
 
 class Building
@@ -30,6 +30,7 @@ public:
 	~Building();
 
 	// Building actions
+	void loadBlueprint();
 	void buildInterior();
 	std::shared_ptr<Board> getInterior() const { return m_interior; }
 
@@ -43,11 +44,9 @@ public:
 	std::vector<std::pair<std::string, int>> getCost() const;
 
 	// Tile properties
-	TileType getTileType(std::string layerName, sf::Vector2i position) const;
+	Tile getTile(std::string layerName, sf::Vector2i position) const;
 
 private:
-	void setTileType(std::string layerName, sf::Vector2i position, TileType type);
-
 	std::string m_ownerName;
 	std::string m_name;
 	BuildingType m_type;
@@ -55,7 +54,7 @@ private:
 	BuildingRequirements m_requirements;
 	sf::Vector2i m_footprintSize;
 	int m_buildBuffer;
-	std::map<std::string, std::vector<std::vector<TileType>>> m_tiles;
+	std::map<std::string, std::vector<std::vector<Tile>>> m_tiles;
 
 	// Interior
 	std::shared_ptr<Board> m_interior;

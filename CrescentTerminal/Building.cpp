@@ -4,27 +4,14 @@
 #include "Tile.h"
 #include "Board.h"
 #include "Global.h"
+#include "BoardManager.h"
+#include "Blueprint.h"
 
 Building::Building(BuildingType type, std::string ownerName, sf::Vector2i tileCoords, bool interior)
 	: m_ownerName(ownerName)
 {
-	// Loop through each layer and create a vector of vectors of tiles
-	for (auto layer : LAYER_NAMES)
-	{
-		std::vector<std::vector<TileType>> tiles;
-		for (int i = 0; i < m_footprintSize.x; ++i)
-		{
-			std::vector<TileType> row;
-			for (int j = 0; j < m_footprintSize.y; ++j)
-			{
-				row.push_back(TileType_Empty);
-			}
-			tiles.push_back(row);
-		}
-		m_tiles[layer] = tiles;
-	}
-
 	setBuildingType(type);
+	loadBlueprint();
 	setBoardPosition(tileCoords);
 	if (interior) buildInterior();
 }
@@ -40,29 +27,27 @@ void Building::setBuildingType(BuildingType type)
 	static const std::string buildingNames[] = { "Base", "Greenhouse", "Shed" };
 	static int buildingCounts[] = {0, 0, 0};
 	m_name = buildingNames[type] + std::to_string(buildingCounts[type]++);
+}
 
-	// TODO - should this be hardcoded or read from a file?
-	switch (type)
+void Building::loadBlueprint() {
+	
+	std::shared_ptr<Blueprint> blueprint;
+
+	switch (m_type)
 	{
-		case BuildingType_Base:
-			m_footprintSize = sf::Vector2i(5, 5);
-			resizeTiles();
-			for (int i = 0; i < m_footprintSize.x; ++i)
-			{
-				for (int j = 0; j < m_footprintSize.y; ++j)
-				{
-					setTileType("Background", sf::Vector2i(i, j), TileType_Wall);
-				}
-			}
-			setTileType("Background", sf::Vector2i(2, 4), TileType_Door);
-			// Steel, plastic, glass
-			m_requirements = BuildingRequirements{ 50, 50, 100 };
-			m_buildBuffer = 1;
-			break;
-		default:
-			m_buildBuffer = 0;
-			break;
+	case BuildingType_Base:
+		blueprint = BoardManager::getInstance().getBlueprint("Base");
+		// Steel, plastic, glass
+		m_requirements = BuildingRequirements{ 50, 50, 100 };
+		m_buildBuffer = 1;
+		break;
+	default:
+		m_buildBuffer = 0;
+		break;
 	}
+
+	m_footprintSize = blueprint->getFootprintSize();
+	m_tiles = blueprint->getTiles();
 }
 
 void Building::buildInterior() {
@@ -101,12 +86,7 @@ std::vector<std::pair<std::string, int>> Building::getCost() const
 	return cost;
 }
 
-void Building::setTileType(std::string layerName, sf::Vector2i position, TileType type)
-{
-	m_tiles[layerName][position.x][position.y] = type;
-}
-
-TileType Building::getTileType(std::string layerName, sf::Vector2i position) const
+Tile Building::getTile(std::string layerName, sf::Vector2i position) const
 {
 	// return the tile type at the given position on the given layer
 	return m_tiles.at(layerName).at(position.x).at(position.y);

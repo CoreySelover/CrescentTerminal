@@ -1,9 +1,21 @@
 #include "Global.h"
 
 #include <string>
+#include <sstream>
 
 // Meta
 sf::Clock GAME_CLOCK;
+
+// Helper function to split a string into a vector of strings based on a delimiter
+std::vector<std::string> splitString(const std::string& s, char delimiter) {
+	std::vector<std::string> tokens;
+	std::string token;
+	std::istringstream tokenStream(s);
+	while (std::getline(tokenStream, token, delimiter)) {
+		tokens.push_back(token);
+	}
+	return tokens;
+}
 
 // UI
 bool USER_HAS_CONTROL = true;

@@ -126,17 +126,6 @@ void Board::loadLevel(std::string filename)
     }
 }
 
-// Helper function to split a string into a vector of strings based on a delimiter
-std::vector<std::string> Board::splitString(const std::string& s, char delimiter) {
-    std::vector<std::string> tokens;
-    std::string token;
-    std::istringstream tokenStream(s);
-    while (std::getline(tokenStream, token, delimiter)) {
-        tokens.push_back(token);
-    }
-    return tokens;
-}
-
 Tile& Board::getTile(int x, int y, std::string layer)
 {
 	return m_drawLayers[layer].m_tiles[x][y];
@@ -256,11 +245,11 @@ void Board::buildBuilding(BuildingType type, sf::Vector2f position) {
         for (int y = 0; y < newBuilding->getFootprintSize().y; ++y) {
             for (auto& layer : m_drawLayers) {
 				std::string layerName = layer.first;
-                m_drawLayers[layerName].m_tiles[tileCoords.x + x][tileCoords.y + y].setType(newBuilding->getTileType(layerName, sf::Vector2i(x, y)));
+                m_drawLayers[layerName].m_tiles[tileCoords.x + x][tileCoords.y + y] = newBuilding->getTile(layerName, sf::Vector2i(x, y));
             }
 
             // Add a door if the tile is a door
-            if (newBuilding->getTileType("Background", sf::Vector2i(x, y)) == TileType_Door) {
+            if (newBuilding->getTile("Doors", sf::Vector2i(x, y)).getType() != TileType_Empty) {
                 m_doors[tileCoords.x + x][tileCoords.y + y] = Door({ newBuilding->getInterior()->getName(), sf::Vector2i(2,2) });
 			}
 		}

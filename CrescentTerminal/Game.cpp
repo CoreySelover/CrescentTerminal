@@ -13,9 +13,8 @@ Game::Game(sf::RenderWindow& window) : m_window(window)
     m_screenType = Type::GameWorld;
 
     // Map
-    m_boardManager = std::make_shared<BoardManager>();
-    m_boardManager->addBoard("World", std::make_shared<Board>("World", 50, 50));
-    m_currentBoard = m_boardManager->getBoard("World");
+    BoardManager::getInstance().addBoard("World", std::make_shared<Board>("World", 50, 50));
+    m_currentBoard = BoardManager::getInstance().getBoard("World");
 
     // Camera
     m_camera = std::make_shared<Camera>(window);
@@ -153,7 +152,7 @@ void Game::handleInput(sf::Event event)
                         // If the building has an interior, add it to the board manager
                         if (m_currentBoard->lastBuilding()->getInterior() != nullptr) 
                         {
-                            m_boardManager->addBoard(m_currentBoard->lastBuilding()->getInterior    ()->getName(), m_currentBoard->lastBuilding()->getInterior());
+                            BoardManager::getInstance().addBoard(m_currentBoard->lastBuilding()->getInterior()->getName(), m_currentBoard->lastBuilding()->getInterior());
                         }
 
                         // Remove the resources from the inventory
@@ -204,7 +203,7 @@ void Game::handleCollisions() {
         std::string newBoardName = m_currentBoard->getDoorDestinationName(currentTile);
         sf::Vector2i newBoardStartPos = m_currentBoard->getDoorDestinationStartPos(currentTile);
         
-        std::shared_ptr<Board> newBoard = m_boardManager->getBoard(newBoardName);
+        std::shared_ptr<Board> newBoard = BoardManager::getInstance().getBoard(newBoardName);
         if (newBoard == nullptr) {
 			throw std::runtime_error("Board " + newBoardName + " does not exist");
 		}
