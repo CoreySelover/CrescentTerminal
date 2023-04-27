@@ -199,7 +199,7 @@ void Game::handleCollisions() {
     if (!m_currentBoard->isTileInBounds(currentTile.x, currentTile.y)) return;
 
     // Doors
-    if (m_currentBoard->getTile(currentTile).getType() == TileType_Door) {
+    if (m_currentBoard->isDoor(currentTile)) {
         std::string newBoardName = m_currentBoard->getDoorDestinationName(currentTile);
         sf::Vector2i newBoardStartPos = m_currentBoard->getDoorDestinationStartPos(currentTile);
         

@@ -279,6 +279,14 @@ void Board::addDoor(sf::Vector2i position, std::string destinationName, sf::Vect
 	m_doors[position.x][position.y] = Door({ destinationName, destinationPosition });
 }
 
+bool Board::isDoor(sf::Vector2i position) const
+{
+    if (m_doors[position.x][position.y].destinationName != "") {
+		return true;
+	}
+	return false;
+}
+
 std::string Board::getDoorDestinationName(sf::Vector2i position) const
 {
     if (m_doors[position.x][position.y].destinationName != "") {

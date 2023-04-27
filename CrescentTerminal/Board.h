@@ -55,6 +55,7 @@ public:
 
     // Doors
     void addDoor(sf::Vector2i position, std::string destinationName, sf::Vector2i destinationPosition);
+    bool isDoor(sf::Vector2i position) const;
     std::string getDoorDestinationName(sf::Vector2i position) const;
     sf::Vector2i getDoorDestinationStartPos(sf::Vector2i position) const;
 
