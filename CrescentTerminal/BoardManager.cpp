@@ -33,7 +33,7 @@ std::shared_ptr<Board> BoardManager::getBoard(std::string name)
 void BoardManager::loadBlueprints()
 {
 	// Load all blueprints
-	std::vector<std::string> blueprintNames = { "Base_Blueprint" };
+	std::vector<std::string> blueprintNames = { "Base_Blueprint", "Shed_Blueprint"};
 	for (auto& name : blueprintNames) {
 		m_blueprints[name] = std::make_shared<Blueprint>(name, "Assets/Maps/" + name + ".xml");
 	}

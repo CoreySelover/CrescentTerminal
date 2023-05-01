@@ -241,8 +241,11 @@ void Board::buildBuilding(BuildingType type, sf::Vector2f position) {
             }
 
             // Add a door if the tile is a door
-            if (newBuilding->getTile("Doors", sf::Vector2i(x, y)).getType() != TileType_Empty) {
-                m_doors[tileCoords.x + x][tileCoords.y + y] = Door({ newBuilding->getInterior()->getName(), sf::Vector2i(4, 4)});
+            if (newBuilding->getTile("Doors", sf::Vector2i(x, y)).getType() != TileType_Empty) 
+            {
+                // TODO - unhardcode this.
+                m_doors[tileCoords.x + x][tileCoords.y + y] = Door({ newBuilding->getInterior()->getName(), sf::Vector2i(4, 4) });
+                
 			}
 		}
 	}

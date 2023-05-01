@@ -41,6 +41,12 @@ void Building::loadBlueprint() {
 		m_requirements = BuildingRequirements{ 50, 50, 100 };
 		m_buildBuffer = 1;
 		break;
+	case BuildingType_Shed:
+		blueprint = BoardManager::getInstance().getBlueprint("Shed_Blueprint");
+		// Steel, plastic, glass
+		m_requirements = BuildingRequirements{ 20, 20, 0 };
+		m_buildBuffer = 0;
+		break;
 	default:
 		m_buildBuffer = 0;
 		break;

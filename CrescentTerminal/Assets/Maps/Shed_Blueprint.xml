@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="3" height="3" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="1">
+ <tileset firstgid="1" source="Base_tileset.tsx"/>
+ <layer id="1" name="Background" width="3" height="3">
+  <data encoding="csv">
+0,0,0,
+0,0,0,
+0,211,0
+</data>
+ </layer>
+ <layer id="2" name="Obstacles" width="3" height="3">
+  <data encoding="csv">
+6,26,16,
+33,33,33,
+34,0,32
+</data>
+ </layer>
+ <layer id="3" name="Foreground" width="3" height="3">
+  <data encoding="csv">
+0,0,0,
+0,0,0,
+0,0,0
+</data>
+ </layer>
+ <layer id="4" name="Doors" width="3" height="3">
+  <data encoding="csv">
+0,0,0,
+0,0,0,
+0,211,0
+</data>
+ </layer>
+</map>

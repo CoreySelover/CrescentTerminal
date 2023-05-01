@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "Base_Interior.tmx",
+    "activeFile": "Shed_Interior.tmx",
     "expandedProjectPaths": [
         "."
     ],
@@ -18,16 +18,32 @@
             }
         },
         "Base_Interior.tmx": {
-            "scale": 2,
-            "selectedLayer": 3,
+            "scale": 1,
+            "selectedLayer": 1,
             "viewCenter": {
-                "x": 78.5,
-                "y": 67
+                "x": 78,
+                "y": 66
             }
         },
         "Base_tileset.tsx": {
-            "scaleInDock": 0.75,
+            "scaleInDock": 1,
             "scaleInEditor": 1
+        },
+        "Shed_Blueprint.tmx": {
+            "scale": 3,
+            "selectedLayer": 3,
+            "viewCenter": {
+                "x": 48,
+                "y": 48
+            }
+        },
+        "Shed_Interior.tmx": {
+            "scale": 1,
+            "selectedLayer": 3,
+            "viewCenter": {
+                "x": 80,
+                "y": 80
+            }
         },
         "World.tmx": {
             "scale": 0.57890625,
@@ -56,19 +72,21 @@
     },
     "last.exportedFilePath": "C:/Users/corey/source/repos/CrescentTerminal/CrescentTerminal/Assets/Maps",
     "last.imagePath": "C:/Users/corey/source/repos/CrescentTerminal/CrescentTerminal/Assets/Maps",
-    "map.height": 4,
+    "map.height": 5,
     "map.lastUsedExportFilter": "All Files (*)",
     "map.lastUsedFormat": "tmx",
     "map.renderOrder": null,
     "map.width": 5,
     "openFiles": [
-        "Base_tileset.tsx",
-        "test.tmx",
-        "Base_Interior.tmx"
+        "Base_Interior.tmx",
+        "Shed_Blueprint.tmx",
+        "Shed_Interior.tmx"
     ],
     "project": "World.tiled-project",
     "recentFiles": [
         "Base_Interior.tmx",
+        "Shed_Blueprint.tmx",
+        "Shed_Interior.tmx",
         "Base_Blueprint.tmx",
         "World.tmx",
         "Base_tileset.tsx",
