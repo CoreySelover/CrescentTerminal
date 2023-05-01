@@ -59,7 +59,8 @@ public:
     void drawForeground(sf::RenderWindow& window);
 
     // Helpers
-    sf::Vector2f getBoardSize() const;
+    sf::Vector2f getBoardSizeInPixels() const;
+    sf::Vector2i getBoardSizeInCoords() const;
     std::string getName() const { return m_name; }
 
 private:

@@ -18,7 +18,7 @@ Game::Game(sf::RenderWindow& window) : m_window(window)
 
     // Camera
     m_camera = std::make_shared<Camera>(window);
-    m_camera->setBoardSize(m_currentBoard->getBoardSize());
+    m_camera->setBoardSize(m_currentBoard->getBoardSizeInPixels());
     m_fadeRect.setSize(sf::Vector2f(m_window.getSize()));
     m_fadeRect.setFillColor(sf::Color::Black);
 
@@ -94,6 +94,12 @@ void Game::handleInput(sf::Event event)
                 switch (event.key.code) {
 				case sf::Keyboard::B:
 					deactivateBuildMode();
+					break;
+                case sf::Keyboard::Num1:
+                    m_currentBuilding = std::make_shared<Building>(BuildingType::BuildingType_Base, m_currentBoard->getName());
+					break;
+                case sf::Keyboard::Num2:
+                    m_currentBuilding = std::make_shared<Building>(BuildingType::BuildingType_Shed, m_currentBoard->getName());
 					break;
 				default:
 					break;
@@ -212,7 +218,7 @@ void Game::handleCollisions() {
         fadeOut();
 
         m_player->setBoard(newBoard);
-        m_camera->setBoardSize(newBoard->getBoardSize());
+        m_camera->setBoardSize(newBoard->getBoardSizeInPixels());
         m_player->setPosition(tileCoordsToPixels(newBoardStartPos));
         m_camera->setPosition(m_player->getPosition());
         m_currentBoard = newBoard;

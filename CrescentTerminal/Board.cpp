@@ -243,8 +243,10 @@ void Board::buildBuilding(BuildingType type, sf::Vector2f position) {
             // Add a door if the tile is a door
             if (newBuilding->getTile("Doors", sf::Vector2i(x, y)).getType() != TileType_Empty) 
             {
-                // TODO - unhardcode this.
-                m_doors[tileCoords.x + x][tileCoords.y + y] = Door({ newBuilding->getInterior()->getName(), sf::Vector2i(4, 4) });
+                sf::Vector2i entrance = newBuilding->getInterior()->getBoardSizeInCoords();
+                entrance.x = (entrance.x - 1) / 2;
+                entrance.y -= 2;
+                m_doors[tileCoords.x + x][tileCoords.y + y] = Door({ newBuilding->getInterior()->getName(), entrance });
                 
 			}
 		}
@@ -298,8 +300,13 @@ sf::Vector2i Board::getDoorDestinationStartPos(sf::Vector2i position) const
 	return sf::Vector2i(-1, -1);
 }
 
-sf::Vector2f Board::getBoardSize() const
+sf::Vector2f Board::getBoardSizeInPixels() const
 {
 	return sf::Vector2f(float(m_width * TILE_SIZE), float(m_height * TILE_SIZE));
+}
+
+sf::Vector2i Board::getBoardSizeInCoords() const
+{
+	return sf::Vector2i(m_width, m_height);
 }
 
