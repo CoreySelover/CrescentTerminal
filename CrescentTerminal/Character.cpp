@@ -78,7 +78,8 @@ void Character::update(float deltaTime)
 		m_position.x = ceil(m_position.x * 10) / 10.0;
 		m_position.y = ceil(m_position.y * 10) / 10.0;
 
-		if (canWalk(velocity))// * deltaTime))
+		// If we check canWalk using deltaTime all sorts of weird things can happen
+		if (canWalk(velocity))
 		{
 			movePosition(velocity * deltaTime);
 		}
@@ -97,6 +98,7 @@ bool Character::canWalk(sf::Vector2f velocity)
 {
 	if (m_board == nullptr) return false;
 
+	// This gives a little bit of a buffer to the collision detection
 	velocity *= 30.0f;
 	velocity.x = ceil(velocity.x * 10) / 10.0;
 	velocity.y = ceil(velocity.y * 10) / 10.0;
