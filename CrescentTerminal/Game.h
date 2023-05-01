@@ -41,6 +41,10 @@ public:
 
     void deactivateBuildMode();
 
+    void saveGame(std::string fileName = "NEW_GAME");
+
+    void loadGame(std::string fileName = "NEW_GAME");
+
 private:
     sf::RenderWindow& m_window;
     Type m_screenType;

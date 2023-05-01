@@ -33,16 +33,16 @@
             "scale": 3,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 48,
-                "y": 48
+                "x": 47.66666666666667,
+                "y": 47.66666666666666
             }
         },
         "Shed_Interior.tmx": {
             "scale": 1,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 80,
-                "y": 80
+                "x": 79,
+                "y": 51
             }
         },
         "World.tmx": {
@@ -84,9 +84,9 @@
     ],
     "project": "World.tiled-project",
     "recentFiles": [
-        "Base_Interior.tmx",
         "Shed_Blueprint.tmx",
         "Shed_Interior.tmx",
+        "Base_Interior.tmx",
         "Base_Blueprint.tmx",
         "World.tmx",
         "Base_tileset.tsx",

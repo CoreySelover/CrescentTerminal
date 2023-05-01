@@ -1,4 +1,7 @@
 
+#include <sstream>
+#include <iostream>
+#include <fstream>
 
 #include "Game.h"
 #include "EntityManager.h"
@@ -67,6 +70,13 @@ void Game::handleInput(sf::Event event)
         if (!USER_HAS_CONTROL) return;
         if (event.type == sf::Event::KeyPressed)
         {
+            // DEBUG - TURN THESE OFF FOR RELEASE
+            if (event.key.code == sf::Keyboard::H) {
+                saveGame();
+			}
+            if (event.key.code == sf::Keyboard::J) {
+				loadGame();
+            }
             // Normal character movement
             if (!m_buildMode) {
                 switch (event.key.code) {
@@ -288,5 +298,39 @@ void Game::deactivateBuildMode()
     m_currentBoard->clearHighlights();
 
     m_camera->zoom(0.625f);
+}
+
+void Game::saveGame(std::string fileName) 
+{
+    if (fileName == "NEW_GAME") {
+        // Since this is a new game, create a file name based on the current time
+        time_t rawtime;
+        struct tm timeinfo;
+        char buffer[80];
+
+        time(&rawtime);
+        localtime_s(&timeinfo, &rawtime);
+
+        strftime(buffer, sizeof(buffer), "%Y-%m-%d_%H-%M-%S", &timeinfo);
+        fileName = std::string(buffer);
+        fileName += ".txt";
+        fileName.insert(0, "Saves/");
+    }
+
+    std::ofstream outFile;
+    outFile.open(fileName);
+
+    if (outFile.is_open()) {
+        outFile << m_player->getPosition().x << "," << m_player->getPosition().y << std::endl;
+        outFile.close();
+    }
+    else {
+        std::cout << "Unable to open file: " << fileName << std::endl;
+    }
+}
+
+void Game::loadGame(std::string fileName) 
+{
+
 }
 
