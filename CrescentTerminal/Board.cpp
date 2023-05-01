@@ -310,3 +310,16 @@ sf::Vector2i Board::getBoardSizeInCoords() const
 	return sf::Vector2i(m_width, m_height);
 }
 
+std::string Board::boardData()
+{
+    std::string data = "";
+    data += "---Board---\n";
+    data += m_name + "\n";
+    data += "buildings:\n";
+    for (auto& building : m_buildings) {
+		data += building->buildingData();
+        data += "\n";
+	}
+	return data;
+}
+

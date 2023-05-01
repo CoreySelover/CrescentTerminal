@@ -63,6 +63,9 @@ public:
     sf::Vector2i getBoardSizeInCoords() const;
     std::string getName() const { return m_name; }
 
+    // Save/Load
+    std::string boardData();
+
 private:
     std::string m_name;
     int m_width;

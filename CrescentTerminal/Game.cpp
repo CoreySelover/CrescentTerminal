@@ -321,7 +321,14 @@ void Game::saveGame(std::string fileName)
     outFile.open(fileName);
 
     if (outFile.is_open()) {
-        outFile << m_player->getPosition().x << "," << m_player->getPosition().y << std::endl;
+
+        // Player data
+        outFile << "---Player Data---" << std::endl;
+        outFile << "pp:" << m_player->getPosition().x << "," << m_player->getPosition().y << "\n" << std::endl;
+
+        // Board data
+        outFile << "---Board Data---" << std::endl << BoardManager::getInstance().boardData() << std::endl;
+
         outFile.close();
     }
     else {

@@ -24,8 +24,11 @@ public:
 
     void addBoard(std::string name, std::shared_ptr<Board> board);
     std::shared_ptr<Board> getBoard(std::string name);
+ 
     void loadBlueprints();
     std::shared_ptr<Blueprint> getBlueprint(std::string name);
+
+    std::string boardData();
 
 private:
     BoardManager();

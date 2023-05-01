@@ -46,6 +46,8 @@ public:
 	// Tile properties
 	Tile getTile(std::string layerName, sf::Vector2i position) const;
 
+	std::string buildingData();
+
 private:
 	std::string m_ownerName;
 	std::string m_name;
