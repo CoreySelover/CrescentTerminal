@@ -195,7 +195,7 @@ void Game::update(sf::Time deltaTime)
 
 void Game::handleCollisions() {
 
-    sf::Vector2i currentTile = Board::pixelsToTileCoords(m_player->getPosition());
+    sf::Vector2i currentTile = pixelsToTileCoords(m_player->getPosition());
     if (!m_currentBoard->isTileInBounds(currentTile.x, currentTile.y)) return;
 
     // Doors
@@ -213,7 +213,7 @@ void Game::handleCollisions() {
 
         m_player->setBoard(newBoard);
         m_camera->setBoardSize(newBoard->getBoardSize());
-        m_player->setPosition(Board::tileCoordsToPixels(newBoardStartPos));
+        m_player->setPosition(tileCoordsToPixels(newBoardStartPos));
         m_camera->setPosition(m_player->getPosition());
         m_currentBoard = newBoard;
 

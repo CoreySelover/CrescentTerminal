@@ -61,8 +61,6 @@ public:
     // Helpers
     sf::Vector2f getBoardSize() const;
     std::string getName() const { return m_name; }
-    static sf::Vector2i pixelsToTileCoords(sf::Vector2f pixelPosition);
-    static sf::Vector2f tileCoordsToPixels(sf::Vector2i tilePosition);
 
 private:
     std::string m_name;

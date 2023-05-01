@@ -55,6 +55,8 @@ void Character::update(float deltaTime)
 {
 	Entity::update(deltaTime);
 
+	std::cout << m_position.x << ", " << m_position.y << std::endl;
+
 	if (m_walking)
 	{
 		sf::Vector2f velocity(0.0f, 0.0f);
@@ -96,10 +98,10 @@ bool Character::canWalk(sf::Vector2f velocity)
 
 	// Determine which tiles the character would be in if they moved
 	std::vector<sf::Vector2i> proposedTiles;
-	proposedTiles.push_back(m_board->pixelsToTileCoords(sf::Vector2f(m_hitBox.left + velocity.x, m_hitBox.top + velocity.y)));
-	proposedTiles.push_back(m_board->pixelsToTileCoords(sf::Vector2f(m_hitBox.left + m_hitBox.width + velocity.x, m_hitBox.top + velocity.y)));
-	proposedTiles.push_back(m_board->pixelsToTileCoords(sf::Vector2f(m_hitBox.left + velocity.x, m_hitBox.top + m_hitBox.height + velocity.y)));
-	proposedTiles.push_back(m_board->pixelsToTileCoords(sf::Vector2f(m_hitBox.left + m_hitBox.width + velocity.x, m_hitBox.top + m_hitBox.height + velocity.y)));
+	proposedTiles.push_back(pixelsToTileCoords(sf::Vector2f(m_hitBox.left + velocity.x, m_hitBox.top + velocity.y)));
+	proposedTiles.push_back(pixelsToTileCoords(sf::Vector2f(m_hitBox.left + m_hitBox.width + velocity.x, m_hitBox.top + velocity.y)));
+	proposedTiles.push_back(pixelsToTileCoords(sf::Vector2f(m_hitBox.left + velocity.x, m_hitBox.top + m_hitBox.height + velocity.y)));
+	proposedTiles.push_back(pixelsToTileCoords(sf::Vector2f(m_hitBox.left + m_hitBox.width + velocity.x, m_hitBox.top + m_hitBox.height + velocity.y)));
 
 	// Check if any of the proposed tiles are obstacles
 	for (auto& tile : proposedTiles)

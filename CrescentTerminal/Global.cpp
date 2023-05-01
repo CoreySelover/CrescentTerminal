@@ -42,3 +42,25 @@ std::string directionToString(Direction direction) {
 		return "UNKNOWN";
 	}
 }
+
+sf::Vector2i pixelsToTileCoords(sf::Vector2f pixelPosition)
+{
+	// Because e.g. int(-5 / 32) = 0, but we want it to resolve to -1
+	if (pixelPosition.x < 0) {
+		pixelPosition.x -= TILE_SIZE;
+	}
+	if (pixelPosition.y < 0) {
+		pixelPosition.y -= TILE_SIZE;
+	}
+
+	sf::Vector2i tileCoords;
+	tileCoords.x = int(pixelPosition.x / TILE_SIZE);
+	tileCoords.y = int(pixelPosition.y / TILE_SIZE);
+
+	return tileCoords;
+}
+
+sf::Vector2f tileCoordsToPixels(sf::Vector2i tilePosition)
+{
+	return sf::Vector2f(float(tilePosition.x * TILE_SIZE), float(tilePosition.y * TILE_SIZE));
+}
