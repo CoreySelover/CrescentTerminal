@@ -55,8 +55,6 @@ void Character::update(float deltaTime)
 {
 	Entity::update(deltaTime);
 
-	std::cout << m_position.x << ", " << m_position.y << std::endl;
-
 	if (m_walking)
 	{
 		sf::Vector2f velocity(0.0f, 0.0f);
@@ -77,7 +75,10 @@ void Character::update(float deltaTime)
 			break;
 		}
 
-		if (canWalk(velocity * deltaTime))
+		m_position.x = ceil(m_position.x * 10) / 10.0;
+		m_position.y = ceil(m_position.y * 10) / 10.0;
+
+		if (canWalk(velocity))// * deltaTime))
 		{
 			movePosition(velocity * deltaTime);
 		}
@@ -95,6 +96,10 @@ void Character::update(float deltaTime)
 bool Character::canWalk(sf::Vector2f velocity)
 {
 	if (m_board == nullptr) return false;
+
+	velocity *= 30.0f;
+	velocity.x = ceil(velocity.x * 10) / 10.0;
+	velocity.y = ceil(velocity.y * 10) / 10.0;
 
 	// Determine which tiles the character would be in if they moved
 	std::vector<sf::Vector2i> proposedTiles;
