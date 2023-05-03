@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<save>
+	<player posX="0" posY="0" />
+	<boards>
+		<board name="Base1_Interior">
+			<buildings />
+		</board>
+		<board name="World">
+			<buildings>
+				<building type="0" x="20" y="12" />
+			</buildings>
+		</board>
+	</boards>
+</save>

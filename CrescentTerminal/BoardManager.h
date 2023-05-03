@@ -28,7 +28,7 @@ public:
     void loadBlueprints();
     std::shared_ptr<Blueprint> getBlueprint(std::string name);
 
-    std::string boardData();
+    std::map<std::string, std::shared_ptr<Board>> getBoards() { return m_boards; }
 
 private:
     BoardManager();

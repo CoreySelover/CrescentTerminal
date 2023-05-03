@@ -3,26 +3,26 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "Shed_Interior.tmx",
+    "activeFile": "Base_Interior.tmx",
     "expandedProjectPaths": [
         "."
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
         "Base_Blueprint.tmx": {
-            "scale": 2.77578125,
-            "selectedLayer": 1,
+            "scale": 1,
+            "selectedLayer": 3,
             "viewCenter": {
-                "x": 80.33774275260343,
-                "y": 83.58007317759639
+                "x": 76,
+                "y": 148
             }
         },
         "Base_Interior.tmx": {
             "scale": 1,
-            "selectedLayer": 1,
+            "selectedLayer": 2,
             "viewCenter": {
-                "x": 383,
-                "y": 88
+                "x": 305,
+                "y": 167
             }
         },
         "Base_tileset.tsx": {
@@ -46,11 +46,11 @@
             }
         },
         "World.tmx": {
-            "scale": 0.57890625,
-            "selectedLayer": 0,
+            "scale": 0.5,
+            "selectedLayer": 2,
             "viewCenter": {
-                "x": 480.2159244264508,
-                "y": 321.2955465587045
+                "x": 874,
+                "y": 454
             }
         },
         "base.tmx": {
@@ -78,17 +78,17 @@
     "map.renderOrder": null,
     "map.width": 5,
     "openFiles": [
-        "Base_Interior.tmx",
-        "Shed_Blueprint.tmx",
-        "Shed_Interior.tmx"
+        "World.tmx",
+        "Base_Blueprint.tmx",
+        "Base_Interior.tmx"
     ],
     "project": "World.tiled-project",
     "recentFiles": [
+        "World.tmx",
+        "Base_Blueprint.tmx",
+        "Base_Interior.tmx",
         "Shed_Blueprint.tmx",
         "Shed_Interior.tmx",
-        "Base_Interior.tmx",
-        "Base_Blueprint.tmx",
-        "World.tmx",
         "Base_tileset.tsx",
         "test.tmx",
         "base.tmx"

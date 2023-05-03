@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Event>
+  <Instruction>
+    <Type>wait</Type>
+    <Duration>2</Duration>
+  </Instruction>
+  <Instruction>
+    <Type>fadein</Type>
+    <Duration>4</Duration>
+  </Instruction>
+  <Instruction>
+    <Type>wait</Type>
+    <Duration>2</Duration>
+  </Instruction>
+  <Dialogue>
+    <Speaker>Yusuf</Speaker>
+    <Text>"Welcome, doctor. Go ahead on inside. I gotta secure the hopper."</Text>
+  </Dialogue>
+</Event>

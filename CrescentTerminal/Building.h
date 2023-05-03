@@ -38,15 +38,16 @@ public:
 	void setBuildingType(BuildingType type);
 	void setBoardPosition(sf::Vector2i position);
 	BuildingType getBuildingType() const { return m_type; }
+	sf::Vector2i getBoardPosition() const { return m_boardPosition; }
 	sf::Vector2i getFootprintSize() const { return m_footprintSize; }
-		void resizeTiles();
 	int getBuildBuffer() const { return m_buildBuffer; }
 	std::vector<std::pair<std::string, int>> getCost() const;
 
 	// Tile properties
 	Tile getTile(std::string layerName, sf::Vector2i position) const;
 
-	std::string buildingData();
+	// Helpers
+	void resizeTiles();
 
 private:
 	std::string m_ownerName;

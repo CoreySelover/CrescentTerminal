@@ -9,7 +9,6 @@
 Blueprint::Blueprint(std::string name, std::string filepath)
 	: m_name(name)
 {
-	// TODO - load the blueprint from the file
 	pugi::xml_document doc;
 	pugi::xml_parse_result result = doc.load_file(filepath.c_str());
 	if (result)

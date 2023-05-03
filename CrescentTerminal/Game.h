@@ -41,6 +41,7 @@ public:
 
     void deactivateBuildMode();
 
+    // Data
     void saveGame(std::string fileName = "NEW_GAME");
 
     void loadGame(std::string fileName = "NEW_GAME");

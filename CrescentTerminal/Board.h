@@ -55,6 +55,7 @@ public:
 
     // Drawing
     void drawBackground(sf::RenderWindow& window);
+    void drawShadows(sf::RenderWindow& window);
     void drawObstacles(sf::RenderWindow& window);
     void drawForeground(sf::RenderWindow& window);
 
@@ -62,9 +63,7 @@ public:
     sf::Vector2f getBoardSizeInPixels() const;
     sf::Vector2i getBoardSizeInCoords() const;
     std::string getName() const { return m_name; }
-
-    // Save/Load
-    std::string boardData();
+    std::vector<std::shared_ptr<Building>> getBuildings() const { return m_buildings; }
 
 private:
     std::string m_name;

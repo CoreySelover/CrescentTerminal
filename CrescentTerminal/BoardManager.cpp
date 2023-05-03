@@ -44,13 +44,3 @@ std::shared_ptr<Blueprint> BoardManager::getBlueprint(std::string name)
 	return m_blueprints[name];
 }
 
-std::string BoardManager::boardData()
-{
-	std::string data = "";
-	for (auto& board : m_boards) {
-		data += board.second->boardData();
-		data += "\n";
-	}
-	return data;
-}
-

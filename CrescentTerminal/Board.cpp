@@ -205,6 +205,17 @@ void Board::drawBackground(sf::RenderWindow& window)
     }
 }
 
+void Board::drawShadows(sf::RenderWindow& window)
+{
+    for (int x = 0; x < m_width; ++x) {
+        for (int y = 0; y < m_height; ++y) {
+            if (isTileOnScreen(x, y, window)) {
+                m_drawLayers["Shadows"].m_tiles[x][y].draw(window, { float(x * TILE_SIZE), float(y * TILE_SIZE) });
+            }
+        }
+    }
+}
+
 void Board::drawObstacles(sf::RenderWindow& window)
 {
     for (int x = 0; x < m_width; ++x) {
@@ -308,18 +319,5 @@ sf::Vector2f Board::getBoardSizeInPixels() const
 sf::Vector2i Board::getBoardSizeInCoords() const
 {
 	return sf::Vector2i(m_width, m_height);
-}
-
-std::string Board::boardData()
-{
-    std::string data = "";
-    data += "---Board---\n";
-    data += m_name + "\n";
-    data += "buildings:\n";
-    for (auto& building : m_buildings) {
-		data += building->buildingData();
-        data += "\n";
-	}
-	return data;
 }
 

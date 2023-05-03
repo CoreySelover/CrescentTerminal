@@ -1,7 +1,8 @@
 
 #include <sstream>
 #include <iostream>
-#include <fstream>
+
+#include "pugixml.hpp"
 
 #include "Game.h"
 #include "EntityManager.h"
@@ -75,7 +76,7 @@ void Game::handleInput(sf::Event event)
                 saveGame();
 			}
             if (event.key.code == sf::Keyboard::J) {
-				loadGame();
+				loadGame("Saves/test.txt");
             }
             // Normal character movement
             if (!m_buildMode) {
@@ -123,6 +124,7 @@ void Game::handleInput(sf::Event event)
                 break;
             case sf::Keyboard::Escape:
                 m_screenType = Type::MainMenu;
+                break;
             default:
                 break;
             }
@@ -278,6 +280,7 @@ void Game::drawEntities() {
     else if (m_screenType == Type::GameWorld) {
         // Draw game world
         m_currentBoard->drawBackground(m_window);
+        m_currentBoard->drawShadows(m_window);
         m_currentBoard->drawObstacles(m_window);
         m_entityManager->drawEntities(m_window);
         m_currentBoard->drawForeground(m_window);
@@ -317,27 +320,71 @@ void Game::saveGame(std::string fileName)
         fileName.insert(0, "Saves/");
     }
 
-    std::ofstream outFile;
-    outFile.open(fileName);
+    pugi::xml_document doc;
+    pugi::xml_node root = doc.append_child("save");
 
-    if (outFile.is_open()) {
+    // Create the player node and add its attributes
+    pugi::xml_node playerNode = root.append_child("player");
+    playerNode.append_attribute("posX").set_value(m_player->getPosition().x);
+    playerNode.append_attribute("posY").set_value(m_player->getPosition().x);
 
-        // Player data
-        outFile << "---Player Data---" << std::endl;
-        outFile << "pp:" << m_player->getPosition().x << "," << m_player->getPosition().y << "\n" << std::endl;
+    // Create the boards node and add each map as a child node
+    pugi::xml_node boardsNode = root.append_child("boards");
+    
+    for (auto &board : BoardManager::getInstance().getBoards()) {
+        // Create the map node and add its attributes
+        pugi::xml_node boardNode = boardsNode.append_child("board");
+        boardNode.append_attribute("name").set_value(board.second->getName().c_str());
 
-        // Board data
-        outFile << "---Board Data---" << std::endl << BoardManager::getInstance().boardData() << std::endl;
-
-        outFile.close();
+        // Create the buildings node and add each building as a child node
+        pugi::xml_node buildingsNode = boardNode.append_child("buildings");
+        for (auto &building : board.second->getBuildings()) {
+            // Create the building node and add its attributes
+            pugi::xml_node buildingNode = buildingsNode.append_child("building");
+            buildingNode.append_attribute("type").set_value(building->getBuildingType());
+            buildingNode.append_attribute("x").set_value(building->getBoardPosition().x);
+            buildingNode.append_attribute("y").set_value(building->getBoardPosition().y);
+        }
     }
-    else {
-        std::cout << "Unable to open file: " << fileName << std::endl;
-    }
+
+    // Save the document to a file
+    doc.save_file(fileName.c_str());
 }
 
 void Game::loadGame(std::string fileName) 
 {
+    // Load the game using pugixml
+    pugi::xml_document doc;
+    pugi::xml_parse_result result = doc.load_file(fileName.c_str());
+    if (!result) {
+		throw std::runtime_error("Failed to load save file " + fileName);
+	}
 
+    // Get the root node
+	pugi::xml_node root = doc.child("save");
+
+	// Get the player node and set the player's position
+	pugi::xml_node playerNode = root.child("player");
+	m_player->setPosition(sf::Vector2f(playerNode.attribute("posX").as_float(), playerNode.attribute("posY").as_float()));
+
+	// Get the boards node and load each board
+	pugi::xml_node boardsNode = root.child("boards");
+    for (pugi::xml_node boardNode = boardsNode.child("board"); boardNode; boardNode = boardNode.next_sibling("board")) {
+		std::string boardName = boardNode.attribute("name").as_string();
+		std::shared_ptr<Board> board = BoardManager::getInstance().getBoard(boardName);
+        if (board == nullptr) {
+            continue;
+		}
+
+		// Get the buildings node and load each building
+		pugi::xml_node buildingsNode = boardNode.child("buildings");
+        for (pugi::xml_node buildingNode = buildingsNode.child("building"); buildingNode; buildingNode = buildingNode.next_sibling("building")) 
+        {
+			BuildingType buildingType = static_cast<BuildingType>(buildingNode.attribute("type").as_int());
+			sf::Vector2i buildingPos = sf::Vector2i(buildingNode.attribute("x").as_int(), buildingNode.attribute("y").as_int());
+
+			BoardManager::getInstance().getBoard(boardName)->buildBuilding(buildingType, tileCoordsToPixels(buildingPos));
+		}
+	}
+    
 }
-

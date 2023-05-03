@@ -102,13 +102,3 @@ Tile Building::getTile(std::string layerName, sf::Vector2i position) const
 	// return the tile type at the given position on the given layer
 	return m_tiles.at(layerName).at(position.x).at(position.y);
 }
-
-std::string Building::buildingData()
-{
-	std::string data = "";
-	data += "bn:" + m_name + "\n";
-	data += "bt:" + std::to_string(m_type) + "\n";
-	data += "bpx:" + std::to_string(m_boardPosition.x) + "\n";
-	data += "bpy:" + std::to_string(m_boardPosition.y);
-	return data;
-}
