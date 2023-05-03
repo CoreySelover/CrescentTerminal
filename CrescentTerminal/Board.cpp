@@ -267,7 +267,6 @@ void Board::buildBuilding(BuildingType type, sf::Vector2f position) {
             if (newBuilding->getTile("Doors", sf::Vector2i(x, y)).getType() != TileType_Empty) 
             {
                 sf::Vector2i entrance = newBuilding->getInterior()->getEntrances()["main"];
-                std::cout << entrance.x << ", " << entrance.y << std::endl;
                 m_doors[tileCoords.x + x][tileCoords.y + y] = Door({ newBuilding->getInterior()->getName(), entrance });
                 
 			}

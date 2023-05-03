@@ -16,12 +16,7 @@ public:
 
     ~Game();
 
-    enum class Type {
-        MainMenu,
-        GameWorld
-    };
-
-    void setScreenType(Type type);
+    void startGame(std::string filePath);
 
     void handleInput(sf::Event event);
 
@@ -42,13 +37,12 @@ public:
     void deactivateBuildMode();
 
     // Data
-    void saveGame(std::string fileName = "NEW_GAME");
+    void saveData(std::string fileName = "NEW_GAME");
 
-    void loadGame(std::string fileName = "NEW_GAME");
+    void loadData(std::string fileName = "NEW_GAME");
 
 private:
     sf::RenderWindow& m_window;
-    Type m_screenType;
     sf::RectangleShape m_fadeRect;
 
     std::shared_ptr<Camera> m_camera;
