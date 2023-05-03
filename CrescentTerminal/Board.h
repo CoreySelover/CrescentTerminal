@@ -28,7 +28,7 @@ public:
     ~Board();
     void resizeVectors();
     void clearBuildings();
-    void loadLevel(std::string filename);
+    void loadFromFile(std::string filename);
 
     // Tiles
     Tile& getTile(int x, int y, std::string layer = "Background");
@@ -63,14 +63,18 @@ public:
     sf::Vector2f getBoardSizeInPixels() const;
     sf::Vector2i getBoardSizeInCoords() const;
     std::string getName() const { return m_name; }
+    std::string getFileName() const { return m_fileName; }
+    std::map<std::string, sf::Vector2i> getEntrances() const { return m_entrances; }
     std::vector<std::shared_ptr<Building>> getBuildings() const { return m_buildings; }
 
 private:
     std::string m_name;
     int m_width;
     int m_height;
+    std::string m_fileName;
     std::vector<std::shared_ptr<Building>> m_buildings;
     std::vector<std::vector<Door>> m_doors;
+    std::map<std::string, sf::Vector2i> m_entrances;
     std::map<std::string, DrawLayer> m_drawLayers;
 };
 

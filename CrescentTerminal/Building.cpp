@@ -39,7 +39,7 @@ void Building::loadBlueprint() {
 		blueprint = BoardManager::getInstance().getBlueprint("Base_Blueprint");
 		// Steel, plastic, glass
 		m_requirements = BuildingRequirements{ 50, 50, 100 };
-		m_buildBuffer = 1;
+		m_buildBuffer = 0;
 		break;
 	case BuildingType_Shed:
 		blueprint = BoardManager::getInstance().getBlueprint("Shed_Blueprint");
@@ -61,7 +61,7 @@ void Building::buildInterior() {
 	case BuildingType_Base:
 		m_interior = std::make_shared<Board>(m_name + "_Interior", "Assets/Maps/Base_Interior.xml");
 		// TODO - unhardcode this.  This is the door to the outside
-		m_interior->addDoor(sf::Vector2i(4, 5), m_ownerName, m_boardPosition + sf::Vector2i(int(m_footprintSize.x / 2), int(m_footprintSize.y)));
+		m_interior->addDoor(sf::Vector2i(2, 6), m_ownerName, m_boardPosition + sf::Vector2i(2,5));
 		break;
 	case BuildingType_Shed:
 		m_interior = std::make_shared<Board>(m_name + "_Interior", "Assets/Maps/Shed_Interior.xml");

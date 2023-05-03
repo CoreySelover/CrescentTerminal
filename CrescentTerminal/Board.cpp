@@ -12,9 +12,10 @@
 Board::Board(std::string name, std::string filePath)
     : m_name(name)
 {
+    m_fileName = "NOT_LOADED";
     m_width = -1;
     m_height = -1;
-    loadLevel(filePath);
+    loadFromFile(filePath);
 }
 
 Board::~Board()
@@ -48,7 +49,7 @@ void Board::clearBuildings()
 	m_buildings.clear();
 }
 
-void Board::loadLevel(std::string filename)
+void Board::loadFromFile(std::string filename)
 {
     pugi::xml_document doc;
     pugi::xml_parse_result result = doc.load_file(filename.c_str());
@@ -57,6 +58,7 @@ void Board::loadLevel(std::string filename)
 		std::cout << "Error loading level: " << filename << std::endl;
 		return;
 	}
+    else m_fileName = filename;
 
     pugi::xml_node map = doc.child("map");
 	m_width = map.attribute("width").as_int();
@@ -115,6 +117,16 @@ void Board::loadLevel(std::string filename)
                 y++;
             }
         }
+    }
+
+    // Load objects
+    for (pugi::xml_node object = map.child("objectgroup").child("object"); object; object = object.next_sibling("object"))
+    {
+		std::string objectType = object.attribute("type").as_string();
+        if (objectType == "entrance") {
+            sf::Vector2i coords = pixelsToTileCoords(object.attribute("x").as_float(), object.attribute("y").as_float());
+            m_entrances[object.attribute("name").as_string()] = coords;
+		}
     }
 }
 
@@ -254,9 +266,8 @@ void Board::buildBuilding(BuildingType type, sf::Vector2f position) {
             // Add a door if the tile is a door
             if (newBuilding->getTile("Doors", sf::Vector2i(x, y)).getType() != TileType_Empty) 
             {
-                sf::Vector2i entrance = newBuilding->getInterior()->getBoardSizeInCoords();
-                entrance.x = (entrance.x - 1) / 2;
-                entrance.y -= 2;
+                sf::Vector2i entrance = newBuilding->getInterior()->getEntrances()["main"];
+                std::cout << entrance.x << ", " << entrance.y << std::endl;
                 m_doors[tileCoords.x + x][tileCoords.y + y] = Door({ newBuilding->getInterior()->getName(), entrance });
                 
 			}

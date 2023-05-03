@@ -335,6 +335,7 @@ void Game::saveGame(std::string fileName)
         // Create the map node and add its attributes
         pugi::xml_node boardNode = boardsNode.append_child("board");
         boardNode.append_attribute("name").set_value(board.second->getName().c_str());
+        boardNode.append_attribute("file").set_value(board.second->getFileName().c_str());
 
         // Create the buildings node and add each building as a child node
         pugi::xml_node buildingsNode = boardNode.append_child("buildings");
@@ -371,9 +372,10 @@ void Game::loadGame(std::string fileName)
 	pugi::xml_node boardsNode = root.child("boards");
     for (pugi::xml_node boardNode = boardsNode.child("board"); boardNode; boardNode = boardNode.next_sibling("board")) {
 		std::string boardName = boardNode.attribute("name").as_string();
+        std::string fileName = boardNode.attribute("file").as_string();
 		std::shared_ptr<Board> board = BoardManager::getInstance().getBoard(boardName);
         if (board == nullptr) {
-            continue;
+            BoardManager::getInstance().addBoard(boardName, std::make_shared<Board>(boardName, fileName));
 		}
 
 		// Get the buildings node and load each building
@@ -386,5 +388,4 @@ void Game::loadGame(std::string fileName)
 			BoardManager::getInstance().getBoard(boardName)->buildBuilding(buildingType, tileCoordsToPixels(buildingPos));
 		}
 	}
-    
 }

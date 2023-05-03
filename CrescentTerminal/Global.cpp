@@ -60,7 +60,17 @@ sf::Vector2i pixelsToTileCoords(sf::Vector2f pixelPosition)
 	return tileCoords;
 }
 
+sf::Vector2i pixelsToTileCoords(float x, float y)
+{
+	return pixelsToTileCoords(sf::Vector2f(x, y));
+}
+
 sf::Vector2f tileCoordsToPixels(sf::Vector2i tilePosition)
 {
 	return sf::Vector2f(float(tilePosition.x * TILE_SIZE), float(tilePosition.y * TILE_SIZE));
+}
+
+sf::Vector2f tileCoordsToPixels(int x, int y)
+{
+	return tileCoordsToPixels(sf::Vector2i(x, y));
 }

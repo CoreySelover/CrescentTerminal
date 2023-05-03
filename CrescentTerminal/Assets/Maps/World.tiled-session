@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "Base_Interior.tmx",
+    "activeFile": "World.tmx",
     "expandedProjectPaths": [
         "."
     ],
@@ -13,16 +13,16 @@
             "scale": 1,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 76,
-                "y": 148
+                "x": 74,
+                "y": 146
             }
         },
         "Base_Interior.tmx": {
             "scale": 1,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 305,
-                "y": 167
+                "x": 304,
+                "y": 166
             }
         },
         "Base_tileset.tsx": {
@@ -47,10 +47,10 @@
         },
         "World.tmx": {
             "scale": 0.5,
-            "selectedLayer": 2,
+            "selectedLayer": 5,
             "viewCenter": {
-                "x": 874,
-                "y": 454
+                "x": 496,
+                "y": 618
             }
         },
         "base.tmx": {
@@ -84,9 +84,9 @@
     ],
     "project": "World.tiled-project",
     "recentFiles": [
-        "World.tmx",
-        "Base_Blueprint.tmx",
         "Base_Interior.tmx",
+        "Base_Blueprint.tmx",
+        "World.tmx",
         "Shed_Blueprint.tmx",
         "Shed_Interior.tmx",
         "Base_tileset.tsx",
