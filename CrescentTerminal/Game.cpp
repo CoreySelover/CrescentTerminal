@@ -24,6 +24,7 @@ void Game::startGame(std::string filePath)
     // Map
     BoardManager::getInstance().addBoard("World", std::make_shared<Board>("World", "Assets/Maps/World.xml"));
     m_currentBoard = BoardManager::getInstance().getBoard("World");
+    m_currentBoard->buildBuilding(BuildingType_Base, tileCoordsToPixels(25,11));
 
     // Camera
     m_camera = std::make_shared<Camera>(m_window);
@@ -35,6 +36,7 @@ void Game::startGame(std::string filePath)
     m_entityManager = std::make_shared<EntityManager>();
     m_entityManager->addEntity(std::make_shared<Character>("Player", m_currentBoard));
     m_player = std::static_pointer_cast<Character>(m_entityManager->getEntity("Player"));
+    m_player->setPosition(tileCoordsToPixels(m_currentBoard->getEntrances()["main"]));
 
     // Build Mode
     m_currentBuilding = std::make_shared<Building>(BuildingType::BuildingType_Base, m_currentBoard->getName());

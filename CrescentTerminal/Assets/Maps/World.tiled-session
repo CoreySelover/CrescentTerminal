@@ -11,18 +11,21 @@
     "fileStates": {
         "Base_Blueprint.tmx": {
             "scale": 1,
-            "selectedLayer": 3,
+            "selectedLayer": 0,
             "viewCenter": {
                 "x": 74,
                 "y": 146
             }
         },
         "Base_Interior.tmx": {
+            "expandedObjectLayers": [
+                6
+            ],
             "scale": 1,
-            "selectedLayer": 2,
+            "selectedLayer": 5,
             "viewCenter": {
-                "x": 304,
-                "y": 166
+                "x": 80,
+                "y": 207
             }
         },
         "Base_tileset.tsx": {
@@ -47,10 +50,10 @@
         },
         "World.tmx": {
             "scale": 0.5,
-            "selectedLayer": 5,
+            "selectedLayer": 0,
             "viewCenter": {
-                "x": 496,
-                "y": 618
+                "x": 976,
+                "y": 1656
             }
         },
         "base.tmx": {
