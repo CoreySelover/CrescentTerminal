@@ -326,6 +326,14 @@ void Game::saveData(std::string fileName)
     pugi::xml_document doc;
     pugi::xml_node root = doc.append_child("save");
 
+    // Create the time node and add its attributes
+    pugi::xml_node timeNode = root.append_child("time");
+    timeNode.append_attribute("year").set_value(m_year);
+    timeNode.append_attribute("month").set_value(m_month);
+    timeNode.append_attribute("day").set_value(m_day);
+    timeNode.append_attribute("hour").set_value(m_hour);
+    timeNode.append_attribute("minute").set_value(m_minute);
+
     // Create the player node and add its attributes
     pugi::xml_node playerNode = root.append_child("player");
     playerNode.append_attribute("posX").set_value(m_player->getPosition().x);
@@ -367,6 +375,14 @@ void Game::loadData(std::string fileName)
 
     // Get the root node
 	pugi::xml_node root = doc.child("save");
+
+    // Get the time node and load the time
+    pugi::xml_node timeNode = root.child("time");
+    m_year = timeNode.attribute("year").as_int();
+    m_month = timeNode.attribute("month").as_int();
+    m_day = timeNode.attribute("day").as_int();
+    m_hour = timeNode.attribute("hour").as_int();
+    m_minute = timeNode.attribute("minute").as_int();
 
 	// Get the boards node and load each board
 	pugi::xml_node boardsNode = root.child("boards");
