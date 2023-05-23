@@ -72,10 +72,13 @@ private:
     int m_width;
     int m_height;
     std::string m_fileName;
+
     std::vector<std::shared_ptr<Building>> m_buildings;
     std::vector<std::vector<Door>> m_doors;
     std::map<std::string, sf::Vector2i> m_entrances;
     std::map<std::string, DrawLayer> m_drawLayers;
+
+    sf::RectangleShape m_darkness;
 };
 
 

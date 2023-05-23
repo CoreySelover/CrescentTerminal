@@ -16,6 +16,9 @@ Board::Board(std::string name, std::string filePath)
     m_width = -1;
     m_height = -1;
     loadFromFile(filePath);
+
+    m_darkness.setSize(sf::Vector2f(RESOLUTION));
+    m_darkness.setPosition(0, 0);
 }
 
 Board::~Board()
@@ -248,6 +251,11 @@ void Board::drawForeground(sf::RenderWindow& window)
             }
         }
     }
+
+    // Draw the darkness
+    m_darkness.setFillColor(sf::Color::Black);
+    m_darkness.setPosition(window.getView().getCenter() - window.getView().getSize() / 2.f);
+    //window.draw(m_darkness);
 }
 
 void Board::buildBuilding(BuildingType type, sf::Vector2f position) {

@@ -11,6 +11,7 @@ std::vector<std::string> splitString(const std::string& s, char delimiter);
 // UI
 extern bool USER_HAS_CONTROL;
 extern bool DEBUG_DRAW;
+extern sf::Vector2u RESOLUTION;
 
 // Board
 extern const int TILE_SIZE;

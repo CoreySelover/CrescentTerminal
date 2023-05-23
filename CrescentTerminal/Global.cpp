@@ -20,6 +20,7 @@ std::vector<std::string> splitString(const std::string& s, char delimiter) {
 // UI
 bool USER_HAS_CONTROL = true;
 bool DEBUG_DRAW = false;
+sf::Vector2u RESOLUTION = sf::Vector2u(0, 0);
 
 // Board
 const int TILE_SIZE = 32;

@@ -21,6 +21,10 @@ public:
     void handleInput(sf::Event event);
 
     void update(sf::Time deltaTime);
+
+    void updateTimeAndDate(sf::Time deltaTime);
+
+    int getDaysInMonth(int month, int year);
     
     void handleCollisions();
 
@@ -53,6 +57,13 @@ private:
 
     bool m_buildMode = false;
     std::shared_ptr<Building> m_currentBuilding;
+
+    int m_hour = 0;
+    int m_minute = 0;
+    int m_day = 12;
+    int m_month = 6;
+    int m_year = 2145;
+    sf::Text m_timeText;
 };
 
 

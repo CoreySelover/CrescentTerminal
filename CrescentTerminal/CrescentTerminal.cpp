@@ -17,6 +17,8 @@ int main()
 
     sf::RenderWindow window(sf::VideoMode::getDesktopMode(), "Crescent Terminal");
     //sf::RenderWindow window(sf::VideoMode(800, 600), "Crescent Terminal");
+
+    RESOLUTION = window.getSize();
     window.setFramerateLimit(60);
     Game game(window);
 

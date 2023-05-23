@@ -21,10 +21,12 @@ Game::~Game()
 
 void Game::startGame(std::string filePath)
 {
-    // Map
+    // World
     BoardManager::getInstance().addBoard("World", std::make_shared<Board>("World", "Assets/Maps/World.xml"));
     m_currentBoard = BoardManager::getInstance().getBoard("World");
     m_currentBoard->buildBuilding(BuildingType_Base, tileCoordsToPixels(25,11));
+    m_hour = 6;
+    m_minute = 0;
 
     // Camera
     m_camera = std::make_shared<Camera>(m_window);
@@ -155,6 +157,10 @@ void Game::handleInput(sf::Event event)
 
 void Game::update(sf::Time deltaTime)
 {
+    // Update the time
+    updateTimeAndDate(deltaTime);
+    m_timeText.setString(std::to_string(m_hour) + ":" + std::to_string(m_minute));
+
     // Normal character movement
     if (!m_buildMode) {
         m_entityManager->update(deltaTime.asMilliseconds());
@@ -174,6 +180,43 @@ void Game::update(sf::Time deltaTime)
             && m_currentBoard->canBuildHere(m_currentBuilding->getFootprintSize(), mousePos, m_currentBuilding->getBuildBuffer());
         m_currentBoard->highlightTiles(m_currentBuilding->getFootprintSize(), mousePos, canBuild);
 	}
+}
+
+void Game::updateTimeAndDate(sf::Time deltaTime) {
+    static float elapsedSeconds = 0;
+    elapsedSeconds += deltaTime.asSeconds();
+    m_minute = int(elapsedSeconds);
+    if (m_minute >= 60) {
+        m_hour++;
+        m_minute = 0;
+        elapsedSeconds = 0;
+    }
+    if (m_hour >= 24) {
+        m_hour = 0;
+        m_day++;
+
+        // Check for end of the month
+        if (m_day > getDaysInMonth(m_month, m_year)) {
+            m_day = 1;
+            m_month++;
+        }
+
+        // Check for end of the year
+        if (m_month > 12) {
+            m_month = 1;
+            m_year++;
+        }
+    }
+}
+
+int Game::getDaysInMonth(int month, int year) {
+    static const int daysInMonth[] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+    int days = daysInMonth[month - 1];
+
+    if (month == 2 && ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0)))
+        days++; // February has an extra day in a leap year
+
+    return days;
 }
 
 void Game::handleCollisions() {
@@ -324,10 +367,6 @@ void Game::loadData(std::string fileName)
 
     // Get the root node
 	pugi::xml_node root = doc.child("save");
-
-	// Get the player node and set the player's position
-	pugi::xml_node playerNode = root.child("player");
-	m_player->setPosition(sf::Vector2f(playerNode.attribute("posX").as_float(), playerNode.attribute("posY").as_float()));
 
 	// Get the boards node and load each board
 	pugi::xml_node boardsNode = root.child("boards");
