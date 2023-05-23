@@ -286,7 +286,8 @@ void Game::saveData(std::string fileName)
     // Create the player node and add its attributes
     pugi::xml_node playerNode = root.append_child("player");
     playerNode.append_attribute("posX").set_value(m_player->getPosition().x);
-    playerNode.append_attribute("posY").set_value(m_player->getPosition().x);
+    playerNode.append_attribute("posY").set_value(m_player->getPosition().y);
+    playerNode.append_attribute("board").set_value(m_currentBoard->getName().c_str());
 
     // Create the boards node and add each map as a child node
     pugi::xml_node boardsNode = root.append_child("boards");
@@ -348,4 +349,11 @@ void Game::loadData(std::string fileName)
 			BoardManager::getInstance().getBoard(boardName)->buildBuilding(buildingType, tileCoordsToPixels(buildingPos));
 		}
 	}
+
+    // Get the player node and set the player's position
+    pugi::xml_node playerNode = root.child("player");
+    std::shared_ptr board = BoardManager::getInstance().getBoard(playerNode.attribute("board").as_string());
+    m_player->setBoard(board);
+    m_currentBoard = board;
+    m_player->setPosition(sf::Vector2f(playerNode.attribute("posX").as_float(), playerNode.attribute("posY").as_float()));
 }
