@@ -69,8 +69,12 @@ void Building::buildInterior() {
 		m_interior->addDoor(sf::Vector2i(2, 4), m_ownerName, m_boardPosition + sf::Vector2i(int(m_footprintSize.x / 2), int(m_footprintSize.y)));
 		break;
 	default:
+		throw std::runtime_error("Building::buildInterior() - Building type not supported");
 		break;
 	}
+
+	BoardManager::getInstance().addBoard(m_interior->getName(), m_interior);
+
 }
 
 void Building::setBoardPosition(sf::Vector2i position)

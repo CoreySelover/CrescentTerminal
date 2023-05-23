@@ -145,12 +145,6 @@ void Game::handleInput(sf::Event event)
                     // Build the building
                     m_currentBoard->buildBuilding(m_currentBuilding->getBuildingType(), mousePos);
 
-                    // If the building has an interior, add it to the board manager
-                    if (m_currentBoard->lastBuilding()->getInterior() != nullptr) 
-                    {
-                        BoardManager::getInstance().addBoard(m_currentBoard->lastBuilding()->getInterior()->getName(), m_currentBoard->lastBuilding()->getInterior());
-                    }
-
                     // Remove the resources from the inventory
 					m_inventory->removeResources(m_currentBuilding->getCost());
 				}
