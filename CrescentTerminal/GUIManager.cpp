@@ -65,3 +65,11 @@ void GUIManager::draw(sf::RenderWindow& window)
 	}
 }
 
+void GUIManager::handleInput(const sf::Event& event)
+{
+    for (auto& element : m_elements)
+    {
+		element.second->handleEvent(event);
+	}
+}
+

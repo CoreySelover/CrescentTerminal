@@ -54,6 +54,11 @@ void Game::startGame(std::string filePath)
 void Game::handleInput(sf::Event event)
 {
     if (!USER_HAS_CONTROL) return;
+
+    // GUI
+    GUIManager::getInstance().handleInput(event);
+
+    // Game
     if (event.type == sf::Event::KeyPressed)
     {
         // DEBUG - TURN THESE OFF FOR RELEASE
@@ -63,6 +68,7 @@ void Game::handleInput(sf::Event event)
         if (event.key.code == sf::Keyboard::J) {
 			loadData("Saves/test.txt");
         }
+
         // Normal character movement
         if (!m_buildMode) {
             switch (event.key.code) {
@@ -85,6 +91,7 @@ void Game::handleInput(sf::Event event)
                 break;
             }
         }
+
         // Build mode
         else if (m_buildMode) {
             switch (event.key.code) {
@@ -101,6 +108,7 @@ void Game::handleInput(sf::Event event)
 				break;
 			}
 		}
+
         // Put other key presses here that should be allowed
         // even if the user doesn't have control
         switch (event.key.code) {

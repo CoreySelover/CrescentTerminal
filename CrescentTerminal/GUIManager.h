@@ -36,6 +36,7 @@ public:
 
     void update();
     void draw(sf::RenderWindow& window);
+    void handleInput(const sf::Event& event);
 
 private:
     GUIManager();
