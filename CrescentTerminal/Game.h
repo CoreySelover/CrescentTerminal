@@ -7,6 +7,7 @@
 #include "Board.h"
 #include "EntityManager.h"
 #include "Character.h"
+#include "GUIManager.h"
 #include "Building.h"
 #include "Inventory.h"
 

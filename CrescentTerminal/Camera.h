@@ -22,6 +22,8 @@ public:
 
     void zoom(float zoom);
 
+    sf::View& getView() { return m_view; }
+
 private:
     sf::RenderWindow& m_window;
     sf::Vector2f m_target;

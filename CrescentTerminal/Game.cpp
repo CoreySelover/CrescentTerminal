@@ -40,6 +40,10 @@ void Game::startGame(std::string filePath)
     m_player = std::static_pointer_cast<Character>(m_entityManager->getEntity("Player"));
     m_player->setPosition(tileCoordsToPixels(m_currentBoard->getEntrances()["main"]));
 
+    // GUI
+    GUIManager::getInstance().addElement("TimeWeather", std::make_shared<GUIElement>("TimeWeather", "Assets/Time_GUI.png"));
+    GUIManager::getInstance().getElement("TimeWeather")->setPosition(sf::Vector2f(20, 20));
+
     // Build Mode
     m_currentBuilding = std::make_shared<Building>(BuildingType::BuildingType_Base, m_currentBoard->getName());
 
@@ -157,9 +161,9 @@ void Game::handleInput(sf::Event event)
 
 void Game::update(sf::Time deltaTime)
 {
-    // Update the time
+    // Update GUIs
     updateTimeAndDate(deltaTime);
-    m_timeText.setString(std::to_string(m_hour) + ":" + std::to_string(m_minute));
+    GUIManager::getInstance().update();
 
     // Normal character movement
     if (!m_buildMode) {
@@ -168,6 +172,7 @@ void Game::update(sf::Time deltaTime)
         m_camera->setTarget(m_player->getPosition());
     }
 
+    // Camera
     m_camera->update(deltaTime);
 
     // Build mode
@@ -275,7 +280,11 @@ void Game::draw()
 {
     m_window.clear();
 
+    m_window.setView(m_camera->getView());
     drawEntities();
+
+    m_window.setView(m_window.getDefaultView());
+    GUIManager::getInstance().draw(m_window);
 
     m_window.display();
 }
@@ -407,7 +416,7 @@ void Game::loadData(std::string fileName)
 
     // Get the player node and set the player's position
     pugi::xml_node playerNode = root.child("player");
-    std::shared_ptr board = BoardManager::getInstance().getBoard(playerNode.attribute("board").as_string());
+    auto board = BoardManager::getInstance().getBoard(playerNode.attribute("board").as_string());
     m_player->setBoard(board);
     m_currentBoard = board;
     m_player->setPosition(sf::Vector2f(playerNode.attribute("posX").as_float(), playerNode.attribute("posY").as_float()));

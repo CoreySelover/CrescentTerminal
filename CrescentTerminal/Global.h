@@ -8,10 +8,11 @@
 extern sf::Clock GAME_CLOCK;
 std::vector<std::string> splitString(const std::string& s, char delimiter);
 
-// UI
+// GUI
 extern bool USER_HAS_CONTROL;
 extern bool DEBUG_DRAW;
 extern sf::Vector2u RESOLUTION;
+extern const float GUI_SCALE;
 
 // Board
 extern const int TILE_SIZE;

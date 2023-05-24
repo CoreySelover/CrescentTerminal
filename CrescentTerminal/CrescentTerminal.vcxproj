@@ -147,6 +147,7 @@
     <ClCompile Include="EntityManager.cpp" />
     <ClCompile Include="Global.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GUIManager.cpp" />
     <ClCompile Include="Inventory.cpp" />
     <ClCompile Include="pugixml.cpp" />
     <ClCompile Include="TextureManager.cpp" />
@@ -164,6 +165,7 @@
     <ClInclude Include="EntityManager.h" />
     <ClInclude Include="Global.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GUIManager.h" />
     <ClInclude Include="Inventory.h" />
     <ClInclude Include="pugiconfig.hpp" />
     <ClInclude Include="pugixml.hpp" />
