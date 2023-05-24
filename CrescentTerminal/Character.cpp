@@ -15,10 +15,8 @@ Character::Character(std::string name, std::shared_ptr<Board> board) : Entity(na
 	m_left = false;
 	m_right = false;
 
-	// TODO - unhardcode this
-	sf::Vector2i spriteSize(18, 27);
-	int sX = spriteSize.x;
-	int sY = spriteSize.y;
+	int sX = CHARACTER_SPRITE_SIZE.x;
+	int sY = CHARACTER_SPRITE_SIZE.y;
 	m_hitBox = sf::IntRect(0, 0, sX, sY / 2);
 
 	m_hitBoxShape.setPosition(m_hitBox.left, m_hitBox.top);
@@ -44,6 +42,12 @@ Character::Character(std::string name, std::shared_ptr<Board> board) : Entity(na
 	//m_animations["walk_left"] = std::make_shared<Animation>(filepath, 0, 0, sX, sY, 4, 100.0f);
 	//m_animations["walk_right"] = std::make_shared<Animation>(filepath, 0, 0, sX, sY, 4, 100.0f);
 	m_currentAnimation = m_animations["stop_down"];
+
+	// Loop through animations and set their scale
+	for (auto& animation : m_animations)
+	{
+		animation.second->setScale(CHARACTER_SCALE);
+	}
 }
 
 Character::~Character()

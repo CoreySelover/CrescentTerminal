@@ -8,6 +8,8 @@ class Animation
 public:
     Animation(std::string textureFilePath, int x, int y, int width, int height, int numFrames, float frameDuration);
 
+    void setScale(float scale);
+
     void update(float deltaTime);
 
     void setPosition(sf::Vector2f position);

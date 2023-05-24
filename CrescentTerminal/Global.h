@@ -22,6 +22,8 @@ sf::Vector2f tileCoordsToPixels(sf::Vector2i tilePosition);
 sf::Vector2f tileCoordsToPixels(int x, int y);
 
 // Characters
+extern const sf::Vector2i CHARACTER_SPRITE_SIZE;
+extern const float CHARACTER_SCALE;
 extern const float WALK_SPEED;
 enum Direction { UP, DOWN, LEFT, RIGHT };
 std::string directionToString(Direction direction);

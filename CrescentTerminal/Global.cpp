@@ -28,6 +28,8 @@ const std::vector<std::string> LAYER_NAMES = { "Background", "Shadows", "Obstacl
 
 // Characters
 const float WALK_SPEED = 0.1f;
+const sf::Vector2i CHARACTER_SPRITE_SIZE = sf::Vector2i(18, 27);
+const float CHARACTER_SCALE = 1.2f;
 
 std::string directionToString(Direction direction) {
 	switch (direction) {

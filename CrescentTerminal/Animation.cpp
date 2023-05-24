@@ -20,8 +20,11 @@ Animation::Animation(std::string textureFilePath, int x, int y, int width, int h
     m_elapsedTime = 0.0f;
 
     m_sprite.setTexture(TextureManager::getTexture(textureFilePath));
-
     m_sprite.setTextureRect(m_frames[m_currentFrame]);
+}
+
+void Animation::setScale(float scale) {
+	m_sprite.setScale(scale, scale);
 }
 
 void Animation::update(float deltaTime)
