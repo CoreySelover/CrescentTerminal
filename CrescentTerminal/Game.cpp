@@ -266,6 +266,8 @@ void Game::handleCollisions() {
 
 void Game::fadeOut(float duration) {
     sf::Clock clock;
+    m_window.setView(m_camera->getView());
+
     while (clock.getElapsedTime().asSeconds() < duration) {
         m_window.clear();
         m_fadeRect.setFillColor(sf::Color(0, 0, 0, 255 * (clock.getElapsedTime().asSeconds() / duration)));
@@ -277,6 +279,8 @@ void Game::fadeOut(float duration) {
 
 void Game::fadeIn(float duration) {
     sf::Clock clock;
+    m_window.setView(m_camera->getView());
+
     while (clock.getElapsedTime().asSeconds() < duration) {
         m_window.clear();
         m_fadeRect.setFillColor(sf::Color(0, 0, 0, 255 * (1 - (clock.getElapsedTime().asSeconds() / duration))));

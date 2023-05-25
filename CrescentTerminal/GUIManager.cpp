@@ -72,6 +72,7 @@ void TimeWeather::update() {
 		formattedMinute.insert(0, "0");
 	m_time.setString(formattedHour + ":" + formattedMinute);
 
+	// TODO
 	m_weather.setString("Sunny");
 	m_date.setString("5/25/2023");
 	m_funds.setString("1,000,000");
