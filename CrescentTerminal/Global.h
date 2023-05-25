@@ -13,6 +13,7 @@ extern bool USER_HAS_CONTROL;
 extern bool DEBUG_DRAW;
 extern sf::Vector2u RESOLUTION;
 extern const float GUI_SCALE;
+extern sf::Font FONT;
 
 // Board
 extern const int TILE_SIZE;

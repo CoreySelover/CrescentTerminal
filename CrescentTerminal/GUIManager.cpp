@@ -4,6 +4,7 @@
 
 #include <iostream>
 
+// GUIElement
 GUIElement::GUIElement(std::string name, std::string filePath) : m_name(name)
 {
     m_sprite.setTexture(TextureManager::getTexture(filePath));
@@ -31,8 +32,47 @@ bool GUIElement::handleInput(const sf::Event& event)
     return false;
 }
 
-// GUIManager
+// TimeWeather
+TimeWeather::TimeWeather(std::string name, std::string filePath) : GUIElement(name, filePath)
+{
+	m_weather.setFont(FONT);
+	m_weather.setCharacterSize(12 * GUI_SCALE);
+	m_weather.setFillColor(sf::Color::White);
+	m_weather.setPosition(sf::Vector2f(25, 12) * GUI_SCALE);
 
+	m_date.setFont(FONT);
+	m_date.setCharacterSize(12 * GUI_SCALE);
+	m_date.setFillColor(sf::Color::White);
+	m_date.setPosition(sf::Vector2f(25, 27) * GUI_SCALE);
+
+	m_time.setFont(FONT);
+	m_time.setCharacterSize(12 * GUI_SCALE);
+	m_time.setFillColor(sf::Color::White);
+	m_time.setPosition(sf::Vector2f(25, 42) * GUI_SCALE);
+
+	m_funds.setFont(FONT);
+	m_funds.setCharacterSize(12 * GUI_SCALE);
+	m_funds.setFillColor(sf::Color::White);
+	m_funds.setPosition(sf::Vector2f(25, 57) * GUI_SCALE);
+}
+
+void TimeWeather::update() {
+	GUIElement::update();
+	m_time.setString("12:52");
+	m_weather.setString("Sunny");
+	m_date.setString("5/25/2023");
+	m_funds.setString("1,000,000");
+}
+
+void TimeWeather::draw(sf::RenderWindow& window) {
+	GUIElement::draw(window);
+	window.draw(m_time);
+	window.draw(m_date);
+	window.draw(m_weather);
+	window.draw(m_funds);
+}
+
+// GUIManager
 GUIManager::GUIManager()
 {
 }

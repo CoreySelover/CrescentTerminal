@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include <map>
 
+// Base class for all GUI elements
 class GUIElement
 {
 public:
@@ -15,6 +16,21 @@ public:
 private:
     std::string m_name;
     sf::Sprite m_sprite;
+};
+
+// Specific GUI elements
+class TimeWeather : public GUIElement
+{
+public:
+    TimeWeather(std::string name, std::string filePath);
+    void update();
+    void draw(sf::RenderWindow& window);
+
+private:
+    sf::Text m_time;
+	sf::Text m_weather;
+    sf::Text m_date;
+    sf::Text m_funds;
 };
 
 class GUIManager

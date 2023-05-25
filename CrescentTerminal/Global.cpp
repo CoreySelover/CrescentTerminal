@@ -21,7 +21,8 @@ std::vector<std::string> splitString(const std::string& s, char delimiter) {
 bool USER_HAS_CONTROL = true;
 bool DEBUG_DRAW = false;
 sf::Vector2u RESOLUTION = sf::Vector2u(0, 0);
-const float GUI_SCALE = 2.0f;
+const float GUI_SCALE = 3.0f;
+sf::Font FONT;
 
 // Board
 const int TILE_SIZE = 32;

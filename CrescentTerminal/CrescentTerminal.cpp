@@ -10,19 +10,22 @@
 
 int main()
 {
+    // Pre-game loading
+    if (!FONT.loadFromFile("Assets/Fonts/arial.ttf")) throw std::runtime_error("Could not load font");
+
+    // Window setup
+    sf::RenderWindow window(sf::VideoMode::getDesktopMode(), "Crescent Terminal");
+    //sf::RenderWindow window(sf::VideoMode(800, 600), "Crescent Terminal");
+    RESOLUTION = window.getSize();
+    window.setFramerateLimit(60);
+
+    // Game setup
     enum class ScreenType {
         MainMenu,
         GameWorld
     };
-
-    sf::RenderWindow window(sf::VideoMode::getDesktopMode(), "Crescent Terminal");
-    //sf::RenderWindow window(sf::VideoMode(800, 600), "Crescent Terminal");
-
-    RESOLUTION = window.getSize();
-    window.setFramerateLimit(60);
-    Game game(window);
-
     ScreenType currentScreen = ScreenType::GameWorld;
+    Game game(window);
     game.startGame("NEW_GAME");
 
     while (window.isOpen()) {
