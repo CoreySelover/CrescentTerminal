@@ -59,12 +59,12 @@ void Building::loadBlueprint() {
 void Building::buildInterior() {
 	switch (m_type) {
 	case BuildingType_Base:
-		m_interior = std::make_shared<Board>(m_name + "_Interior", "Assets/Maps/Base_Interior.xml");
+		m_interior = std::make_shared<Board>(m_name + "_Interior", "Assets/Maps/Base_Interior.xml", true);
 		// TODO - unhardcode this.  This is the door to the outside
 		m_interior->addDoor(sf::Vector2i(2, 6), m_ownerName, m_boardPosition + sf::Vector2i(2,5));
 		break;
 	case BuildingType_Shed:
-		m_interior = std::make_shared<Board>(m_name + "_Interior", "Assets/Maps/Shed_Interior.xml");
+		m_interior = std::make_shared<Board>(m_name + "_Interior", "Assets/Maps/Shed_Interior.xml", true);
 		// TODO - unhardcode this.  This is the door to the outside
 		m_interior->addDoor(sf::Vector2i(2, 4), m_ownerName, m_boardPosition + sf::Vector2i(int(m_footprintSize.x / 2), int(m_footprintSize.y)));
 		break;

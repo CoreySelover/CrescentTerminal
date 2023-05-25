@@ -5,6 +5,7 @@
 
 // Meta
 sf::Clock GAME_CLOCK;
+float DEBUG_TIME_SCALE = 1.0f;
 
 // Helper function to split a string into a vector of strings based on a delimiter
 std::vector<std::string> splitString(const std::string& s, char delimiter) {

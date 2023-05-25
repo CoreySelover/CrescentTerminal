@@ -1,11 +1,12 @@
 <?xml version="1.0"?>
 <save>
+	<time year="2154" month="6" date="12" hour="6" minute="11" />
 	<player posX="64" posY="160" board="Base0_Interior" />
 	<boards>
-		<board name="Base0_Interior" file="Assets/Maps/Base_Interior.xml">
+		<board name="Base0_Interior" file="Assets/Maps/Base_Interior.xml" interior="true">
 			<buildings />
 		</board>
-		<board name="World" file="Assets/Maps/World.xml">
+		<board name="World" file="Assets/Maps/World.xml" interior="false">
 			<buildings>
 				<building type="0" x="25" y="11" />
 			</buildings>

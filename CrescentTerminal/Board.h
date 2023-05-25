@@ -21,24 +21,26 @@ struct DrawLayer {
 
 class Building;
 enum BuildingType;
+struct TimeDate;
 
 class Board {
 public:
-    Board(std::string name, std::string filePath);
+    Board(std::string name, std::string filePath, bool interior);
     ~Board();
     void resizeVectors();
     void clearBuildings();
     void loadFromFile(std::string filename);
+    void update(TimeDate& timeDate, sf::RenderWindow& window);
+    bool isInterior() const { return m_isInterior; }
+    void drawDarkness(sf::RenderWindow& window);
 
     // Tiles
     Tile& getTile(int x, int y, std::string layer = "Background");
     Tile& getTile(sf::Vector2i tilePosition, std::string layer = "Background");
-
     bool isTileObstacle(int x, int y);
     bool isTileInBounds(int x, int y);
     bool isTileOnScreen(int x, int y, sf::RenderWindow& window) const;
     bool isTileBuildEligible(int x, int y, std::string layer = "Background");
-
     void highlightTiles(sf::Vector2i footprint, sf::Vector2f mousePos, bool canBuild);
     void clearHighlights();
 
@@ -72,6 +74,7 @@ private:
     int m_width;
     int m_height;
     std::string m_fileName;
+    bool m_isInterior;
 
     std::vector<std::shared_ptr<Building>> m_buildings;
     std::vector<std::vector<Door>> m_doors;

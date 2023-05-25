@@ -22,10 +22,10 @@ Game::~Game()
 void Game::startGame(std::string filePath)
 {
     // World
-    BoardManager::getInstance().addBoard("World", std::make_shared<Board>("World", "Assets/Maps/World.xml"));
+    BoardManager::getInstance().addBoard("World", std::make_shared<Board>("World", "Assets/Maps/World.xml", false));
     m_currentBoard = BoardManager::getInstance().getBoard("World");
     m_currentBoard->buildBuilding(BuildingType_Base, tileCoordsToPixels(25,11));
-    m_timeDate.m_hour = 6;
+    m_timeDate.m_hour = 17;
     m_timeDate.m_minute = 0;
     m_timeDate.m_date = 12;
     m_timeDate.m_month = 6;
@@ -69,6 +69,9 @@ void Game::handleInput(sf::Event event)
 		}
         if (event.key.code == sf::Keyboard::J) {
 			loadData("Saves/test.txt");
+        }
+        if (event.key.code == sf::Keyboard::Space) {
+            DEBUG_TIME_SCALE = 10.0f;
         }
 
         // Normal character movement
@@ -125,6 +128,10 @@ void Game::handleInput(sf::Event event)
     }
     if (event.type == sf::Event::KeyReleased)
     {
+        // DEBUG - TURN THESE OFF FOR RELEASE
+        if (event.key.code == sf::Keyboard::Space) {
+			DEBUG_TIME_SCALE = 1.0f;
+		}
         if (USER_HAS_CONTROL) {
             switch (event.key.code) {
             case sf::Keyboard::W:
@@ -175,6 +182,9 @@ void Game::update(sf::Time deltaTime)
     updateTimeAndDate(deltaTime);
     GUIManager::getInstance().update();
 
+    // Update Board
+    m_currentBoard->update(m_timeDate, m_window);
+
     // Normal character movement
     if (!m_buildMode) {
         m_entityManager->update(deltaTime.asMilliseconds());
@@ -199,7 +209,7 @@ void Game::update(sf::Time deltaTime)
 
 void Game::updateTimeAndDate(sf::Time deltaTime) {
     static float elapsedSeconds = 0;
-    elapsedSeconds += deltaTime.asSeconds();
+    elapsedSeconds += deltaTime.asSeconds() * DEBUG_TIME_SCALE;
     m_timeDate.m_minute = int(elapsedSeconds);
     if (m_timeDate.m_minute >= 60) {
         m_timeDate.m_hour++;
@@ -298,6 +308,7 @@ void Game::draw()
     drawEntities();
 
     m_window.setView(m_window.getDefaultView());
+    m_currentBoard->drawDarkness(m_window);
     GUIManager::getInstance().draw(m_window);
 
     m_window.display();
@@ -371,6 +382,7 @@ void Game::saveData(std::string fileName)
         pugi::xml_node boardNode = boardsNode.append_child("board");
         boardNode.append_attribute("name").set_value(board.second->getName().c_str());
         boardNode.append_attribute("file").set_value(board.second->getFileName().c_str());
+        boardNode.append_attribute("interior").set_value(board.second->isInterior());
 
         // Create the buildings node and add each building as a child node
         pugi::xml_node buildingsNode = boardNode.append_child("buildings");
@@ -412,9 +424,10 @@ void Game::loadData(std::string fileName)
     for (pugi::xml_node boardNode = boardsNode.child("board"); boardNode; boardNode = boardNode.next_sibling("board")) {
 		std::string boardName = boardNode.attribute("name").as_string();
         std::string fileName = boardNode.attribute("file").as_string();
+        bool isInterior = boardNode.attribute("interior").as_bool();
 		std::shared_ptr<Board> board = BoardManager::getInstance().getBoard(boardName);
         if (board == nullptr) {
-            BoardManager::getInstance().addBoard(boardName, std::make_shared<Board>(boardName, fileName));
+            BoardManager::getInstance().addBoard(boardName, std::make_shared<Board>(boardName, fileName, isInterior));
 		}
 
 		// Get the buildings node and load each building

@@ -5,12 +5,13 @@
 
 #include "pugixml.hpp"
 
+#include "Game.h"
 #include "Board.h"
 #include "Global.h"
 #include "Building.h"
 
-Board::Board(std::string name, std::string filePath)
-    : m_name(name)
+Board::Board(std::string name, std::string filePath, bool interior)
+    : m_name(name), m_isInterior(interior)
 {
     m_fileName = "NOT_LOADED";
     m_width = -1;
@@ -133,6 +134,38 @@ void Board::loadFromFile(std::string filename)
     }
 }
 
+void Board::update(TimeDate& timeDate, sf::RenderWindow& window) 
+{
+    // Set the darkness alpha based on the time of day
+    float alpha = 0;
+
+    int minuteOfDay = timeDate.m_hour * 60 + timeDate.m_minute;
+    if (timeDate.m_hour >= 6 && timeDate.m_hour < 18) {
+        // Daytime: No transparency
+        alpha = 0;
+    }
+    else {
+        // Nighttime: Apply transparency based on the hour
+        if (timeDate.m_hour < 6) {
+            // Calculate alpha based on the hours until 6am
+            alpha = std::min(255, 360 - minuteOfDay);
+        }
+        else {
+            // Calculate alpha based on the hours since 18pm
+            alpha = std::min(255, minuteOfDay - 1080);
+        }
+    }
+    m_darkness.setPosition(sf::Vector2f(window.getView().getViewport().left, window.getView().getViewport().top));
+    m_darkness.setFillColor(sf::Color(0, 0, 0, alpha));
+}
+
+void Board::drawDarkness(sf::RenderWindow& window) 
+{
+    if (m_isInterior) return;
+    
+    window.draw(m_darkness);
+}
+
 Tile& Board::getTile(int x, int y, std::string layer)
 {
 	return m_drawLayers[layer].m_tiles[x][y];
@@ -251,11 +284,6 @@ void Board::drawForeground(sf::RenderWindow& window)
             }
         }
     }
-
-    // Draw the darkness
-    m_darkness.setFillColor(sf::Color::Black);
-    m_darkness.setPosition(window.getView().getCenter() - window.getView().getSize() / 2.f);
-    //window.draw(m_darkness);
 }
 
 void Board::buildBuilding(BuildingType type, sf::Vector2f position) {
