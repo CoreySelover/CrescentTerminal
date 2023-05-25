@@ -25,8 +25,11 @@ void Game::startGame(std::string filePath)
     BoardManager::getInstance().addBoard("World", std::make_shared<Board>("World", "Assets/Maps/World.xml"));
     m_currentBoard = BoardManager::getInstance().getBoard("World");
     m_currentBoard->buildBuilding(BuildingType_Base, tileCoordsToPixels(25,11));
-    m_hour = 6;
-    m_minute = 0;
+    m_timeDate.m_hour = 6;
+    m_timeDate.m_minute = 0;
+    m_timeDate.m_date = 12;
+    m_timeDate.m_month = 6;
+    m_timeDate.m_year = 2154;
 
     // Camera
     m_camera = std::make_shared<Camera>(m_window);
@@ -41,7 +44,7 @@ void Game::startGame(std::string filePath)
     m_player->setPosition(tileCoordsToPixels(m_currentBoard->getEntrances()["main"]));
 
     // GUI
-    GUIManager::getInstance().addElement("TimeWeather", std::make_shared<TimeWeather>("TimeWeather", "Assets/Time_GUI.png", sf::Vector2f(20, 20)));
+    GUIManager::getInstance().addElement("TimeWeather", std::make_shared<TimeWeather>("TimeWeather", "Assets/Time_GUI.png", sf::Vector2f(20, 20), m_timeDate));
 
     // Build Mode
     m_currentBuilding = std::make_shared<Building>(BuildingType::BuildingType_Base, m_currentBoard->getName());
@@ -197,26 +200,26 @@ void Game::update(sf::Time deltaTime)
 void Game::updateTimeAndDate(sf::Time deltaTime) {
     static float elapsedSeconds = 0;
     elapsedSeconds += deltaTime.asSeconds();
-    m_minute = int(elapsedSeconds);
-    if (m_minute >= 60) {
-        m_hour++;
-        m_minute = 0;
+    m_timeDate.m_minute = int(elapsedSeconds);
+    if (m_timeDate.m_minute >= 60) {
+        m_timeDate.m_hour++;
+        m_timeDate.m_minute = 0;
         elapsedSeconds = 0;
     }
-    if (m_hour >= 24) {
-        m_hour = 0;
-        m_day++;
+    if (m_timeDate.m_hour >= 24) {
+        m_timeDate.m_hour = 0;
+        m_timeDate.m_date++;
 
         // Check for end of the month
-        if (m_day > getDaysInMonth(m_month, m_year)) {
-            m_day = 1;
-            m_month++;
+        if (m_timeDate.m_date > getDaysInMonth(m_timeDate.m_month, m_timeDate.m_year)) {
+            m_timeDate.m_date = 1;
+            m_timeDate.m_month++;
         }
 
         // Check for end of the year
-        if (m_month > 12) {
-            m_month = 1;
-            m_year++;
+        if (m_timeDate.m_month > 12) {
+            m_timeDate.m_month = 1;
+            m_timeDate.m_year++;
         }
     }
 }
@@ -344,11 +347,11 @@ void Game::saveData(std::string fileName)
 
     // Create the time node and add its attributes
     pugi::xml_node timeNode = root.append_child("time");
-    timeNode.append_attribute("year").set_value(m_year);
-    timeNode.append_attribute("month").set_value(m_month);
-    timeNode.append_attribute("day").set_value(m_day);
-    timeNode.append_attribute("hour").set_value(m_hour);
-    timeNode.append_attribute("minute").set_value(m_minute);
+    timeNode.append_attribute("year").set_value(m_timeDate.m_year);
+    timeNode.append_attribute("month").set_value(m_timeDate.m_month);
+    timeNode.append_attribute("date").set_value(m_timeDate.m_date);
+    timeNode.append_attribute("hour").set_value(m_timeDate.m_hour);
+    timeNode.append_attribute("minute").set_value(m_timeDate.m_minute);
 
     // Create the player node and add its attributes
     pugi::xml_node playerNode = root.append_child("player");
@@ -394,11 +397,11 @@ void Game::loadData(std::string fileName)
 
     // Get the time node and load the time
     pugi::xml_node timeNode = root.child("time");
-    m_year = timeNode.attribute("year").as_int();
-    m_month = timeNode.attribute("month").as_int();
-    m_day = timeNode.attribute("day").as_int();
-    m_hour = timeNode.attribute("hour").as_int();
-    m_minute = timeNode.attribute("minute").as_int();
+    m_timeDate.m_year = timeNode.attribute("year").as_int();
+    m_timeDate.m_month = timeNode.attribute("month").as_int();
+    m_timeDate.m_date = timeNode.attribute("date").as_int();
+    m_timeDate.m_hour = timeNode.attribute("hour").as_int();
+    m_timeDate.m_minute = timeNode.attribute("minute").as_int();
 
 	// Get the boards node and load each board
 	pugi::xml_node boardsNode = root.child("boards");
@@ -427,4 +430,9 @@ void Game::loadData(std::string fileName)
     m_player->setBoard(board);
     m_currentBoard = board;
     m_player->setPosition(sf::Vector2f(playerNode.attribute("posX").as_float(), playerNode.attribute("posY").as_float()));
+}
+
+TimeDate Game::getTimeDate() const
+{
+	return m_timeDate;
 }

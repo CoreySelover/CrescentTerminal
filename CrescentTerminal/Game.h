@@ -11,6 +11,14 @@
 #include "Building.h"
 #include "Inventory.h"
 
+struct TimeDate {
+	int m_hour;
+	int m_minute;
+	int m_date;
+	int m_month;
+	int m_year;
+};
+
 class Game {
 public:
     Game(sf::RenderWindow& window);
@@ -46,6 +54,9 @@ public:
 
     void loadData(std::string fileName = "NEW_GAME");
 
+    // Getters
+    TimeDate getTimeDate() const;
+
 private:
     sf::RenderWindow& m_window;
     sf::RectangleShape m_fadeRect;
@@ -59,12 +70,7 @@ private:
     bool m_buildMode = false;
     std::shared_ptr<Building> m_currentBuilding;
 
-    int m_hour = 0;
-    int m_minute = 0;
-    int m_day = 12;
-    int m_month = 6;
-    int m_year = 2145;
-    sf::Text m_timeText;
+    TimeDate m_timeDate;
 };
 
 

@@ -1,6 +1,7 @@
 #include "GUIManager.h"
 #include "TextureManager.h"
 #include "Global.h"
+#include "Game.h"
 
 #include <iostream>
 
@@ -38,7 +39,7 @@ void GUIElement::setPosition(sf::Vector2f position) {
 }
 
 // TimeWeather
-TimeWeather::TimeWeather(std::string name, std::string filePath, sf::Vector2f position) : GUIElement(name, filePath, position)
+TimeWeather::TimeWeather(std::string name, std::string filePath, sf::Vector2f position, TimeDate& timeDate) : GUIElement(name, filePath, position), m_timeDate(timeDate)
 {
 	m_weather.setFont(FONT);
 	m_weather.setCharacterSize(10 * GUI_SCALE);
@@ -61,7 +62,16 @@ TimeWeather::TimeWeather(std::string name, std::string filePath, sf::Vector2f po
 
 void TimeWeather::update() {
 	GUIElement::update();
-	m_time.setString("12:52");
+
+	// Format time
+	std::string formattedHour = std::to_string(m_timeDate.m_hour);
+	if (formattedHour.length() == 1)
+		formattedHour.insert(0, "0");
+	std::string formattedMinute = std::to_string(m_timeDate.m_minute);
+	if (formattedMinute.length() == 1)
+		formattedMinute.insert(0, "0");
+	m_time.setString(formattedHour + ":" + formattedMinute);
+
 	m_weather.setString("Sunny");
 	m_date.setString("5/25/2023");
 	m_funds.setString("1,000,000");

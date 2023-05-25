@@ -21,10 +21,11 @@ private:
 };
 
 // Specific GUI elements
+struct TimeDate;
 class TimeWeather : public GUIElement
 {
 public:
-    TimeWeather(std::string name, std::string filePath, sf::Vector2f position);
+    TimeWeather(std::string name, std::string filePath, sf::Vector2f position, TimeDate& timeDate);
     void update();
     void draw(sf::RenderWindow& window);
     void setPosition(sf::Vector2f position);
@@ -34,6 +35,7 @@ private:
 	sf::Text m_weather;
     sf::Text m_date;
     sf::Text m_funds;
+    TimeDate& m_timeDate;
 };
 
 class GUIManager
