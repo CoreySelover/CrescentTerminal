@@ -15,7 +15,7 @@ void GUIElement::draw(sf::RenderWindow& window)
 	window.draw(m_sprite);
 }
 
-void GUIElement::handleEvent(const sf::Event& event)
+bool GUIElement::handleInput(const sf::Event& event)
 {
     if (event.type == sf::Event::MouseButtonPressed)
     {
@@ -24,8 +24,11 @@ void GUIElement::handleEvent(const sf::Event& event)
         {
             // Handle click event
             std::cout << m_name << " clicked!" << std::endl;
+            return true;
         }
     }
+
+    return false;
 }
 
 // GUIManager
@@ -65,11 +68,16 @@ void GUIManager::draw(sf::RenderWindow& window)
 	}
 }
 
-void GUIManager::handleInput(const sf::Event& event)
+bool GUIManager::handleInput(const sf::Event& event)
 {
     for (auto& element : m_elements)
     {
-		element.second->handleEvent(event);
+        if (element.second->handleInput(event))
+        {
+			return true;
+		}
 	}
+
+    return false;
 }
 

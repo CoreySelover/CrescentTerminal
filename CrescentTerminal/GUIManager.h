@@ -9,7 +9,7 @@ public:
     GUIElement(std::string name, std::string filePath);
     virtual void update() {}
     virtual void draw(sf::RenderWindow& window);
-    virtual void handleEvent(const sf::Event& event);
+    virtual bool handleInput(const sf::Event& event);
     void setPosition(sf::Vector2f position) { m_sprite.setPosition(position); }
 
 private:
@@ -36,7 +36,7 @@ public:
 
     void update();
     void draw(sf::RenderWindow& window);
-    void handleInput(const sf::Event& event);
+    bool handleInput(const sf::Event& event);
 
 private:
     GUIManager();
