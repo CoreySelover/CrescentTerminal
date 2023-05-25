@@ -149,7 +149,7 @@ void Game::handleInput(sf::Event event)
         // Commenting because this is hard to read
         if (m_buildMode) {
             if (event.mouseButton.button == sf::Mouse::Left) {
-				sf::Vector2f mousePos = m_window.mapPixelToCoords(sf::Mouse::getPosition(m_window));
+                sf::Vector2f mousePos = m_window.mapPixelToCoords(sf::Mouse::getPosition(m_window), m_camera->getView());
 
                 // Check if we meet the requirements to build
                 // and if the proposed tiles are valid
@@ -185,7 +185,7 @@ void Game::update(sf::Time deltaTime)
 
     // Build mode
     if (m_buildMode) {
-		sf::Vector2f mousePos = m_window.mapPixelToCoords(sf::Mouse::getPosition(m_window));
+		sf::Vector2f mousePos = m_window.mapPixelToCoords(sf::Mouse::getPosition(m_window), m_camera->getView());
 		m_camera->setTarget(mousePos);
 
         // Highlight the tiles that the building will occupy
