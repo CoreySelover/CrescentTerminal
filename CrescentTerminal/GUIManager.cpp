@@ -5,10 +5,11 @@
 #include <iostream>
 
 // GUIElement
-GUIElement::GUIElement(std::string name, std::string filePath) : m_name(name)
+GUIElement::GUIElement(std::string name, std::string filePath, sf::Vector2f position) : m_name(name)
 {
-    m_sprite.setTexture(TextureManager::getTexture(filePath));
-    m_sprite.setScale(GUI_SCALE, GUI_SCALE);
+	m_sprite.setTexture(TextureManager::getTexture(filePath));
+	m_sprite.setScale(GUI_SCALE, GUI_SCALE);
+	setPosition(position);
 }
 
 void GUIElement::draw(sf::RenderWindow& window)
@@ -32,28 +33,30 @@ bool GUIElement::handleInput(const sf::Event& event)
     return false;
 }
 
+void GUIElement::setPosition(sf::Vector2f position) {
+	m_sprite.setPosition(position);
+}
+
 // TimeWeather
-TimeWeather::TimeWeather(std::string name, std::string filePath) : GUIElement(name, filePath)
+TimeWeather::TimeWeather(std::string name, std::string filePath, sf::Vector2f position) : GUIElement(name, filePath, position)
 {
 	m_weather.setFont(FONT);
-	m_weather.setCharacterSize(12 * GUI_SCALE);
+	m_weather.setCharacterSize(10 * GUI_SCALE);
 	m_weather.setFillColor(sf::Color::White);
-	m_weather.setPosition(sf::Vector2f(25, 12) * GUI_SCALE);
 
 	m_date.setFont(FONT);
-	m_date.setCharacterSize(12 * GUI_SCALE);
+	m_date.setCharacterSize(10 * GUI_SCALE);
 	m_date.setFillColor(sf::Color::White);
-	m_date.setPosition(sf::Vector2f(25, 27) * GUI_SCALE);
 
 	m_time.setFont(FONT);
-	m_time.setCharacterSize(12 * GUI_SCALE);
+	m_time.setCharacterSize(10 * GUI_SCALE);
 	m_time.setFillColor(sf::Color::White);
-	m_time.setPosition(sf::Vector2f(25, 42) * GUI_SCALE);
 
 	m_funds.setFont(FONT);
-	m_funds.setCharacterSize(12 * GUI_SCALE);
+	m_funds.setCharacterSize(10 * GUI_SCALE);
 	m_funds.setFillColor(sf::Color::White);
-	m_funds.setPosition(sf::Vector2f(25, 57) * GUI_SCALE);
+
+	setPosition(position);
 }
 
 void TimeWeather::update() {
@@ -70,6 +73,14 @@ void TimeWeather::draw(sf::RenderWindow& window) {
 	window.draw(m_date);
 	window.draw(m_weather);
 	window.draw(m_funds);
+}
+
+void TimeWeather::setPosition(sf::Vector2f position) {
+	GUIElement::setPosition(position);
+	m_weather.setPosition(m_sprite.getPosition() + (sf::Vector2f(15, 4) * GUI_SCALE));
+	m_date.setPosition(m_sprite.getPosition() + (sf::Vector2f(15, 19) * GUI_SCALE));
+	m_time.setPosition(m_sprite.getPosition() + (sf::Vector2f(15, 34) * GUI_SCALE));
+	m_funds.setPosition(m_sprite.getPosition() + (sf::Vector2f(15, 49) * GUI_SCALE));
 }
 
 // GUIManager

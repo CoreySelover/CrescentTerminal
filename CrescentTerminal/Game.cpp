@@ -41,8 +41,7 @@ void Game::startGame(std::string filePath)
     m_player->setPosition(tileCoordsToPixels(m_currentBoard->getEntrances()["main"]));
 
     // GUI
-    GUIManager::getInstance().addElement("TimeWeather", std::make_shared<TimeWeather>("TimeWeather", "Assets/Time_GUI.png"));
-    GUIManager::getInstance().getElement("TimeWeather")->setPosition(sf::Vector2f(20, 20));
+    GUIManager::getInstance().addElement("TimeWeather", std::make_shared<TimeWeather>("TimeWeather", "Assets/Time_GUI.png", sf::Vector2f(20, 20)));
 
     // Build Mode
     m_currentBuilding = std::make_shared<Building>(BuildingType::BuildingType_Base, m_currentBoard->getName());

@@ -7,24 +7,27 @@
 class GUIElement
 {
 public:
-    GUIElement(std::string name, std::string filePath);
+    GUIElement(std::string name, std::string filePath, sf::Vector2f position);
     virtual void update() {}
     virtual void draw(sf::RenderWindow& window);
     virtual bool handleInput(const sf::Event& event);
-    void setPosition(sf::Vector2f position) { m_sprite.setPosition(position); }
+    virtual void setPosition(sf::Vector2f position);
+
+protected:
+    sf::Sprite m_sprite;
 
 private:
     std::string m_name;
-    sf::Sprite m_sprite;
 };
 
 // Specific GUI elements
 class TimeWeather : public GUIElement
 {
 public:
-    TimeWeather(std::string name, std::string filePath);
+    TimeWeather(std::string name, std::string filePath, sf::Vector2f position);
     void update();
     void draw(sf::RenderWindow& window);
+    void setPosition(sf::Vector2f position);
 
 private:
     sf::Text m_time;
