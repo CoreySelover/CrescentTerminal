@@ -47,6 +47,12 @@ void Building::loadBlueprint() {
 		m_requirements = BuildingRequirements{ 20, 20, 0 };
 		m_buildBuffer = 0;
 		break;
+	case BuildingType_Greenhouse:
+		blueprint = BoardManager::getInstance().getBlueprint("Greenhouse_Blueprint");
+		// Steel, plastic, glass
+		m_requirements = BuildingRequirements{ 10, 10, 20 };
+		m_buildBuffer = 0;
+		break;
 	default:
 		m_buildBuffer = 0;
 		break;
@@ -67,6 +73,11 @@ void Building::buildInterior() {
 		m_interior = std::make_shared<Board>(m_name + "_Interior", "Assets/Maps/Shed_Interior.xml", true);
 		// TODO - unhardcode this.  This is the door to the outside
 		m_interior->addDoor(sf::Vector2i(2, 4), m_ownerName, m_boardPosition + sf::Vector2i(int(m_footprintSize.x / 2), int(m_footprintSize.y)));
+		break;
+	case BuildingType_Greenhouse:
+		m_interior = std::make_shared<Board>(m_name + "_Interior", "Assets/Maps/Greenhouse_Interior.xml", true);
+		// TODO - unhardcode this.  This is the door to the outside
+		m_interior->addDoor(sf::Vector2i(2, 6), m_ownerName, m_boardPosition + sf::Vector2i(int(m_footprintSize.x / 2), int(m_footprintSize.y)));
 		break;
 	default:
 		throw std::runtime_error("Building::buildInterior() - Building type not supported");

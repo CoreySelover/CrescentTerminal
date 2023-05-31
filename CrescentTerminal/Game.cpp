@@ -25,6 +25,7 @@ void Game::startGame(std::string filePath)
     BoardManager::getInstance().addBoard("World", std::make_shared<Board>("World", "Assets/Maps/World.xml", false));
     m_currentBoard = BoardManager::getInstance().getBoard("World");
     m_currentBoard->buildBuilding(BuildingType_Base, tileCoordsToPixels(25,11));
+    m_currentBoard->buildBuilding(BuildingType_Greenhouse, tileCoordsToPixels(10, 21));
     m_timeDate.m_hour = 17;
     m_timeDate.m_minute = 0;
     m_timeDate.m_date = 12;
