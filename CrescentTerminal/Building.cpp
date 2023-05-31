@@ -23,6 +23,7 @@ Building::~Building()
 
 void Building::setBuildingType(BuildingType type)
 {
+	// TODO - this naming convention is going to break when we load data from file
 	m_type = type;
 	static const std::string buildingNames[] = { "Base", "Greenhouse", "Shed" };
 	static int buildingCounts[] = {0, 0, 0};
@@ -77,7 +78,7 @@ void Building::buildInterior() {
 	case BuildingType_Greenhouse:
 		m_interior = std::make_shared<Board>(m_name + "_Interior", "Assets/Maps/Greenhouse_Interior.xml", true);
 		// TODO - unhardcode this.  This is the door to the outside
-		m_interior->addDoor(sf::Vector2i(2, 6), m_ownerName, m_boardPosition + sf::Vector2i(int(m_footprintSize.x / 2), int(m_footprintSize.y)));
+		m_interior->addDoor(sf::Vector2i(2, 7), m_ownerName, m_boardPosition + sf::Vector2i(2,5));
 		break;
 	default:
 		throw std::runtime_error("Building::buildInterior() - Building type not supported");
