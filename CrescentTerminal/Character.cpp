@@ -17,7 +17,7 @@ Character::Character(std::string name, std::shared_ptr<Board> board) : Entity(na
 
 	int sX = CHARACTER_SPRITE_SIZE.x;
 	int sY = CHARACTER_SPRITE_SIZE.y;
-	m_hitBox = sf::IntRect(0, 0, sX, sY / 2);
+	m_hitBox = sf::IntRect(0, 0, sX * CHARACTER_SCALE, sY * CHARACTER_SCALE / 2);
 
 	m_hitBoxShape.setPosition(m_hitBox.left, m_hitBox.top);
 	m_hitBoxShape.setSize(sf::Vector2f(m_hitBox.width, m_hitBox.height));
@@ -89,7 +89,7 @@ void Character::update(float deltaTime)
 		}
 
 		m_hitBox.left = m_position.x;
-		m_hitBox.top = m_position.y + m_currentAnimation->getSize().y - m_hitBox.height;
+		m_hitBox.top = m_position.y + m_currentAnimation->getSize().y * CHARACTER_SCALE - m_hitBox.height;
 		m_hitBoxShape.setPosition(m_hitBox.left, m_hitBox.top);
 
 	}
