@@ -2,6 +2,8 @@
 
 #include <stdexcept>
 
+#include "Item.h"
+
 Inventory::Inventory()
 {
 	// TODO - read from file
@@ -63,4 +65,61 @@ bool Inventory::doWeHaveEnough(std::vector<std::pair<std::string, int>> requirem
 		}
 	}
 	return true;
+}
+
+bool Inventory::addItem(std::shared_ptr<Item> item, sf::Vector2i position)
+{
+	// Check that item slot exists
+	if (position.x >= m_items.size() || position.y >= m_items[0].size() || position.x < -1 || position.y < -1)
+	{
+		throw std::invalid_argument("Invalid position");
+	}
+	if (position.x == -1 && position.y == -1)
+	{
+		// Find first empty slot
+		for (int i = 0; i < m_items.size(); i++)
+		{
+			for (int j = 0; j < m_items[i].size(); j++)
+			{
+				if (m_items[i][j] == nullptr)
+				{
+					m_items[i][j] = item;
+					item->setInventoryPosition(sf::Vector2i(i, j));
+					return true;
+				}
+			}
+		}
+		// No empty slots found.
+		return false;
+	}
+	else
+	{
+		if (m_items[position.x][position.y] != nullptr)
+		{
+			return false;
+		}
+		m_items[position.x][position.y] = item;
+		item->setInventoryPosition(position);
+		return true;
+	}
+}
+
+std::shared_ptr<Item> Inventory::removeItemAtPosition(sf::Vector2i position)
+{
+	if (position.x >= m_items.size() || position.y >= m_items[0].size() || position.x < 0 || position.y < 0)
+	{
+		throw std::invalid_argument("Invalid position");
+	}
+	auto item = m_items[position.x][position.y];
+	m_items[position.x][position.y] = nullptr;
+	return item;
+}
+
+std::shared_ptr<Item> Inventory::getItemAtPosition(sf::Vector2i position) const
+{
+	if (position.x >= m_items.size() || position.y >= m_items[0].size() || position.x < 0 || position.y < 0)
+	{
+		throw std::invalid_argument("Invalid position");
+	}
+	return m_items[position.x][position.y];
 }

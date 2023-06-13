@@ -4,6 +4,8 @@
 #include <vector>
 #include <memory>
 
+#include <SFML/Graphics.hpp>
+
 class Item;
 
 class Inventory
@@ -15,15 +17,22 @@ public:
 		return instance;
 	}
 
+	// Resources
 	void addResource(std::string resource, int amount);
-	void removeResource(std::string resource, int amount);
 	void addResources(std::vector<std::pair<std::string, int>> resources);
+
+	void removeResource(std::string resource, int amount);
 	void removeResources(std::vector<std::pair<std::string, int>> resources);
 
-	// Getting the amount of a resource
 	int getAmountOf(std::string resource) const;
+
 	bool doWeHaveEnough(std::string resource, int amount) const;
 	bool doWeHaveEnough(std::vector<std::pair<std::string, int>> requirements) const;
+
+	// Items
+	bool addItem(std::shared_ptr<Item> item, sf::Vector2i position = sf::Vector2i(-1, -1));
+	std::shared_ptr<Item> removeItemAtPosition(sf::Vector2i position);
+	std::shared_ptr<Item> getItemAtPosition(sf::Vector2i position) const;
 
 private:
 	Inventory(); // Private constructor
