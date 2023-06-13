@@ -2,12 +2,18 @@
 
 #include <string>
 #include <vector>
+#include <memory>
+
+class Item;
 
 class Inventory
 {
 public:
-	Inventory();
-	~Inventory();
+	static Inventory& getInstance()
+	{
+		static Inventory instance;
+		return instance;
+	}
 
 	void addResource(std::string resource, int amount);
 	void removeResource(std::string resource, int amount);
@@ -20,8 +26,11 @@ public:
 	bool doWeHaveEnough(std::vector<std::pair<std::string, int>> requirements) const;
 
 private:
+	Inventory(); // Private constructor
+
 	int m_steel;
 	int m_plastic;
 	int m_glass;
-};
 
+	std::vector<std::vector<std::shared_ptr<Item>>> m_items;
+};

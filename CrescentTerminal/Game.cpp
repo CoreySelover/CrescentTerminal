@@ -50,9 +50,6 @@ void Game::startGame(std::string filePath)
 
     // Build Mode
     m_currentBuilding = std::make_shared<Building>(BuildingType::BuildingType_Base, m_currentBoard->getName());
-
-    // Inventory
-    m_inventory = std::make_shared<Inventory>();
 }
 
 void Game::handleInput(sf::Event event)
@@ -164,14 +161,14 @@ void Game::handleInput(sf::Event event)
 
                 // Check if we meet the requirements to build
                 // and if the proposed tiles are valid
-                if (m_inventory->doWeHaveEnough(m_currentBuilding->getCost())
+                if (Inventory::getInstance().doWeHaveEnough(m_currentBuilding->getCost())
                     && m_currentBoard->canBuildHere(m_currentBuilding->getFootprintSize(), mousePos, m_currentBuilding->getBuildBuffer()))
                 {
                     // Build the building
                     m_currentBoard->buildBuilding(m_currentBuilding->getBuildingType(), mousePos);
 
                     // Remove the resources from the inventory
-					m_inventory->removeResources(m_currentBuilding->getCost());
+                    Inventory::getInstance().removeResources(m_currentBuilding->getCost());
 				}
 			}
 		}
@@ -203,7 +200,7 @@ void Game::update(sf::Time deltaTime)
 		m_camera->setTarget(mousePos);
 
         // Highlight the tiles that the building will occupy
-        bool canBuild = m_inventory->doWeHaveEnough(m_currentBuilding->getCost())
+        bool canBuild = Inventory::getInstance().doWeHaveEnough(m_currentBuilding->getCost())
             && m_currentBoard->canBuildHere(m_currentBuilding->getFootprintSize(), mousePos, m_currentBuilding->getBuildBuffer());
         m_currentBoard->highlightTiles(m_currentBuilding->getFootprintSize(), mousePos, canBuild);
 	}

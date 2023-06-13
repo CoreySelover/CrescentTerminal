@@ -10,10 +10,6 @@ Inventory::Inventory()
 	m_glass = 1000;
 }
 
-Inventory::~Inventory()
-{
-}
-
 void Inventory::addResource(std::string resource, int amount)
 {
 	if (resource == "steel") { m_steel += amount; }
