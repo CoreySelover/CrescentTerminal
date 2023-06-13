@@ -12,10 +12,12 @@ enum ItemType {
 class Item
 {
 public:
-	Item(ItemType type, std::string boardName, sf::Vector2i initPos, bool isStackable = true, int stackSize = 1);
+	Item(ItemType type, std::string boardName, sf::Vector2i initPos = sf::Vector2i(-1, -1), bool isStackable = true, int stackSize = 1);
 	~Item();
 	void changeStackSize(int delta);
 	void setInventoryPosition(sf::Vector2i inventoryPosition);
+
+	ItemType getType() const { return m_type; }
 
 protected:
 	bool m_inInventory;

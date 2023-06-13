@@ -34,8 +34,13 @@ public:
 	std::shared_ptr<Item> removeItemAtPosition(sf::Vector2i position);
 	std::shared_ptr<Item> getItemAtPosition(sf::Vector2i position) const;
 
+	void printInventory() const;
+
 private:
 	Inventory(); // Private constructor
+	Inventory(Inventory const&) = delete; // Prevent copy-construction
+	void operator=(Inventory const&) = delete; // Prevent assignment
+	~Inventory();
 
 	int m_steel;
 	int m_plastic;

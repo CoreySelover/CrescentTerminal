@@ -1,6 +1,7 @@
 #include "Inventory.h"
 
 #include <stdexcept>
+#include <iostream>
 
 #include "Item.h"
 
@@ -10,6 +11,21 @@ Inventory::Inventory()
 	m_steel = 5000;
 	m_plastic = 5000;
 	m_glass = 1000;
+
+	m_items.resize(10);
+	for (auto& row : m_items)
+	{
+		row.resize(3);
+	}
+}
+
+Inventory::~Inventory()
+{
+	// Delete all items
+	for (auto& row : m_items)
+	{
+		row.clear();
+	}
 }
 
 void Inventory::addResource(std::string resource, int amount)
@@ -70,7 +86,8 @@ bool Inventory::doWeHaveEnough(std::vector<std::pair<std::string, int>> requirem
 bool Inventory::addItem(std::shared_ptr<Item> item, sf::Vector2i position)
 {
 	// Check that item slot exists
-	if (position.x >= m_items.size() || position.y >= m_items[0].size() || position.x < -1 || position.y < -1)
+	if (position.x >= int(m_items.size()) || position.y >= int(m_items[0].size()) || position.x < -1
+		|| position.y < -1)
 	{
 		throw std::invalid_argument("Invalid position");
 	}
@@ -122,4 +139,22 @@ std::shared_ptr<Item> Inventory::getItemAtPosition(sf::Vector2i position) const
 		throw std::invalid_argument("Invalid position");
 	}
 	return m_items[position.x][position.y];
+}
+
+void Inventory::printInventory() const {
+	for (auto row : m_items)
+	{
+		for (auto item : row)
+		{
+			if (item == nullptr)
+			{
+				std::cout << "NULL ";
+			}
+			else
+			{
+				std::cout << item->getType() << " ";
+			}
+		}
+		std::cout << std::endl;
+	}
 }
