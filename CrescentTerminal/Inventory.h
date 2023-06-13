@@ -31,8 +31,8 @@ public:
 
 	// Items
 	bool addItem(std::shared_ptr<Item> item, sf::Vector2i position = sf::Vector2i(-1, -1));
-	std::shared_ptr<Item> removeItemAtPosition(sf::Vector2i position);
-	std::shared_ptr<Item> getItemAtPosition(sf::Vector2i position) const;
+	std::shared_ptr<Item> removeItemAt(sf::Vector2i position);
+	std::shared_ptr<Item> getItemAt(sf::Vector2i position) const;
 
 	void printInventory() const;
 
