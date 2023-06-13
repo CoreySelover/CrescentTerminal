@@ -10,6 +10,7 @@
 #include "Board.h"
 #include "Camera.h"
 #include "Building.h"
+#include "Item.h"
 
 Game::Game(sf::RenderWindow& window) : m_window(window)
 {
