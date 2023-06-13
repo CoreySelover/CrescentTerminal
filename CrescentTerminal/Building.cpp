@@ -67,16 +67,16 @@ void Building::buildInterior() {
 	switch (m_type) {
 	case BuildingType_Base:
 		m_interior = std::make_shared<Board>(m_name + "_Interior", "Assets/Maps/Base_Interior.xml", true);
-		// TODO - unhardcode this.  This is the door to the outside
-		m_interior->addDoor(sf::Vector2i(5, 1), m_name + "_Upstairs", sf::Vector2i(2, 5));
+		// TODO - unhardcode this.
+		m_interior->addDoor(sf::Vector2i(5, 1), m_name + "_Upstairs", sf::Vector2i(5, 3));
 		m_interior->addDoor(sf::Vector2i(2, 6), m_ownerName, m_boardPosition + sf::Vector2i(3, 5));
 		// Add the upstairs
 		BoardManager::getInstance().addBoard(m_name + "_Upstairs", std::make_shared<Board>(m_name + "_Upstairs", "Assets/Maps/Base_Upstairs.xml", true));
-		BoardManager::getInstance().getBoard(m_name + "_Upstairs")->addDoor(sf::Vector2i(2, 6), m_interior->getName(), sf::Vector2i(5, 4));
+		BoardManager::getInstance().getBoard(m_name + "_Upstairs")->addDoor(sf::Vector2i(5, 0), m_interior->getName(), sf::Vector2i(5, 4));
 		break;
 	case BuildingType_Shed:
 		m_interior = std::make_shared<Board>(m_name + "_Interior", "Assets/Maps/Shed_Interior.xml", true);
-		// TODO - unhardcode this.  This is the door to the outside
+		// TODO - unhardcode this
 		m_interior->addDoor(sf::Vector2i(2, 4), m_ownerName, m_boardPosition + sf::Vector2i(int(m_footprintSize.x / 2), int(m_footprintSize.y)));
 		break;
 	case BuildingType_Greenhouse:
